@@ -1,0 +1,52 @@
+body {
+    font-size:12px;
+    padding:0px;
+    margin:0px;
+    color:#616161;
+	line-height:1.5em;
+    font-family:"돋움";
+}
+div, p, ol, ul, li, img, a, h1, h2, h3, h4, h5, h6, form, span, iframe, dl, dt, dd {
+    margin: 0px;
+    padding: 0px;
+    font-family: "돋움";
+}
+h1, h2, h3, h4, h5, h6, form{text-align:left;}
+div, ul, ol { 
+    list-style: none;
+}
+table, th, td {
+    margin:0;
+    padding:0;
+	border:0; 
+	border-spacing:0px; 
+    border-collapse: collapse;
+	font-size:12px;
+}
+th{text-align:center;}
+fieldset {
+    margin: 0px;
+    padding: 0px;
+    border:none;
+    float:left;
+}
+legend, caption {
+    display:none;
+}
+hr { 
+    display:none; 
+}
+img {
+    font-size: 0px;
+    border: 0px;
+}
+textarea{
+	border:1px solid #D6D6D6;
+}
+input, select{
+	font-size:12px;
+    color:#616161;
+    font-family:"돋움";
+}
+a{color:#616161; text-decoration:none;}
+a:hover{color:#333; text-decoration:none;}

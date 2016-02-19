@@ -1,0 +1,243 @@
+/* Reset */
+div{border:0;}
+
+/* Showcase
+-------------*/
+
+#awOnePageButton .view-slide
+{
+	display: none;
+}
+
+/* This class is removed after the showcase is loaded */
+/* Assign the correct showcase height to prevent loading jumps in IE */
+.showcase-load
+{
+	height: 470px; /* Same as showcase javascript option */
+	overflow: hidden;
+}
+
+/* Container when content is shown as one page */
+.showcase-onepage
+{
+	/**/
+}
+
+/* Container when content is shown in slider */
+.showcase
+{
+	position: relative;
+	margin: auto;
+}
+
+	.showcase-content-container
+	{
+		background-color: #000;
+		background: none;
+	}
+	
+	/* Navigation arrows */
+	.showcase-arrow-previous, .showcase-arrow-next
+	{
+		position: absolute;
+		width: 75px;
+		height: 37px;
+		right: 60px;
+		z-index: 100;
+		cursor: pointer;
+	}
+	
+	.showcase-arrow-previous
+	{
+		top: 10px;		
+		background: url('../img/TopSideSymbol.png');
+	}
+	
+	.showcase-arrow-previous:hover
+	{
+		
+	}
+	
+	.showcase-arrow-next
+	{
+		background: url('../img/BottomSideSymbol.png');
+		bottom: 10px;
+	}
+	
+	.showcase-arrow-next:hover
+	{
+		
+	}
+	
+	/* Content */
+	.showcase-content
+	{
+		/*background-color: #000;		*/
+		left: 0;
+		text-align: center;
+	}
+	.showcase-content.cont{
+		margin-right: 20px; 
+		background-color: #F3F3F3;
+		border: 1px solid #ccc;
+		height: 855px ;
+		line-height: 855px;
+	}
+		
+		.showcase-content-wrapper
+		{
+			text-align: center;
+			height: 470px;
+			width: 700px;
+			display: table-cell;
+			vertical-align: middle;
+		}
+		
+		
+	.showcase-onepage .showcase-content
+	{
+		margin-bottom: 10px;		
+	}
+	
+	/* Button Wrapper */
+	.showcase-button-wrapper
+	{
+		clear: both;
+		margin-top: -30px;
+		margin-left: 10px;
+		text-align: left;
+		position: absolute;
+	}
+	
+		.showcase-button-wrapper span
+		{
+			margin-right: 3px;
+			padding: 2px 5px 0px 5px;
+			cursor: pointer;
+			font-size: 14px;
+			color: #EDEAE3;
+			opacity:.8; filter:alpha(opacity=80);
+		}
+	
+		.showcase-button-wrapper span.active
+		{
+			color: #D74603;
+		}
+	
+	/* Thumbnails */
+	.showcase-thumbnail-container /* Used for backgrounds, no other styling!!! */
+	{
+		margin:50px 0;
+
+	}
+	
+	.showcase-thumbnail-wrapper
+	{
+		overflow: hidden;
+		padding: 0 !important;
+	}
+		
+		.showcase-thumbnail
+		{
+			
+			width: 192px;
+			height: 249px;
+			background: url(../img/LibraryledgeSmall.png) bottom no-repeat;
+			cursor: pointer;
+			position: relative;
+		}
+		
+			.showcase-thumbnail-caption
+			{
+				position: absolute;
+				bottom: 2px;
+				padding-left: 10px;
+				padding-bottom: 5px;
+			}
+			
+			.showcase-thumbnail-content
+			{
+				padding: 10px;
+				text-align: center;
+				padding-top: 25px;
+			}
+			
+			.showcase-thumbnail-cover
+			{
+				background-image: url(../images/black-opacity-40.png);
+				position: absolute;
+				top: 0; bottom: 0; left: 0; right: 0;
+			}
+		
+		.showcase-thumbnail:hover
+		{
+			
+		}
+		
+			.showcase-thumbnail:hover .showcase-thumbnail-cover
+			{
+				display: none;
+			}
+		
+		.showcase-thumbnail.active
+		{
+			
+		}
+		
+			.showcase-thumbnail.active .showcase-thumbnail-cover
+			{
+				display: none;
+			}
+	
+	.showcase-thumbnail-wrapper-horizontal
+	{
+		padding: 10px;
+	}
+	
+		.showcase-thumbnail-wrapper-horizontal .showcase-thumbnail
+		{
+			margin-right: 10px;
+			width: 116px;
+		}
+	
+	.showcase-thumbnail-wrapper-vertical
+	{
+		padding: 10px;
+	}
+	
+		.showcase-thumbnail-wrapper-vertical .showcase-thumbnail
+		{
+			
+		}
+		
+	.showcase-thumbnail-button-backward,
+	.showcase-thumbnail-button-forward
+	{
+		padding: 7px;
+		cursor: pointer;
+	}
+	
+			
+	/* Hide button text */
+	.showcase-thumbnail-button-forward span span,
+	.showcase-thumbnail-button-backward span span
+	{
+		display: none;
+	}
+	
+
+
+/* Clear (used for horizontal thumbnails)
+-------------------------------------------*/
+
+.clear
+{
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+	float: none;
+}
+

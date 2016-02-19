@@ -6,7 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "barryvdh/laravel-debugbar": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -17,7 +18,10 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "app/Custom/_db_class",
+            "database",
+            "app/Helpers",
+            "app/Libraries"
         ],
         "psr-4": {
             "clovergarden\\": "app/"

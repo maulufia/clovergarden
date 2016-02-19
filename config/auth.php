@@ -65,15 +65,15 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => clovergarden\User::class,
-        ],
-
         // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
+        //    'driver' => 'eloquent',
+        //    'model' => clovergarden\User::class,
         // ],
+
+        'users' => [
+            'driver' => 'database',
+            'table' => 'new_tb_member',
+        ],
     ],
 
     /*

@@ -1,0 +1,221 @@
+<?php
+    settype($nClovernews, 'object');
+
+    class ClovernewsClass
+    {
+        var $seq;               //고유번호
+		var $file_real;
+        var $file_edit;
+        var $file_byte;
+		var $category;
+		var $multifile_real;
+        var $multifile_edit;
+        var $multifile_byte;
+        var $subject;				//기관명
+		var $clover_seq;           //기관소개
+        var $url;               //조회수
+        var $reg_date;          //등록일
+
+        //-- join column start --//
+        var $comment_cnt;       //댓글수(서브쿼리)
+        //-- join column end --//
+
+        var $file_up_cnt;       //파일업로드갯수
+        var $file_volume;       //파일용량제한
+        var $file_mime_type;    //파일업로드타입
+        var $file_pre_name;     //파일삭제변수
+
+        var $top_page_result;   //최상위 리스트 리턴값
+        var $page_result;       //리스트 리턴값
+        var $read_result;       //상세보기 리턴값
+        var $result_data;       //리턴값
+
+        var $total_record;      //총레코드갯수
+        var $where;             //SQL WHERE문
+        var $order_by;          //정렬
+
+        var $page_view;         //페이지글수
+        var $page_set;          //페이지 번호 갯수
+        var $page_where;        //페이지 이동 갯수
+
+        var $table_name;        //테이블명
+        var $sub_sql;           //서브쿼리
+
+        function ClovernewsClass()
+        {
+            $this->table_name = 'new_tb_clovernews';
+            $this->sub_sql    = '';
+			$this->admin_page_view  = 20;
+            $this->page_view  = 15;
+            $this->page_set   = 10;
+            $this->page_where = 10;
+
+            $this->file_real[1];
+            $this->file_edit[1];
+            $this->file_byte[1];
+            $this->file_pre_name[1];
+
+			$this->file_real[2];
+            $this->file_edit[2];
+            $this->file_byte[2];
+            $this->file_pre_name[2];
+
+            $this->file_up_cnt       = 2;
+            $this->file_volume[1]    = 10;
+            $this->file_mime_type[1] = 'image';
+
+			$this->file_volume[2]    = 10;
+            $this->file_mime_type[2] = 'file';
+
+        }
+
+
+        function ArrList($pResult, $pCnt, $pJoin=null)
+        {
+
+
+            $pResultValue = array();
+            $pResultValue[$pCnt] = new StdClass();
+            $pResultValue[$pCnt]->seq           = stripcslashes($pResult['seq']);
+			$pResultValue[$pCnt]->subject    = stripcslashes($pResult['subject']);
+            $pResultValue[$pCnt]->clover_seq    = stripcslashes($pResult['clover_seq']);
+			$pResultValue[$pCnt]->category    = stripcslashes($pResult['category']);
+			$pResultValue[$pCnt]->file_real[1]   = stripcslashes($pResult['file_real1']);
+            $pResultValue[$pCnt]->file_edit[1]   = stripcslashes($pResult['file_edit1']);
+            $pResultValue[$pCnt]->file_byte[1]   = stripcslashes($pResult['file_byte1']);
+			$pResultValue[$pCnt]->file_real[2]   = stripcslashes($pResult['file_real2']);
+            $pResultValue[$pCnt]->file_edit[2]   = stripcslashes($pResult['file_edit2']);
+            $pResultValue[$pCnt]->file_byte[2]   = stripcslashes($pResult['file_byte2']);
+			$pResultValue[$pCnt]->multifile_real   = stripcslashes($pResult['multifile_real']);
+            $pResultValue[$pCnt]->multifile_edit   = stripcslashes($pResult['multifile_edit']);
+            $pResultValue[$pCnt]->multifile_byte   = stripcslashes($pResult['multifile_byte']);
+			$pResultValue[$pCnt]->url    = stripcslashes($pResult['url']);
+			$pResultValue[$pCnt]->reg_date    = stripcslashes($pResult['reg_date']);
+            if(count($pJoin)){
+                for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {
+                    switch($pJoin[$i])
+                    {
+                        case 'comment' :
+                            $pResultValue[$pCnt]->comment_cnt = stripcslashes($pResult['comment_cnt']);
+                            break;
+                    }
+                    //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 1, $pResultValue);
+                }
+            }
+            return $pResultValue[$pCnt];
+        }
+
+        function VarList($pResult, $pCnt=0, $pJoin=null)
+        {
+            $this->seq           = $pResult[$pCnt]->seq;
+			$this->subject    = $pResult[$pCnt]->subject;
+			$this->clover_seq    = $pResult[$pCnt]->clover_seq;
+			$this->category    = $pResult[$pCnt]->category;
+			$this->file_real[1]   = $pResult[$pCnt]->file_real[1];
+            $this->file_edit[1]   = $pResult[$pCnt]->file_edit[1];
+            $this->file_byte[1]   = $pResult[$pCnt]->file_byte[1];
+			$this->file_real[2]   = $pResult[$pCnt]->file_real[2];
+            $this->file_edit[2]   = $pResult[$pCnt]->file_edit[2];
+            $this->file_byte[2]   = $pResult[$pCnt]->file_byte[2];
+			$this->multifile_real   = $pResult[$pCnt]->multifile_real;
+            $this->multifile_edit   = $pResult[$pCnt]->multifile_edit;
+            $this->multifile_byte   = $pResult[$pCnt]->multifile_byte;
+			$this->url    = $pResult[$pCnt]->url;
+			$this->reg_date    = $pResult[$pCnt]->reg_date;
+            if(count($pJoin)){
+                for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {
+                    switch($pJoin[$i])
+                    {
+                        case 'comment' :
+                            if(isset($pResult[$pCnt]->comment_cnt))
+                                $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
+                            break;
+                    }
+                    //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 2);
+                }
+            }
+        }
+
+        function ArrClear($pJoin=null)
+        {
+            $this->seq           = '';
+			$this->subject    = '';
+            $this->clover_seq      = '';
+			$this->category      = '';
+			$this->file_real[1]   = '';
+            $this->file_edit[1]   = '';
+            $this->file_byte[1]   = '';
+			$this->file_real[2]   = '';
+            $this->file_edit[2]   = '';
+            $this->file_byte[2]   = '';
+			$this->multifile_real   = '';
+            $this->multifile_edit   = '';
+            $this->multifile_byte   = '';
+			$this->url      = '';
+            $this->reg_date      = '';
+            if(count($pJoin)){
+                for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {
+                    switch($pJoin[$i])
+                    {
+                        case 'comment' :
+                            $this->comment_cnt = '';
+                            break;
+                    }
+                    //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 3);
+                }
+            }
+        }
+
+        function JoinVar($pResult='', $pCnt=0, $pJoin=null, $pType='', $pResultValue='')
+        {
+            if($pType == '1'){
+                switch($pJoin)
+                {
+                    case 'comment' :
+                        $pResultValue[$pCnt]->comment_cnt = stripcslashes($pResult['comment_cnt']);
+                        break;
+                }
+            }elseif($pType == '2'){
+                switch($pJoin)
+                {
+                    case 'comment' :
+                        $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
+                        break;
+                }
+            }elseif($pType == '3'){
+                switch($pJoin)
+                {
+                    case 'comment' :
+                        $this->comment_cnt = '';
+                        break;
+                }
+            }
+        }
+
+        function ArrClovernews($pVal, $pName, $pOption, $pKind, $pWrite='')
+        {
+            switch($pKind)
+            {
+                case 'search' :
+                    $SelectField = array('제목');
+                    $SelectValue = array('subject');
+                    break;
+				case 'category' :
+                    $SelectField = array('소식지','보고서');
+                    $SelectValue = array('1','2');
+                    break;
+            }
+            if($pWrite == ''){
+                WriteSelect($SelectField, $SelectValue, $pVal, $pName, $pOption);
+            }elseif($pWrite == 'radio'){
+                WriteCheck($pVal, $pName, $pWrite, join(',',$SelectValue), join(',',$SelectField));
+            }elseif($pWrite == 'checkbox'){
+                WriteMultiCheck($pVal, $pName, $pWrite, join(',',$SelectValue), join(',',$SelectField));
+            }else{
+                echo $SelectField[array_search($pVal, $SelectValue)];
+            }
+        }
+
+
+    }//end class
+?>

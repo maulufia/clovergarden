@@ -148,6 +148,11 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        
+        /*
+         * DebugBar
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -156,7 +161,6 @@ return [
         clovergarden\Providers\AuthServiceProvider::class,
         clovergarden\Providers\EventServiceProvider::class,
         clovergarden\Providers\RouteServiceProvider::class,
-
     ],
 
     /*
@@ -202,6 +206,8 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Input'     => Illuminate\Support\Facades\Input::class,
 
     ],
 
