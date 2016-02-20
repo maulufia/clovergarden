@@ -20,6 +20,7 @@
         "classmap": [
             "app/Custom/_db_class",
             "database",
+            "app/Models",
             "app/Helpers",
             "app/Libraries"
         ],

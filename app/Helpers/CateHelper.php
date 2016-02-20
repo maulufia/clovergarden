@@ -1,6 +1,8 @@
 <?php
 
 class CateHelper {
+	
+	private $cate_factory;
 
 	/*
   |--------------------------------------------------------------------------
@@ -10,17 +12,26 @@ class CateHelper {
   | Temporary
   |
   */
-	  
-	public static function getCateName($cate) {
-		// 대분류 뷰 네임
-		$cate_factory = array(
+  
+  private static function getCateFactory() {
+  	$cate_factory = array(
 									'sponsorzone',
 									'clovergarden',
 									'companion',
 									'information',
 									'customer',
-									'login'
+									'login',
+									'',
+									'sitemap',
+									'userinfo'
 								);
+  	
+  	return $cate_factory;
+  }
+	  
+	public static function getCateName($cate) {
+		// 대분류 뷰 네임
+		$cate_factory = CateHelper::getCateFactory();
 		
 		return $cate_factory[$cate];
 	}
@@ -30,14 +41,7 @@ class CateHelper {
 		$view_name = "";
 		
 		// 대분류 뷰 네임
-		$cate_factory = array(
-									'sponsorzone',
-									'clovergarden',
-									'companion',
-									'information',
-									'customer',
-									'login'
-								);
+		$cate_factory = CateHelper::getCateFactory();
 		$cate_name = $cate_factory[$sub_cate];
 		
 		// 소분류 뷰 네임
@@ -51,11 +55,45 @@ class CateHelper {
 																	'home',
 																	'newsletter'
 																);
+		$dep01_factory->companion = array(
+																	'home',
+																	'deans'
+																);
+		$dep01_factory->information = array(
+																	'home',
+																	'company',
+																	'apply_support'
+																);
+		$dep01_factory->customer = array(
+																	'home',
+																	'qna',
+																	'faq',
+																	'about',
+																	'map'
+																);
 		$dep01_factory->login = array(
 														'home',
 														'find_id',
 														'find_pw',
 														'signup'
+														);
+		$dep01_factory->mypage = array(
+														'sendmessage',
+														'messagebox_send',
+														'messagebox_get',
+														'point',
+														'activiy_community',
+														'activiy_history',
+														'activiy_mailbox',
+														'modify_personal',
+														'change_clover',
+														'mode_management',
+														);
+		$dep01_factory->sitemap = array(
+															'home'
+														);
+		$dep01_factory->userinfo = array(
+															'home'
 														);
 		
 		$dep01_name = $dep01_factory->$cate_name;
@@ -86,7 +124,9 @@ class CateHelper {
 		// 인증이 필요한 페이지 체크
 		if(!Auth::check()) {
 			$view_need_auth = array(
-												'front.page.sponsorzone.activity'
+												'front.page.sponsorzone.activity',
+												'front.page.clovergarden.home_write',
+												'front.page.clovergarden.home_writeresv'
 											);
 			foreach ($view_need_auth as $va) {
 				if($va == $view_name) {

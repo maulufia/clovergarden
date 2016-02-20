@@ -98,12 +98,12 @@
 		 <ul>
 		 <?php if(!Auth::check()){ ?>
 			 <li><a href="{{ route('login') }}">로그인</a></li>
-			 <li><a href="/page.php?cate=5&dep01=3">회원가입</a></li>
+			 <li><a href="{{ route('login', array('dep01' => 3)) }}">회원가입</a></li>
 	     <?php } else { ?>
 			 <li><a href="{{ route('logout') }}">로그아웃</a></li>
-			 <li><a href="/page.php?cate=6">마이페이지</a></li>
+			 <li><a href="{{ route('mypage') }}">마이페이지</a></li>
 		 <?php } ?>
-			 <li><a href="/page.php?cate=7">사이트맵</a></li>
+			 <li><a href="{{ route('sitemap') }}">사이트맵</a></li>
 		 </ul>
 	 </div>
 
@@ -116,11 +116,11 @@
 
 	<nav id="nav">
 		<ul>
-			<li><a href="{{ action('MainController@showSponsorZone') }}" <?php if($sub_cate==0 && !is_null($sub_cate)) echo "class='on'";?>>후원자마당</a></li>
-			<li><a href="/page.php?cate=1" <?php if($sub_cate==1) echo "class='on'";?>>클로버가든</a></li>
-			<li><a href="/page.php?cate=2" <?php if($sub_cate==2) echo "class='on'";?>>함께하는 사람들</a></li>
-			<li><a href="/page.php?cate=3" <?php if($sub_cate==3) echo "class='on'";?>>이용안내</a></li>
-			<li><a href="/page.php?cate=4" <?php if($sub_cate==4) echo "class='on'";?>>고객센터</a></li>
+			<li><a href="{{ route('sponsorzone') }}" <?php if($sub_cate==0 && !is_null($sub_cate)) echo "class='on'";?>>후원자마당</a></li>
+			<li><a href="{{ route('clovergarden') }}" <?php if($sub_cate==1) echo "class='on'";?>>클로버가든</a></li>
+			<li><a href="{{ route('companion') }}" <?php if($sub_cate==2) echo "class='on'";?>>함께하는 사람들</a></li>
+			<li><a href="{{ route('information') }}" <?php if($sub_cate==3) echo "class='on'";?>>이용안내</a></li>
+			<li><a href="{{ route('customer') }}" <?php if($sub_cate==4) echo "class='on'";?>>고객센터</a></li>
 		</ul>
 	</nav>
 </header>

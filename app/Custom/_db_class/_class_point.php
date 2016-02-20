@@ -3,45 +3,45 @@
 
     class PointClass
     {
-        var $seq;                 //°íÀ¯¹øÈ£
-		var $user_state;		  //µî±Þ
-		var $user_name;           //ÀÌ¸§
-		var $group_name;           //±×·ìÀÌ¸§
-        var $user_id;			  //¾ÆÀÌµð
-        var $user_pw;             //ºñ¹Ð¹øÈ£
-        var $user_birth;          //»ý³â¿ùÀÏ
-		var $user_gender;         //¼ºº°		
-        var $user_cell;           //¿¬¶ôÃ³2
+        var $seq;                 //Â°Ã­Ã€Â¯Â¹Ã¸ÃˆÂ£
+		var $user_state;		  //ÂµÃ®Â±Ãž
+		var $user_name;           //Ã€ÃŒÂ¸Â§
+		var $group_name;           //Â±Ã—Â·Ã¬Ã€ÃŒÂ¸Â§
+        var $user_id;			  //Â¾Ã†Ã€ÃŒÂµÃ°
+        var $user_pw;             //ÂºÃ±Â¹ÃÂ¹Ã¸ÃˆÂ£
+        var $user_birth;          //Â»Ã½Â³Ã¢Â¿Ã¹Ã€Ã
+		var $user_gender;         //Â¼ÂºÂºÂ°		
+        var $user_cell;           //Â¿Â¬Â¶Ã´ÃƒÂ³2
 		var $file_real;
         var $file_edit;
         var $file_byte;
-		var $reg_date;            //°¡ÀÔ³¯Â¥
+		var $reg_date;            //Â°Â¡Ã€Ã”Â³Â¯Ã‚Â¥
         var $date_cnt;
 
         //-- join column start --//
-        var $comment_cnt;       //´ñ±Û¼ö(¼­ºêÄõ¸®)
+        var $comment_cnt;       //Â´Ã±Â±Ã›Â¼Ã¶(Â¼Â­ÂºÃªÃ„ÃµÂ¸Â®)
         //-- join column end --//
 
-        var $file_up_cnt;       //ÆÄÀÏ¾÷·Îµå°¹¼ö
-        var $file_volume;       //ÆÄÀÏ¿ë·®Á¦ÇÑ
-        var $file_mime_type;    //ÆÄÀÏ¾÷·ÎµåÅ¸ÀÔ
-        var $file_pre_name;     //ÆÄÀÏ»èÁ¦º¯¼ö
+        var $file_up_cnt;       //Ã†Ã„Ã€ÃÂ¾Ã·Â·ÃŽÂµÃ¥Â°Â¹Â¼Ã¶
+        var $file_volume;       //Ã†Ã„Ã€ÃÂ¿Ã«Â·Â®ÃÂ¦Ã‡Ã‘
+        var $file_mime_type;    //Ã†Ã„Ã€ÃÂ¾Ã·Â·ÃŽÂµÃ¥Ã…Â¸Ã€Ã”
+        var $file_pre_name;     //Ã†Ã„Ã€ÃÂ»Ã¨ÃÂ¦ÂºÂ¯Â¼Ã¶
 
-        var $top_page_result;   //ÃÖ»óÀ§ ¸®½ºÆ® ¸®ÅÏ°ª
-        var $page_result;       //¸®½ºÆ® ¸®ÅÏ°ª
-        var $read_result;       //»ó¼¼º¸±â ¸®ÅÏ°ª
-        var $result_data;       //¸®ÅÏ°ª
+        var $top_page_result;   //ÃƒÃ–Â»Ã³Ã€Â§ Â¸Â®Â½ÂºÃ†Â® Â¸Â®Ã…ÃÂ°Âª
+        var $page_result;       //Â¸Â®Â½ÂºÃ†Â® Â¸Â®Ã…ÃÂ°Âª
+        var $read_result;       //Â»Ã³Â¼Â¼ÂºÂ¸Â±Ã¢ Â¸Â®Ã…ÃÂ°Âª
+        var $result_data;       //Â¸Â®Ã…ÃÂ°Âª
 
-        var $total_record;      //ÃÑ·¹ÄÚµå°¹¼ö
-        var $where;             //SQL WHERE¹®
-        var $order_by;          //Á¤·Ä
+        var $total_record;      //ÃƒÃ‘Â·Â¹Ã„ÃšÂµÃ¥Â°Â¹Â¼Ã¶
+        var $where;             //SQL WHEREÂ¹Â®
+        var $order_by;          //ÃÂ¤Â·Ã„
 
-        var $page_view;         //ÆäÀÌÁö±Û¼ö
-        var $page_set;          //ÆäÀÌÁö ¹øÈ£ °¹¼ö
-        var $page_where;        //ÆäÀÌÁö ÀÌµ¿ °¹¼ö
+        var $page_view;         //Ã†Ã¤Ã€ÃŒÃÃ¶Â±Ã›Â¼Ã¶
+        var $page_set;          //Ã†Ã¤Ã€ÃŒÃÃ¶ Â¹Ã¸ÃˆÂ£ Â°Â¹Â¼Ã¶
+        var $page_where;        //Ã†Ã¤Ã€ÃŒÃÃ¶ Ã€ÃŒÂµÂ¿ Â°Â¹Â¼Ã¶
 
-        var $table_name;        //Å×ÀÌºí¸í
-        var $sub_sql;           //¼­ºêÄõ¸®
+        var $table_name;        //Ã…Ã—Ã€ÃŒÂºÃ­Â¸Ã­
+        var $sub_sql;           //Â¼Â­ÂºÃªÃ„ÃµÂ¸Â®
 
         function PointClass()
         {
@@ -72,13 +72,14 @@
         function ArrList($pResult, $pCnt, $pJoin=null)
         {
             $pResultValue = array();
-            $pResultValue[$pCnt]->idx          = stripcslashes($pResult['idx']);
-			$pResultValue[$pCnt]->signdate          = stripcslashes($pResult['signdate']);
-			$pResultValue[$pCnt]->depth          = stripcslashes($pResult['depth']);
-            $pResultValue[$pCnt]->inpoint      = stripcslashes($pResult['inpoint']);
-			$pResultValue[$pCnt]->outpoint      = stripcslashes($pResult['outpoint']);
-			$pResultValue[$pCnt]->usepoint      = stripcslashes($pResult['usepoint']);
-            $pResultValue[$pCnt]->userid      = stripcslashes($pResult['userid']);
+            $pResultValue[$pCnt] = new StdClass();
+            $pResultValue[$pCnt]->idx          = isset($pResult['idx']) ? stripcslashes($pResult['idx']) : 0;
+			$pResultValue[$pCnt]->signdate          = isset($pResult['signdate']) ? stripcslashes($pResult['signdate']) : 0;
+			$pResultValue[$pCnt]->depth          = isset($pResult['depth']) ? stripcslashes($pResult['depth']) : 0;
+            $pResultValue[$pCnt]->inpoint      = isset($pResult['inpoint']) ? stripcslashes($pResult['inpoint']) : 0;
+			$pResultValue[$pCnt]->outpoint      = isset($pResult['outpoint']) ? stripcslashes($pResult['outpoint']) : 0;
+			$pResultValue[$pCnt]->usepoint      = isset($pResult['usepoint']) ? stripcslashes($pResult['usepoint']) : 0;
+            $pResultValue[$pCnt]->userid      = isset($pResult['userid']) ? stripcslashes($pResult['userid']) : '';
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {
                     switch($pJoin[$i])
@@ -142,7 +143,7 @@
             switch($pKind)
             {
                 case 'search' :
-                    $SelectField = array('ÀÌ¸§','ÈÞ´ëÆù','ÀÌ¸ÞÀÏ');
+                    $SelectField = array('Ã€ÃŒÂ¸Â§','ÃˆÃžÂ´Ã«Ã†Ã¹','Ã€ÃŒÂ¸ÃžÃ€Ã');
                     $SelectValue = array('user_name','user_cell','user_email');
                     break;
             }

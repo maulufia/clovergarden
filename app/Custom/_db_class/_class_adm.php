@@ -45,7 +45,8 @@
         function ArrList($pResult, $pCnt, $pJoin=null)
         {
             $pResultValue = array();
-            $pResultValue[$pCnt]->t_text           = stripcslashes($pResult['t_text']);
+            $pResultValue[$pCnt] = new StdClass();
+            $pResultValue[$pCnt]->t_text = isset($pResult['t_text']) ? stripcslashes($pResult['t_text']) : '';
 
             return $pResultValue[$pCnt];
         }

@@ -116,10 +116,10 @@
             
       <div id="footer">
 			  <ul class="footer_nav">
-					<li><a href="/page.php?cate=4&dep01=3">회사소개</a></li>
+					<li><a href="{{ route('customer', array('cate' => 4, 'dep01' => 3)) }}">회사소개</a></li>
 					<li><a href="javascript:pri_pop('use');">이용약관</a></li>
 					<li><a href="javascript:pri_pop('pri');">개인정보취급방침</a></li>
-					<li><a href="/page.php?cate=4&dep01=1">관리자문의</a></li>
+					<li><a href="{{ route('customer', array('cate' => 4, 'dep01' => 1)) }}">관리자문의</a></li>
 				</ul>
 				<div class="xm_clr"></div>
 

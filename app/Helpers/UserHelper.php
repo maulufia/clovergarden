@@ -23,10 +23,6 @@ class UserHelper {
       $login_cell = Auth::user()->user_cell;
       $login_email = Auth::user()->user_id;
       $use_point = Auth::user()->m_point;
-      
-      $login_cell1 = substr($login_cell,0,3);
-      $login_cell2 = substr($login_cell,3,-4);
-      $login_cell3 = substr($login_cell,-4);
     }
   }
 

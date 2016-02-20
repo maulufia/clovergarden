@@ -6,7 +6,6 @@
 	$nClovercomment = new ClovercommentClass(); //
 	$nMoney = new MoneyClass(); //
 	$nClovermlist = new ClovermlistClass(); //
-	$nClovermlist_login = new ClovermlistClass(); //
 
 	$nSCompany = new SCompanyClass(); //
 	$nMClover = new MCloverClass(); //
@@ -40,12 +39,6 @@
 		(	
 			$nFree->table_name, $nFree, "*", "where 1 order by seq desc limit 5", null, null
 		);
-
-		$nClovermlist_login->page_result = $Conn->AllList
-		(	
-			$nClovermlist_login->table_name, $nClovermlist_login, "*", "where id='".$login_id."' order by reg_date desc limit 1", null, null
-		);
-
 
 		$nClovercomment->page_result = $Conn->AllList
 		(	
@@ -179,15 +172,14 @@ function emailUpdate()
 	  <ul class="slides">
 		<?php
 		if(count($nClover_banner->page_result) > 0){
-
 			for($i=0, $cnt_list=count($nClover_banner->page_result); $i < $cnt_list; $i++) {
 				$nClover_banner->VarList($nClover_banner->page_result, $i, null);
 		?>
 		<li style="position:relative;">
-			<a href = "{{ $nClover_banner->group_name }}">
+			<a href="{{ route('clovergarden', ['seq' => $nClover_banner->clover_id] ) }}&cate=1&dep01=0&dep02=0&type=view">
 			<img src='/imgs/up_file/clover/{{ $nClover_banner->file_edit[1] }}' style="width:789px; height:223px">                  
 			<img src="/imgs/go_btn.gif" style="width:129px; height:32px; position:absolute; bottom:10px; right:20px;"></a>
-			<p class="main_banner_link"><a href="{{ $nClover_banner->news }}" class="mt5 orange_big_btn resize_91_702">참여하기</a></p>			
+			<p class="main_banner_link"><a href="{{ route('clovergarden', ['seq' => $nClover_banner->clover_id] ) }}&cate=1&dep01=0&dep02=0&type=view" class="mt5 orange_big_btn resize_91_702">참여하기</a></p>			
 			
 		</li>
 		<?php }}?>
@@ -198,7 +190,7 @@ function emailUpdate()
 <!-- News -->
 <section class="content pt20">
 	<div class="new-alert">
-		<?php if($login_id==null){?>
+		<?php if(!Auth::check()){ ?>
 		<header>
 			<h1>클로버가든<br /><span class="c_orange">소식</span> <span>받아보기</span></h1>
 		</header>
@@ -212,41 +204,22 @@ function emailUpdate()
 					<input type="text" name="email" id="email_address1" placeholder="이메일" title="이메일" class="in2 mt5" /> <span class="c_dark_green fs14">@</span> <input type="text" name="email2" id="email_address2" title="이메일 도메인주소" class="in3 mt5" />
 				</div>
 				<div class="ml10">
-					<input type="image" id="newsRequest" src="imgs/NewSproposal.png" alt="소식지 선정" onClick="javascript:emailUpdate();"/>
+					<input type="image" id="newsRequest" src="/imgs/NewSproposal.png" alt="소식지 선정" onClick="javascript:emailUpdate();"/>
 				</div>
 			</form>
 		</div>
-		<?php } else {?>
-
-			<?php
-			if(count($nClovermlist_login->page_result) > 0){
-
-				for($i=0, $cnt_list=count($nClovermlist_login->page_result); $i < $cnt_list; $i++) {
-					$nClovermlist_login->VarList($nClovermlist_login->page_result, $i, null);
-
-
-					$Conn = new DBClass();
-					$nClover_m->where = "where code ='".$nClovermlist_login->clover_seq."'";
-					$nClover_m->read_result = $Conn->AllList
-					(
-						$nClover_m->table_name, $nClover_m, "*", $nClover_m->where, null, null
-					);
-				
-					if(count($nClover_m->read_result) != 0){
-						$nClover_m->VarList($nClover_m->read_result, 0, null);
-
-						$clover_name = $nClover_m->subject;
-					}	
-					$Conn->DisConnect();
-			?>
-			<p style="font-size:15px; font-weight:bold;">				
-				<font color="66b050">{{ $nClovermlist_login->name }}</font>님의 마지막 후원은 <font color="ed6c0a">{{ $clover_name }}</font> 입니다. 				
+		<?php } else { ?>
+		<?php
+			$cloverFavoreModel = new CloverFavoreModel();
+			$favoreList = $cloverFavoreModel->getFavoreList();
+		?>
+		@if($favoreList)
+			<p style="font-size:15px; font-weight:bold;">
+				<font color="66b050">{{ $favoreList->name }}</font>님의 마지막 후원은 <font color="ed6c0a">{{ $favoreList->clover_name}}</font> 입니다. 				
 			</p>
-			<?php
-				}
-			} else {?>
+		@else
 			회원님의 후원 목록이 존재하지 않습니다.
-			<?php }?>
+		@endif
 		<?php }?>
 	</div>
 </section>
@@ -312,7 +285,7 @@ function cut_str($str, $len, $suffix="…")
 	<article class="article_box">
 		<header>
 			<h2>함께하는 제휴업체</h2>
-			<a href="/page.php?cate=2" class="more"><img src="{{ url('imgs/Plusicon.png') }}" alt="더보기" /></a>
+			<a href="{{ route('companion') }}" class="more"><img src="{{ url('imgs/Plusicon.png') }}" alt="더보기" /></a>
 		</header>
 		<div class="xm_clr"></div>
 
@@ -326,7 +299,7 @@ function cut_str($str, $len, $suffix="…")
 				$nSCompany->VarList($nSCompany->page_result, $i, null);
 		?>
 				<li style="width:210px; text-align:left;margin-top:15px;margin-left:7px;">
-					<a href="/page.php?cate=2" class="img">
+					<a href="{{ route('companion') }}" class="img">
 					<?php					
 						echo "<img src='/imgs/up_file/scompany/".$nSCompany->file_edit[1]."' border='0' style='width:95px; height:69px;'>";
 					?>
@@ -368,7 +341,7 @@ function cut_str($str, $len, $suffix="…")
 				$nMClover->VarList($nMClover->page_result, $i, null);
 		?>
 				<li style="width:210px; text-align:left;margin-top:15px;margin-left:7px;">
-					<a href="/page.php?cate=2&dep01=1" class="img">
+					<a href="{{ route('companion', array('dep01' => 1)) }}" class="img">
 					<?php					
 						echo "<img src='/imgs/up_file/sponsor/".$nMClover->file_edit[1]."' border='0' style='width:95px; height:69px;'>";
 					?>
@@ -592,8 +565,8 @@ function cut_str($str, $len, $suffix="…")
 
 				?>
 				<li>
-					<a href="/page.php?cate=8&user_id={{ $nMember_win->user_id }}"><img src="imgs/up_file/member/{{ $nMember_win->file_edit[1] }}" onerror="this.src='imgs/photo05.png'" style="height:51px; width:51px;"></a>
-					<div>{{ $nMember_win->group_name }}<br /><a href="/page.php?cate=8&user_id={{ $nMember_win->user_id }}">{{ $nMember_win->user_name }} 님</a></div>
+					<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember_win->user_id }}"><img src="imgs/up_file/member/{{ $nMember_win->file_edit[1] }}" onerror="this.src='imgs/photo05.png'" style="height:51px; width:51px;"></a>
+					<div>{{ $nMember_win->group_name }}<br /><a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember_win->user_id }}">{{ $nMember_win->user_name }} 님</a></div>
 				</li>
 				<?php
 					}

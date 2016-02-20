@@ -71,6 +71,21 @@ Route::group(['middleware' => ['web']], function () {
 	
 	# CLOVERGARDEN
 	Route::get('/clovergarden', 'MainController@showCloverGarden')->name('clovergarden');
+	Route::post('/clovergarden', 'MainController@postMethodControl');
+	
+	# COMPANION
+	Route::get('/companion', 'MainController@showCompanion')->name('companion');
+	
+	# INFORMATION
+	Route::get('/information', 'MainController@showInformation')->name('information');
+	
+	# CUSTOMER
+	Route::get('/customer', 'MainController@showCustomer')->name('customer');
+	Route::post('/customer', 'MainController@showCustomer');
+	Route::post('/customer/writeqna', 'AdminController@writeQna')->name('customer/writeqna');
+	
+	# MESSAGE
+	Route::post('/message/sendgroupcreate', 'MsgController@sendGroupCreate')->name('msg_groupcreate');
 	
   # LOGIN
 	Route::get('/login', 'MainController@showLogin')->name('login')->middleware('auth');
@@ -99,6 +114,15 @@ Route::group(['middleware' => ['web']], function () {
 	      ->with('flash_error', 'Your username/password combination was incorrect.')
 	      ->withInput();
 	});
+	
+	# MYPAGE
+	Route::get('/mypage', 'MainController@showMypage')->name('mypage')->middleware('auth');
+	
+	# SITEMAP
+	Route::get('/sitemap', 'MainController@showSitemap')->name('sitemap');
+	
+	# USERINFO
+	Route::get('/userinfo', 'MainController@showUserinfo')->name('userinfo');
 	
 	# LOGOUT
 	Route::get('/logout', function() {

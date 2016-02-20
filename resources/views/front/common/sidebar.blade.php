@@ -77,6 +77,12 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 	      $login_state = Auth::user()->user_state; // 정확하지 않음
 	      $group_name = Auth::user()->group_name;
 	      $use_point = Auth::user()->m_point;
+	      $login_cell = Auth::user()->user_cell;
+	      $login_email = Auth::user()->user_id;
+	      $post1 = Auth::user()->post1;
+	      $post2 = Auth::user()->post2;
+	      $addr1 = Auth::user()->addr1;
+	      $addr2 = Auth::user()->addr2;
 			}
 			
 			//================= Other Vars Init =================
@@ -122,7 +128,6 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 			(	
 				$nClover_m->table_name, $nClover_m, "*", "order by seq desc limit 10000", null, null
 			);
-
 
 			for($i=0, $cnt_list=count($nClover_m->page_result); $i < $cnt_list; $i++) {
 				$nClover_m->VarList($nClover_m->page_result, $i, null);
@@ -227,7 +232,7 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 		</aside>
 		<?php } ?>
 
-		<div><a href="./page.php?cate=3&dep01=2"><img src="/imgs/ContactButton.png" alt="" /></a></div>
+		<div><a href="{{ route('information') }}?cate=3&dep01=2"><img src="/imgs/ContactButton.png" alt="" /></a></div>
 
 	</div>
 	

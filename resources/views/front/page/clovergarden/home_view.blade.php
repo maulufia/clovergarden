@@ -2,7 +2,7 @@
 
 @section('clovergarden')
 <?php
-	$seq        = $_GET['seq'];
+	$seq = isset($_GET['seq']) ? $_GET['seq'] : 0;
 	$_GET['select_month'] = isset($_GET['select_month']) ? $_GET['select_month'] : '';
 	$_GET['select_year'] = isset($_GET['select_year']) ? $_GET['select_year'] : '';
 	$_GET['gname'] = isset($_GET['gname']) ? $_GET['gname'] : '';
@@ -247,6 +247,14 @@ $Conn->DisConnect();
 	#btn12 { position:absolute; top:55px; left:0px; }
 	#btn22 { position:absolute; top:55px; left:765px; z-index:10; }
 
+	ul#scrollerFrame2 { position:absolute; top:0px; left:35px; width:785px; padding:0;margin:0;list-style:none; overflow:hidden; }
+	ul#scrollerFrame2 li {position:relative; float:left; height:215px; margin-right:10px; text-align:left; }
+
+	/*설명 부분*/
+	ul#scrollerFrame2 li p {margin:0;padding:0}
+	ul#scrollerFrame2 li p.price{font-family:verdana;font-size:12px;font-weight:bold;margin-top:7px;text-align:center;color:#0a62cf}
+	ul#scrollerFrame2 li .banner3 img { width: 51px; height: 51px; }
+	
 	.prtner_scroll1 {overflow:hidden;margin:0 auto; margin-top:5px;}
 	.scroll1 {float:left;}
 
@@ -311,7 +319,7 @@ $Conn->DisConnect();
 				<h3 class="banner_title2">
 				<ul style="height:40px;color:#333333;">
 					<li style="float:left;">
-						<select name="select_year" style="padding:10px; font-size:13px;border:1px solid #a9a9a9;" onchange="window.location='./page.php?cate=1&dep01=0&dep02=0&type=view&seq={{ $_GET["seq"] }}&gname={{ $_GET["gname"] }}&select_year='+this.value+'&select_month={{ $_GET["select_month"] }}';">
+						<select name="select_year" style="padding:10px; font-size:13px;border:1px solid #a9a9a9;" onchange="window.location='{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $_GET["seq"] }}&gname={{ $_GET["gname"] }}&select_year='+this.value+'&select_month={{ $_GET["select_month"] }}';">
 						<?php
 						$y_before = date('Y')-5;
 						for($y = $y_before; $y <= date('Y'); $y++){
@@ -335,7 +343,7 @@ $Conn->DisConnect();
 							else $db_color = 'fff';
 						}					
 					?>
-						<li style="background:#{{ $db_color }};cursor:pointer;border:1px solid #a9a9a9;margin-left:5px;float:left;width:48px;height:28px;padding-top:11px;text-align:center; font-size:13px;" onclick="window.location='./page.php?cate=1&dep01=0&dep02=0&type=view&seq={{ $_GET["seq"] }}&gname={{ $_GET["gname"] }}&select_year={{ $_GET["select_year"] }}&select_month={{ $m }}';">{{ $m }}월</li>
+						<li style="background:#{{ $db_color }};cursor:pointer;border:1px solid #a9a9a9;margin-left:5px;float:left;width:48px;height:28px;padding-top:11px;text-align:center; font-size:13px;" onclick="window.location='{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $_GET["seq"] }}&gname={{ $_GET["gname"] }}&select_year={{ $_GET["select_year"] }}&select_month={{ $m }}';">{{ $m }}월</li>
 					<?php } ?>
 				</ul>
 				</h3>
@@ -372,7 +380,7 @@ $Conn->DisConnect();
 
 						<div class="banner5" <?php if($_GET['gname'] == $nClovermlist_group->group_name){?>style='background:#f7f7f7;'<?php } ?>>
 							<br>
-							<a href="/page.php?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}&gname={{ $nClovermlist_group->group_name }}&select_year={{ $_GET['select_year'] }}&select_month={{ $_GET['select_month'] }}">{{ $nClovermlist_group->group_name }}</a>
+							<a href="{{ route('clovergarden') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}&gname={{ $nClovermlist_group->group_name }}&select_year={{ $_GET['select_year'] }}&select_month={{ $_GET['select_month'] }}">{{ $nClovermlist_group->group_name }}</a>
 						</div>
 						
 					</div>
@@ -567,9 +575,9 @@ $Conn->DisConnect();
 			<div id="tabs-4" class="tabCont">
 
 				<div class="pt30 pb10 comment_box">
-					<form method="post" id="wrtForm" action="/page/{{ $cate_file }}/page_{{ $dep01 }}_{{ $dep02_active }}_comment_write_exec.php" style="display:inline;"  enctype="multipart/form-data">
+					<form method="post" id="wrtForm" action="{{ $view_link }}&type=comment_write" style="display:inline;"  enctype="multipart/form-data">
 						{{ UserHelper::SubmitHidden() }}
-						<input type="hidden" name="list_link" value="../../page.php?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}#tabs-4">
+						<input type="hidden" name="list_link" value="{{ route('clovergarden') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}#tabs-4">
 						<input type="hidden" name="clover_seq" value="{{ $seq }}">
 						<input type="text" name="subject" value="" style="width:620px; height:30px">
 						<?php if(Auth::check()){ ?>
@@ -633,7 +641,7 @@ $Conn->DisConnect();
 					}
 				?>
 				</div>
-				<form name="form_submit" method="post" action="page.php?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment->seq }}#tabs-4" style="display:inline">
+				<form name="form_submit" method="post" action="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment->seq }}#tabs-4" style="display:inline">
 					{{ UserHelper::SubmitHidden() }}
 				</form>
 			</div>

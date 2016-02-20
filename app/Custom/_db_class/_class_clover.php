@@ -16,6 +16,9 @@
 		var $content;           //기관소개
         var $hit;               //조회수
         var $reg_date;          //등록일
+        
+        // 왜 clover banner가 여기 있는가
+        var $clover_id;
 
         //-- join column start --//
         var $comment_cnt;       //댓글수(서브쿼리)
@@ -96,7 +99,7 @@
 			$pResultValue[$pCnt]->hit    = stripcslashes($pResult['hit']);
 			$pResultValue[$pCnt]->reg_date    = stripcslashes($pResult['reg_date']);
 			$pResultValue[$pCnt]->group_name    = stripcslashes($pResult['group_name']);
-
+            $pResultValue[$pCnt]->clover_id   = isset($pResult['clover_id']) ? stripcslashes($pResult['clover_id']) : 0;
 			
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {
@@ -142,6 +145,7 @@
 			$this->hit    = $pResult[$pCnt]->hit;
 			$this->reg_date    = $pResult[$pCnt]->reg_date;
 			$this->group_name    = $pResult[$pCnt]->group_name;
+            $this->clover_id = $pResult[$pCnt]->clover_id;
 			
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {

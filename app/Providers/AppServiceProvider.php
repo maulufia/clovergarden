@@ -24,13 +24,22 @@ class AppServiceProvider extends ServiceProvider
         view()->share('login_id');
         view()->share('group_name');
         view()->share('login_name');
-        // view()->share('login_state'); NOT WILL BE USED
+        view()->share('login_state', null);
         view()->share('use_point');
+        view()->share('login_email');
+        view()->share('login_cell');
+        view()->share('post1');
+        view()->share('post2');
+        view()->share('addr1');
+        view()->share('addr2');
         
         // BOARD
         view()->share('seq');
         view()->share('search_key');
         view()->share('search_val');
+        
+        // CLOVERGARDEN
+        view()->share('clover_name_v');
         
         // view, write, list 링크는 최대한 삭제
         /*
