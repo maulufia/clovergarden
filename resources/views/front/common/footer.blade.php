@@ -80,7 +80,7 @@
 								$nBanner->url = str_replace("http://","",$nBanner->url);
 					?>
 						<li>
-							<a href="http://<?=$nBanner->url?>" target="_blank">					
+							<a href="http://{{ $nBanner->url }}" target="_blank">					
 								<?php
 										echo "<img src='/imgs/up_file/Banner/".$nBanner->file_edit[1]."' border='0' style='width: 100px;'>";
 								?>
@@ -109,7 +109,7 @@
 			<script type="text/javascript">
 				<!--
 				function pri_pop(type){
-				 window.open("./pop_pri.php?view="+type,"","'fullscreen=0,toolbar=0,scrollbars=0,status=0,menubar=0,width=499, height=554'");
+				 window.open("{{ route('popup') }}?view="+type,"","'fullscreen=0,toolbar=0,scrollbars=0,status=0,menubar=0,width=499, height=554'");
 				}	
 				//-->
 			</script>

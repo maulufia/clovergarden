@@ -21,7 +21,7 @@ class CateHelper {
 									'information',
 									'customer',
 									'login',
-									'',
+									'mypage',
 									'sitemap',
 									'userinfo'
 								);
@@ -75,19 +75,18 @@ class CateHelper {
 														'home',
 														'find_id',
 														'find_pw',
-														'signup'
+														'signup',
+														'signup_before'
 														);
 		$dep01_factory->mypage = array(
 														'sendmessage',
-														'messagebox_send',
-														'messagebox_get',
+														'messagebox',
 														'point',
-														'activiy_community',
-														'activiy_history',
-														'activiy_mailbox',
+														'activity_mypage',
+														'',
 														'modify_personal',
 														'change_clover',
-														'mode_management',
+														'mode_management'
 														);
 		$dep01_factory->sitemap = array(
 															'home'
@@ -100,11 +99,20 @@ class CateHelper {
 		$dep01_name = $dep01_name[$dep01];
 		
 		// 소소분류 뷰 네임
-		$dep02_factory = new \StdClass();
+		$dep02_factory = new \StdClass(); // dep01과 dep02의 name은 절대 겹치면 안됨 -> 디자인 에러
 		$dep02_factory->community = array(
 															'timeline',
 															'board_sponsor',
 															'board_company'
+													);
+		$dep02_factory->messagebox = array(
+															'messagebox_send',
+															'messagebox_get'
+													);
+		$dep02_factory->activity_mypage = array(
+															'community',
+															'history',
+															'mailbox'
 													);
 		if(isset($dep02_factory->$dep01_name)) { // dep02는 존재하지 않을 수도 있음
 			$dep02_name = $dep02_factory->$dep01_name;
@@ -120,7 +128,7 @@ class CateHelper {
 		}
 		
 		$view_name = "front.page." . $cate_name . "." . $dep01_name . $dep02_name . $type;
-		
+
 		// 인증이 필요한 페이지 체크
 		if(!Auth::check()) {
 			$view_need_auth = array(
@@ -221,4 +229,172 @@ class CateHelper {
 
     }
   }
+  
+  public static function adminCateHelper($page_key) {
+    /*--------------------*
+    * page
+    *---------------------*/
+    $key_large   = substr(strtoupper($page_key), 0, 1);
+    $key_small   = substr(strtoupper($page_key), 1, 1);
+
+    /*--------------------*
+    * left title
+    *---------------------*/
+    switch($key_large)
+    {
+	    case 'A' :
+        $title_txt = '회원관리';
+        break;
+	    case 'B' :
+        $title_txt = '커뮤니티';
+        break;
+	    case 'C' :
+        $title_txt = '후원기관';
+        break;
+	    case 'D' :
+        $title_txt = '클로버';
+        break;
+	    case 'E' :
+        $title_txt = '고객센터';
+        break;
+			case 'F' :
+        $title_txt = '팝업관리';
+        break;
+			case 'H' :
+        $title_txt = '봉사스케쥴';
+        break;
+			case 'G' :
+        $title_txt = '통계';
+        break;
+			case 'I' :
+        $title_txt = '페이지관리';
+        break;
+    }
+
+    /*------------------------------------------------------------------------------------------------------*
+    * content title
+    *------------------------------------------------------------------------------------------------------*/
+    switch($page_key)
+    {
+      case 'A1' :
+        $content_txt = '관리자';
+        break;
+      case 'A2' :
+        $content_txt = '일반회원';
+        break;
+			case 'A3' :
+        $content_txt = '기업회원';
+        break;
+	    case 'A4' :
+        $content_txt = '홍보소식지신청자';
+        break;
+	    case 'A5' :
+        $content_txt = '홍보소식지발송이력';
+        break;			
+	    case 'A6' :
+        $content_txt = '약관 관리';
+        break;			
+	    case 'A7' :
+        $content_txt = '정기소식지발송이력';
+        break;			
+	    case 'A8' :
+        $content_txt = '탈퇴회원';
+        break;			
+			//---------------------------------------
+      case 'B1' :
+        $content_txt = '타임라인';
+        break;
+      case 'B2' :
+        $content_txt = '후원자유게시판';
+        break;
+			case 'B3' :
+        $content_txt = '배너관리';
+        break;
+      case 'B4' :
+        $content_txt = '기관자유게시판';
+        break;
+      //---------------------------------------
+      case 'C1' :
+        $content_txt = '후원기관목록';
+        break;
+			case 'C2' :
+        $content_txt = '후원등록/연동관리';
+        break;
+			case 'C3' :
+        $content_txt = '후원기관소식';
+        break;
+			case 'C4' :
+        $content_txt = '후원목록';
+        break;
+			case 'C5' :
+        $content_txt = '* 후원목록';
+        break;
+			case 'C6' :
+        $content_txt = '후원기관 배너등록';
+        break;
+			case 'C7' :
+        $content_txt = '후원대상 변경신청';
+        break;
+        //---------------------------------------
+      case 'D1' :
+        $content_txt = '함께하는사람들';
+        break;
+			case 'D2' :
+        $content_txt = '이달의 클로버';
+        break;
+			case 'D3' :
+        $content_txt = '메인] 함께하는 제휴업체';
+        break;
+			case 'D4' :
+        $content_txt = '메인] 이달의 클로버';
+        break;
+				//---------------------------------------
+      case 'E1' :
+        $content_txt = '새소식';
+        break;
+			case 'E2' :
+        $content_txt = '1:1문의';
+				break;
+			case 'E3' :
+      	$content_txt = '자주묻는질문';  
+				break;
+			//---------------------------------------
+      case 'F1' :
+        $content_txt = '팝업관리';
+        break;
+			//---------------------------------------
+      case 'H1' :
+        $content_txt = '봉사스케쥴';
+        break;
+      //---------------------------------------
+      case 'G1' :
+        $content_txt = '방문통계-일별';
+        break;
+      case 'G2' :
+      $content_txt = '방문통계-월별';
+      break;
+      //---------------------------------------
+      case 'I1' :
+        $content_txt = '페이지관리 - 회사소개';
+        break;
+    	case 'I2' :
+        $content_txt = '페이지관리 - 이용안내(기업)';
+        break;
+    	case 'I3' :
+        $content_txt = '페이지관리 - 이용안내(후원금신청)';
+        break;
+      case 'I4' :
+        $content_txt = '페이지관리 - 이용안내(개인)';
+        break;	
+		}
+		    
+    $result = new StdClass();
+    $result->key_large = $key_large;
+    $result->key_small = $key_small;
+    $result->title_txt = $title_txt;
+    $result->content_txt = $content_txt;
+    
+    return $result;
+	}
+
 }

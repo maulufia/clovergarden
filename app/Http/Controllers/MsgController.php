@@ -16,6 +16,64 @@ class MsgController extends Controller
   |
   */
   
+  public function send() {
+	  $nMessage = new \MessageClass(); //쪽지
+
+		$nMessage->send_id    = $_POST['send_id']; // 작성자ID
+		$nMessage->receive_id    = $_POST['receive_id'];
+		$nMessage->content    = $_POST['content']; // 클로버아이디
+
+		$more_mode    = isset($_POST['more_mode']) ? $_POST['more_mode'] : null;
+
+		$arr_field = array
+	    (
+	        'send_id', 'receive_id', 'content'
+	    );
+		$Conn = new \DBClass();
+
+		if($more_mode == "more"){
+			$more_data = $nMessage->receive_id;
+
+			for($i=0; $i<count($more_data); $i++){
+
+
+				$arr_value[$i] = array($nMessage->send_id, $more_data[$i], $nMessage->content);
+
+				//======================== DB Module Start ============================
+					$Conn->StartTrans();
+
+					$out_put = $Conn->InsertDB($nMessage->table_name, $arr_field, $arr_value[$i]);
+
+					if($out_put){
+						$Conn->CommitTrans();
+					}else{
+						$Conn->RollbackTrans();
+						$Conn->disConnect();
+					}
+			}
+		} else {
+		$arr_value = array($nMessage->send_id, $nMessage->receive_id, $nMessage->content);
+
+		//======================== DB Module Start ============================
+			$Conn->StartTrans();
+
+			$out_put = $Conn->InsertDB($nMessage->table_name, $arr_field, $arr_value);
+
+			if($out_put){
+				$Conn->CommitTrans();
+			}else{
+				$Conn->RollbackTrans();
+				$Conn->disConnect();
+			}
+
+		//======================== DB Module End ===============================
+		}
+
+		$Conn->disConnect();
+		
+		return redirect()->route('mypage');
+  }
+  
   public function sendGroupCreate() {
   	$Conn = new \DBClass();
   	$nMessage = new \MessageClass(); //쪽지

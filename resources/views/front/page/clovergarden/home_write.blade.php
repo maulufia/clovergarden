@@ -23,7 +23,7 @@
 
 	$nPoint->page_result = $Conn->AllList
 	(	
-		$nPoint->table_name, $nPoint, "sum(inpoint) inpoint, sum(outpoint) outpoint", "where userid='".$login_id."' group by userid", null, null
+		$nPoint->table_name, $nPoint, "sum(inpoint) inpoint, sum(outpoint) outpoint", "where userid='" . Auth::user()->user_id . "' group by userid", null, null
 	);
 
 
@@ -36,14 +36,13 @@ $nAdm_4->page_result = $Conn->AllList
 	//======================== DB Module End ===============================
 ?>
 <?php
-if($login_state == 4){
+if(Auth::user()->user_state == 4){
 	echo "
 	<script>
 	alert('기업담당자는 이용이 불가합니다.');
 	window.location = '/';
 	</script>
 	";
-	exit;
 }
 
 //*******************************************************************************
@@ -59,7 +58,7 @@ $AGS_HASHDATA = md5($StoreId . $OrdNo );
 
 
 ?>
-<script language=javascript src="http://www.allthegate.com/plugin/AGSWallet_utf8.js"></script>
+
 <script language=javascript>
 <!--
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -313,7 +312,8 @@ function point_form(form){
 		return;
 	}
 
-	form.action = "/page.php?cate=1&dep01=0&dep02=0&type=resultpoint&seq=2";
+	//form.action = "{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=resultpoint&seq=2";
+	form.action = "{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=write_resultpoint";
 	form.submit();
 }
 </SCRIPT>
@@ -324,6 +324,7 @@ function point_form(form){
 		<form method="post" id="wrtForm" name="frmAGS_pay" action="/agspay/AGS_pay_ing.php">
 		<input type="hidden" name="clover_seq" value="{{ $nClover->code }}">
 		<input type="hidden" name="clover_name" value="{{ $nClover->subject }}">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 		<h2 class="xm_left">후원기관/금액 선택</h2>
 		<div class="xm_clr"></div>
 
@@ -408,20 +409,19 @@ function point_form(form){
 						<td style="border:none;" width="60" style="text-align:left;"><input type="text" name="opoint" id="opoint" value="10000" style="width:100px;"></td>
 						<td style="border:none;">
 						<?php
-						if($cnt_list=count($nPoint->page_result) < 1){
-							echo "0";
-						} else {
-						for($i=0, $cnt_list=count($nPoint->page_result); $i < $cnt_list; $i++) {
-							$nPoint->VarList($nPoint->page_result, $i, null);
+							if($cnt_list=count($nPoint->page_result) < 1){
+								echo "0";
+							} else {
+							for($i=0, $cnt_list=count($nPoint->page_result); $i < $cnt_list; $i++) {
+								$nPoint->VarList($nPoint->page_result, $i, null);
 
-							$use_point = $nPoint->inpoint - $nPoint->outpoint;
+								$use_point = $nPoint->inpoint - $nPoint->outpoint;
 						?>
-						보유 포인트 : {{ number_format($use_point) }}			
+							보유 포인트 : {{ number_format($use_point) }}			
 						<?php
 							}}
 						?>							
 						<input type="hidden" name="usepoint" value="{{ $use_point }}" style="width:100px">
-
 						</td>
 					</tr>
 					</table>
@@ -436,7 +436,7 @@ function point_form(form){
 				</td>
 			</tr>
 			<input type=hidden name=StoreId value="{{ $StoreId }}">
-			<input type=hidden name=UserId value="{{ $login_id }}">			
+			<input type=hidden name=UserId value="{{ Auth::user()->user_id }}">			
 			<input type=hidden name=OrdNo value="{{ $OrdNo }}"></td>
 			<input type=hidden name=MallUrl value="http://www.clovergarden.com">
 			<input type=hidden name=StoreNm value="클로버가든">

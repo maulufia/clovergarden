@@ -442,7 +442,7 @@ $Conn->DisConnect();
 
 					<div class="banner_wrap">
 
-						<div class="banner3"><a href="/page.php?cate=8&user_id={{ $nClovermlist->id }}">
+						<div class="banner3"><a href="{{ route('userinfo') }}?cate=8&user_id={{ $nClovermlist->id }}">
 				
 						<?php if(count($nMember->read_result) == 0){ ?><img src="/imgs/photo05.png" style="height:51px; width:51px;"><?php } else { ?><img src="/imgs/up_file/member/{{ $nMember->file_edit[1] }}" onerror="this.src='/imgs/photo05.png'" style="height:51px; width:51px;"><?php } ?>
 						
@@ -451,7 +451,7 @@ $Conn->DisConnect();
 						{{ $nClovermlist->group_name }}<br>
 						<?php if($nClovermlist->day) $img_v = "clover_ing"; else $img_v = "clover_set"; ?>
 						<img src="/imgs/{{ $img_v }}.jpg" />
-						<a href="/page.php?cate=8&user_id={{ $nClovermlist->id }}">{{ $nClovermlist->name }}님</a></div>
+						<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nClovermlist->id }}">{{ $nClovermlist->name }}님</a></div>
 						
 					</div>
 						
@@ -508,7 +508,7 @@ $Conn->DisConnect();
 
 					<div class="banner_wrap">
 
-						<div class="banner3"><a href="/page.php?cate=8&user_id={{ $nClovermlist_nomal->id }}">
+						<div class="banner3"><a href="{{ route('userinfo') }}?cate=8&user_id={{ $nClovermlist_nomal->id }}">
 
 						<?php if(count($nMember->read_result) == 0){ ?><img src="/imgs/photo05.png" style="height:51px; width:51px;"><?php } else { ?><img src="/imgs/up_file/member/{{ $nMember->file_edit[1] }}" onerror="this.src='/imgs/photo05.png'" style="height:51px; width:51px;"><?php } ?>
 						
@@ -517,7 +517,7 @@ $Conn->DisConnect();
 						{{ $nClovermlist_nomal->group_name }}<br>
 						<?php if($nClovermlist_nomal->day) $img_v = "clover_ing"; else $img_v = "clover_set"; ?>
 						<img src="/imgs/{{ $img_v }}.jpg" />
-						<a href="/page.php?cate=8&user_id={{ $nClovermlist_nomal->id }}">{{ $nClovermlist_nomal->name }}님</a></div>
+						<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nClovermlist_nomal->id }}">{{ $nClovermlist_nomal->name }}님</a></div>
 						
 					</div>
 						
@@ -606,11 +606,11 @@ $Conn->DisConnect();
 					?>
 					<tr>
 						<th scope="row">
-							<a href="/page.php?cate=8&user_id={{ $ex_writer[1] }}">
+							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}">
 							<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
 							</a>
 							<div class="name">
-								<a href="/page.php?cate=8&user_id={{ $ex_writer[1] }}">
+								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}">
 								{{ $nClovercomment->group_name }}<br>{{ $board_name[0] }}님
 								</a>
 							</div>

@@ -24,11 +24,11 @@
 		//======================== DB Module Start ============================
 		$nPoint->page_result = $Conn->AllList
 		(	
-			$nPoint->table_name, $nPoint, "sum(inpoint) inpoint, sum(outpoint) outpoint", "where userid='".$login_id."' group by userid", null, null
+			$nPoint->table_name, $nPoint, "sum(inpoint) inpoint, sum(outpoint) outpoint", "where userid='" . Auth::user()->user_id . "' group by userid", null, null
 		);
 		$nMember->page_result = $Conn->AllList
 		(	
-			$nMember->table_name, $nMember, "*", "where user_id='".$login_id."'", null, null
+			$nMember->table_name, $nMember, "*", "where user_id='" . Auth::user()->user_id . "'", null, null
 		);
 		$user_name_ck = '';
 		for($i=0, $cnt_list=count($nMember->page_result); $i < $cnt_list; $i++) {
@@ -46,7 +46,7 @@ $nAdm_4->page_result = $Conn->AllList
 );
 	$Conn->DisConnect();
 	//======================== DB Module End ===============================
-if($login_state == 4){
+if(Auth::user()->user_state == 4){
 	echo "
 	<script>
 	alert('기업담당자는 이용이 불가합니다.');

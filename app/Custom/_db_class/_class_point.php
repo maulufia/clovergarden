@@ -96,13 +96,13 @@
 
         function VarList($pResult, $pCnt=0, $pJoin=null)
         {
-            $this->idx        = $pResult[$pCnt]->idx;
-			$this->signdate        = $pResult[$pCnt]->signdate;
-			$this->depth        = $pResult[$pCnt]->depth;
-            $this->inpoint    = $pResult[$pCnt]->inpoint;
-			$this->outpoint    = $pResult[$pCnt]->outpoint;
-			$this->usepoint    = $pResult[$pCnt]->usepoint;
-            $this->userid    = $pResult[$pCnt]->userid;
+            $this->idx        = isset($pResult[$pCnt]) ? $pResult[$pCnt]->idx : null;
+			$this->signdate        = isset($pResult[$pCnt]) ? $pResult[$pCnt]->signdate : null;
+			$this->depth        = isset($pResult[$pCnt]) ? $pResult[$pCnt]->depth : null;
+            $this->inpoint    = isset($pResult[$pCnt]) ? $pResult[$pCnt]->inpoint : null;
+			$this->outpoint    = isset($pResult[$pCnt]) ? $pResult[$pCnt]->outpoint : null;
+			$this->usepoint    = isset($pResult[$pCnt]) ? $pResult[$pCnt]->usepoint : null;
+            $this->userid    = isset($pResult[$pCnt]) ? $pResult[$pCnt]->userid : null;
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {
                     switch($pJoin[$i])

@@ -20,7 +20,7 @@
 		echo "
 		<script>
 		alert('댓글이 등록되었습니다.');
-		window.location = '".route('sponsorzone')."?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
+		window.location = '" . CateHelper::getCateName($_GET['cate']) . "?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
 		</script>
 		";
 	} else if ($rmode == "replym") {
@@ -29,7 +29,7 @@
 		echo "
 		<script>
 		alert('댓글이 수정되었습니다.');
-		window.location = '".route('sponsorzone')."?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
+		window.location = '" . CateHelper::getCateName($_GET['cate']) . "?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
 		</script>
 		";
 	} else if ($rmode == "replyd") {
@@ -38,7 +38,7 @@
 		echo "
 		<script>
 		alert('댓글이 삭제되었습니다.');
-		window.location = '".route('sponsorzone')."?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
+		window.location = '" . CateHelper::getCateName($_GET['cate']) . "?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
 		</script>
 		";
 	}
@@ -47,7 +47,6 @@
 	(	
 		$nReply->table_name, $nReply, "*", "where cate='".$_GET['cate']."' and dep01='".$_GET['dep01']."' and dep02='".$_GET['dep02']."' and seq='".$_GET['seq']."' order by idx desc", null, null
 	);
-
 
 	$Conn->DisConnect();
 	?>
@@ -165,7 +164,7 @@
 		<tr height=40>
 			<td align=right colspan="2">
 			<?php if($nReply->wid == Auth::check() ? Auth::user()->user_id : ''){ ?>
-				<a href="{{ route('sponsorzone') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type={{ $_GET['type'] }}&seq={{ $_GET['seq'] }}&cv={{ $r_comment }}&gmode=mod&idx={{ $nReply->idx }}" class="green_btn">댓글수정</a>
+				<a href="{{ CateHelper::getCateName($_GET['cate']) }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type={{ $_GET['type'] }}&seq={{ $_GET['seq'] }}&cv={{ $r_comment }}&gmode=mod&idx={{ $nReply->idx }}" class="green_btn">댓글수정</a>
 				<a href="javascript:reply_func('replyd','{{ $nReply->idx }}');" class="orange_btn">댓글삭제</a>
 			<?php } else { ?>
 				<a href="javascript:alert('자신이 작성한 댓글만 수정할 수 있습니다.');" class="green_btn">댓글수정</a>

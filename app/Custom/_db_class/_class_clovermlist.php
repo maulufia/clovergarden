@@ -82,7 +82,7 @@
 			$pResultValue[$pCnt]->bank   = isset($pResult['bank']) ? stripcslashes($pResult['bank']) : '';
 			$pResultValue[$pCnt]->banknum   = isset($pResult['banknum']) ? stripcslashes($pResult['banknum']) : 0;
 			$pResultValue[$pCnt]->bankdate   = isset($pResult['bankdate']) ? stripcslashes($pResult['bankdate']) : '';
-			$pResultValue[$pCnt]->reg_date    = isset($pResult['regdate']) ? stripcslashes($pResult['reg_date']) : '';
+			$pResultValue[$pCnt]->reg_date    = isset($pResult['reg_date']) ? stripcslashes($pResult['reg_date']) : '';
 			$pResultValue[$pCnt]->type    = isset($pResult['type']) ? stripcslashes($pResult['type']) : '';
 			$pResultValue[$pCnt]->order_ck    = isset($pResult['order_ck']) ? stripcslashes($pResult['order_ck']) : '';
 			$pResultValue[$pCnt]->order_adm_ck    = isset($pResult['order_adm_ck']) ? stripcslashes($pResult['order_adm_ck']) : '';

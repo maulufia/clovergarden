@@ -140,17 +140,21 @@ function emailUpdate()
 			return false;
 		}
 
+		/*
 		var email_name = $("#email_name").val();
 		var email_address1 = $("#email_address1").val();
 		var email_address2 = $("#email_address2").val();
-		var string_value = "name="+encodeURIComponent(email_name)+"&email1="+encodeURIComponent(email_address1)+"&email2="+encodeURIComponent(email_address2);
+		var string_value = "name="+encodeURIComponent(email_name)+"&email1="+encodeURIComponent(email_address1)+"&email2="+encodeURIComponent(email_address2); */
+		
+		$('#newsForm').submit();
+		/*
 		$.ajax({
-			url: 'email_exec.php',
-			type: 'GET',
+			url: "{{ route('execemail')}}",
+			type: 'POST',
 			data: string_value,
-			error: function(){
-				alert("{{ ERR_DATABASE?>");
-				return;
+			error: function(response, status, error){
+				alert("{{ ERR_DATABASE }}");
+				console.log(reponse);
 			},
 			success: function(data){
 				data = data.split("@@||@@");
@@ -161,7 +165,7 @@ function emailUpdate()
 					alert("소식지 신청이 실패되었습니다.");
 				}
 			}
-		})
+		}) */
 
 }
 
@@ -198,13 +202,14 @@ function emailUpdate()
 		<p>온라인 소식지는 회원가입 없이 신청이 가능합니다.<br /><span>이메일로 클로버가든의 활동 소식</span>을 받아보세요!</p>
 
 		<div class="new-form">
-			<form method="post" id="newsForm" action="#">
+			<form method="post" id="newsForm" action="{{ route('execemail') }}">
 				<div class="xm_left">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<input type="text" name="name" id="email_name" placeholder="이름" title="이름" class="in1" /><br />
 					<input type="text" name="email" id="email_address1" placeholder="이메일" title="이메일" class="in2 mt5" /> <span class="c_dark_green fs14">@</span> <input type="text" name="email2" id="email_address2" title="이메일 도메인주소" class="in3 mt5" />
 				</div>
 				<div class="ml10">
-					<input type="image" id="newsRequest" src="/imgs/NewSproposal.png" alt="소식지 선정" onClick="javascript:emailUpdate();"/>
+					<input type="image" id="newsRequest" src="/imgs/NewSproposal.png" alt="소식지 선정" />
 				</div>
 			</form>
 		</div>
@@ -213,7 +218,7 @@ function emailUpdate()
 			$cloverFavoreModel = new CloverFavoreModel();
 			$favoreList = $cloverFavoreModel->getFavoreList();
 		?>
-		@if($favoreList)
+		@if(!is_null($favoreList->name))
 			<p style="font-size:15px; font-weight:bold;">
 				<font color="66b050">{{ $favoreList->name }}</font>님의 마지막 후원은 <font color="ed6c0a">{{ $favoreList->clover_name}}</font> 입니다. 				
 			</p>

@@ -6,7 +6,7 @@
 
 <!-- Wrapper -->
 <div id="wrapper">
-	<div class="menu_position"><a href="#">Home</a> &gt; {{ $cate_name }} &gt; <strong>{{ $cate_01_result[$dep01] }}</strong></div>
+	<div class="menu_position"><a href="#">Home</a> &gt; {{ $cate_name }} &gt; <strong>{{ isset($cate_01_result[$dep01]) ? $cate_01_result[$dep01] : '' }}</strong></div>
 	
 	@yield('wrapper')
 	

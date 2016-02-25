@@ -3,18 +3,11 @@
 @section('sponsorzone')
 
 <?php
-	// TEMP
-	$_REQUEST['page_no'] = null;
-	$_REQUEST['search_key'] = null;
-	$_REQUEST['search_val'] = null;
-	$group_name = null;
-	//$nClover2 = null; // 이건 뭐지?
-	$login_id = null;
 	$nClover2 = new CloverClass(); //클로버응원댓글
 
-	$page_no    = NullNumber($_REQUEST['page_no']);
-	$search_key = RequestAll($_REQUEST['search_key']);
-	$search_val = RequestAll($_REQUEST['search_val']);
+	$page_no = isset($_REQUEST['page_no']) ? $_REQUEST['page_no'] : 1;
+	$search_key = isset($_REQUEST['search_key']) ? $_REQUEST['search_key'] : '';
+	$search_val = isset($_REQUEST['search_val']) ? $_REQUEST['search_val'] : '';
 
 	$nClover = new CloverClass(); //클로버응원댓글
 
@@ -43,7 +36,8 @@
 		$nClovercomment->VarList($nClovercomment->page_result, 0, null);
 	}
 
-	$nClovercomment2->where = "where group_name='".$group_name."' and group_name != ''";
+	$group_name = Auth::check() ? Auth::user()->group_name : null; // TEMP
+	$nClovercomment2->where = "where group_name='" . $group_name . "' and group_name != ''";
 	$nClover2->page_result = $Conn->AllList($nClover2->table_name, $nClover2, "*", $nClover2->where, null, null);
 
 	$nClovercomment2->total_record = $Conn->PageListCount
@@ -148,17 +142,17 @@ $Conn->DisConnect();
 						</colgroup>
 						<tr	>
 							<th scope="row">
-								<a href="/page.php?cate=8&user_id={{ $nMember->user_id }}">
+								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}">
 								<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
 								</a>
 								<div class="name">
-									<a href="/page.php?cate=8&user_id=<?=$nMember->user_id?>">
+									<a href="{{ route('userinfo') }}?cate=8&user_id=<?=$nMember->user_id?>">
 									<?php if($group_name != ""){ ?>{{ $group_name }}<br><?php }?>{{ $board_name[0] }}님
 									</a>
 								</div>
 								
 							</th>
-							<td class="normal"><a href="page.php?cate=1&dep01=0&dep02=0&type=view&seq=<?=$nClovercomment->clover_seq?>">{{ ${$nClovercomment->clover_seq} }}</a></td>
+							<td class="normal"><a href="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment->clover_seq }}">{{ ${$nClovercomment->clover_seq} }}</a></td>
 							<td class="subject">{{ $nClovercomment->subject }}</td>
 							<td class="date">{{ date('Y-m-d',strtotime($nClovercomment->reg_date)) }}</td>
 						</tr>	
@@ -175,91 +169,74 @@ $Conn->DisConnect();
 				?>
 			</ul>
 			<ul>
-
-
-			<form name="form_submit" method="get" action="page.php" style="display:inline">
-				{{ UserHelper::SubmitHidden() }}
-			</form>
-
 			</div>
-<?php if($login_id){ ?>
+		<?php if(Auth::check()){ ?>
 			<div id="tabs-2" class="tabCont">
+				<table>
+					<caption>게시판 목록</caption>
+					<colgroup>
+						<col class="colWidth180">
+						<col class="colWidth110">
+						<col class="colWidth380">
+						<col class="colWidth105">
+					</colgroup>
+					<?php
+						if(count($nClovercomment2->page_result) > 0){
+							$row_no = $nClovercomment2->total_record - ($nClovercomment2->page_view * ($page_no - 1));
+							for($i=0, $cnt_list=count($nClovercomment2->page_result); $i < $cnt_list; $i++) {
+								$nClovercomment2->VarList($nClovercomment2->page_result, $i,  array('comment'));
+								$board_name = explode(',',$nClovercomment2->writer);
+
+								$Conn = new DBClass();
+									$nMember->where = "where user_id ='".$board_name[1]."'";
+									$nMember->read_result = $Conn->AllList
+									(
+										$nMember->table_name, $nMember, "*", $nMember->where, null, null
+									);
+								
+									if(count($nMember->read_result) != 0){
+										$nMember->VarList($nMember->read_result, 0, null);
+
+										$group_name = $nMember->group_name;
+									}	
+								$Conn->DisConnect();
 
 
-			<table>
-				<caption>게시판 목록</caption>
-				<colgroup>
-					<col class="colWidth180">
-					<col class="colWidth110">
-					<col class="colWidth380">
-					<col class="colWidth105">
-				</colgroup>
-				<?php
-					if(count($nClovercomment2->page_result) > 0){
-						$row_no = $nClovercomment2->total_record - ($nClovercomment2->page_view * ($page_no - 1));
-						for($i=0, $cnt_list=count($nClovercomment2->page_result); $i < $cnt_list; $i++) {
-							$nClovercomment2->VarList($nClovercomment2->page_result, $i,  array('comment'));
-							$board_name = explode(',',$nClovercomment2->writer);
+								$board_image = explode('@',$board_name[1]);
 
-							$Conn = new DBClass();
-								$nMember->where = "where user_id ='".$board_name[1]."'";
-								$nMember->read_result = $Conn->AllList
-								(
-									$nMember->table_name, $nMember, "*", $nMember->where, null, null
-								);
-							
-								if(count($nMember->read_result) != 0){
-									$nMember->VarList($nMember->read_result, 0, null);
-
-									$group_name = $nMember->group_name;
-								}	
-							$Conn->DisConnect();
-
-
-							$board_image = explode('@',$board_name[1]);
-
-				?>
-				<tr>
-					<th scope="row">
-						<a href="/page.php?cate=8&user_id={{ $nMember->user_id }}">
-						<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
-						</a>
-						<div class="name">
-							<a href="/page.php?cate=8&user_id={{ $nMember->user_id }}">
-							<?php if($group_name != ""){ ?>{{ $group_name }}<br><?php } ?>{{ $board_name[0] }}님
+					?>
+					<tr>
+						<th scope="row">
+							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}">
+							<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
 							</a>
-						</div>
-					</th>
-					<td class="normal"><a href="page.php?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment2->clover_seq }}">{{ ${$nClovercomment2->clover_seq} }}</a></td>
-					<td class="subject">{{ $nClovercomment2->subject }}</td>
-					<td class="date">{{ date('Y-m-d',strtotime($nClovercomment2->reg_date)) }}</td>
-				</tr>
+							<div class="name">
+								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}">
+								<?php if($group_name != ""){ ?>{{ $group_name }}<br><?php } ?>{{ $board_name[0] }}님
+								</a>
+							</div>
+						</th>
+						<td class="normal"><a href="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment2->clover_seq }}">{{ ${$nClovercomment2->clover_seq} }}</a></td>
+						<td class="subject">{{ $nClovercomment2->subject }}</td>
+						<td class="date">{{ date('Y-m-d',strtotime($nClovercomment2->reg_date)) }}</td>
+					</tr>
 
 
-				<?php
-							$row_no = $row_no - 1;
+					<?php
+								$row_no = $row_no - 1;
+							}
+						}else{
+					?>
+							<tr>
+								<td colspan="4" style="height:200px; text-align:center;">기업회원만 이용가능합니다.</td>
+							</tr>
+					<?php
 						}
-					}else{
-				?>
-						<tr>
-							<td colspan="4" style="height:200px; text-align:center;">기업회원만 이용가능합니다.</td>
-						</tr>
-				<?php
-					}
-				?>
-			</table>
+					?>
+				</table>
 
-			<div class="paging">
-			<?php
-				if($nTimeline->total_record != 0){
-					$nPage = new PageOut();
-					$nPage->CustomPageList($nTimeline->total_record, $page_no, $nTimeline->page_view, $nTimeline->page_set, $nTimeline->page_where, 'pageNumber','');
-				}
-			?>
-			</div>
-			<form name="form_submit" method="get" action="page.php" style="display:inline">
-				{{ SubmitHidden() }}
-			</form>
+				<div class="paging">
+				</div>
 			</div>
 <?php } else { ?>
 			<table>

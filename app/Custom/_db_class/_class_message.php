@@ -44,6 +44,7 @@
         function ArrList($pResult, $pCnt, $pJoin=null)
         {
             $pResultValue = array();
+            $pResultValue[$pCnt] = new StdClass();
             $pResultValue[$pCnt]->seq          = stripcslashes($pResult['seq']);
 			$pResultValue[$pCnt]->send_id          = stripcslashes($pResult['send_id']);
             $pResultValue[$pCnt]->receive_id      = stripcslashes($pResult['receive_id']);

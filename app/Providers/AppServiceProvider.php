@@ -41,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
         // CLOVERGARDEN
         view()->share('clover_name_v');
         
+        // ADMIN
+        view()->share('key_large');
+        view()->share('title_txt');
+        view()->share('content_txt');
+        
         // view, write, list 링크는 최대한 삭제
         /*
         view()->share('list_link');

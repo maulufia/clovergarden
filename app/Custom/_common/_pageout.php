@@ -36,10 +36,10 @@
             settype($this->next_page_img[10], 'array');
             settype($this->last_page_img[10], 'array');
 
-            $this->start_page_img[0] = "<img src='../../new_images/bt_prev02.gif' alt='처음' />";
-            $this->pre_page_img[0]   = "<img src='../../new_images/bt_prev01.gif' alt='이전' />";
-            $this->next_page_img[0]  = "<img src='../../new_images/bt_next01.gif' alt='다음' />";
-            $this->last_page_img[0]  = "<img src='../../new_images/bt_next02.gif' alt='끝' />";
+            $this->start_page_img[0] = "<img src='/imgs/new_images/bt_prev02.gif' alt='처음' />";
+            $this->pre_page_img[0]   = "<img src='/imgs/new_images/bt_prev01.gif' alt='이전' />";
+            $this->next_page_img[0]  = "<img src='/imgs/new_images/bt_next01.gif' alt='다음' />";
+            $this->last_page_img[0]  = "<img src='/imgs/new_images/bt_next02.gif' alt='끝' />";
 
             $this->start_page_img[1] = "&nbsp;";
             $this->pre_page_img[1]   = "&nbsp;";

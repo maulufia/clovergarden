@@ -2,7 +2,7 @@
 
 namespace clovergarden\Http\Controllers;
 
-use Auth, Redirect, URL;
+use Auth, Redirect, URL, Hash, DB;
 
 class MainController extends Controller
 {
@@ -284,6 +284,10 @@ class MainController extends Controller
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
 		
+		// Other Options for board
+		$option = new \StdClass();
+		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
+		
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
 		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
@@ -292,9 +296,9 @@ class MainController extends Controller
 		$cate_01_type = ""; 
 		$cate_02_result = 0;
 		
-		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02);
+		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
-		return view($view_name, ['cate' => 0,
+		return view($view_name, ['cate' => $sub_cate,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
 														 'cate_name' => $cate_name,
@@ -332,6 +336,7 @@ class MainController extends Controller
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
 		$cate_01_type = "";
+		$cate_02_result = \CateHelper::checkPage($sub_cate,'sub_cate_02');
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
@@ -350,6 +355,7 @@ class MainController extends Controller
 														 'cate_01_result' => $cate_01_result,
 														 'cate_01_count' => $cate_01_count,
 														 'cate_01_type' => $cate_01_type,
+														 'cate_02_result' => $cate_02_result,
 														 'seq' => $option->seq,
 														 'list_link' => $option->list_link,
 														 'view_link' => $option->view_link,
@@ -430,8 +436,41 @@ class MainController extends Controller
   |
   */
   
+  public function showPopup() {
+		return view('front.popup.popup');
+  }
+  
   public function showCalendar() {
   	return view('front.page.sponsorzone.calendar');
+  }
+  
+  public function showTempSupportResultPoint() {
+  	$sub_cate = 1; // initiate
+		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
+		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
+		$dep02_active = isset($dep02) ? $dep02 : 0;
+		
+		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
+    $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
+		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
+		$cate_01_count = count($cate_01_result);
+		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
+		$cate_01_type = ""; 
+		$cate_02_result = 0;
+
+  	return view('front.page.clovergarden.home_write_resultpoint', ['cate' => 1,
+																																	 'sub_cate' => $sub_cate,
+																																	 'cate_file' => $cate_file,
+																																	 'cate_name' => $cate_name,
+																																	 'sub_cate' => $sub_cate,
+																																	 'dep01' => $dep01,
+																																	 'dep02' => $dep02,
+																																	 'dep02_active' => $dep02_active,
+																																	 'cate_01_result' => $cate_01_result,
+																																	 'cate_01_count' => $cate_01_count,
+																																	 'cate_01_type' => $cate_01_type,
+																																	 'cate_02_result' => $cate_02_result
+																																	 ]);
   }
   
   public function showReserveSupportResult($data) {
@@ -448,7 +487,7 @@ class MainController extends Controller
 		$cate_01_type = ""; 
 		$cate_02_result = 0;
 
-  	return view('front.page.clovergarden.home_writeresv_result', ['cate' => 0,
+  	return view('front.page.clovergarden.home_writeresv_result', ['cate' => 1,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
 														 'cate_name' => $cate_name,
@@ -462,6 +501,14 @@ class MainController extends Controller
 														 'cate_02_result' => $cate_02_result
 														 ]);
 	}
+	
+	public function showCheckMember() {
+		return view('front.page.mypage.checkmember');
+	}
+	
+	public function showCheckGroupName() {
+  	return view('front.page.login.check_group_name');
+  }
 	  
   /*
   |--------------------------------------------------------------------------
@@ -473,17 +520,17 @@ class MainController extends Controller
   */
   
   public function postMethodControl() {
-	  $sub_cate = isset($_GET['cate']) ? $_GET['cate'] : 0;
-		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
-		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
+	  $sub_cate = isset($_REQUEST['cate']) ? $_REQUEST['cate'] : 0;
+		$dep01 = isset($_REQUEST['dep01']) ? $_REQUEST['dep01'] : 0;
+		$dep02 = isset($_REQUEST['dep02']) ? $_REQUEST['dep02'] : 0;
 		
 		// Other Options for board
 		$option = new \StdClass();
-		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		$option->seq = isset($_GET['seq']) ? $_GET['seq'] : null;
+		$option->type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
+		$option->seq = isset($_REQUEST['seq']) ? $_REQUEST['seq'] : null;
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-
+		
 		$search_sponsor_exec = array(
 										'front.page.sponsorzone.community.board_sponsor'
 									);
@@ -493,6 +540,11 @@ class MainController extends Controller
 		$search_customer_exec = array(
 										'front.page.customer.home',
 										'front.page.customer.faq'
+									);
+		$search_mypage_exec = array(
+										'front.page.mypage.messagebox.messagebox_send',
+										'front.page.mypage.messagebox.messagebox_get',
+										'front.page.mypage.point'
 									);
 		$board_write = array( // 좋은 디자인은 아니다
 									'front.page.sponsorzone.community.board_sponsor_write',
@@ -505,9 +557,18 @@ class MainController extends Controller
 		$cheer_write = array( // 좋은 디자인은 아니다
 									'front.page.clovergarden.home_comment_write'
 									);
+		$support_temp_point = array( // 좋은 디자인은 아니다
+									'front.page.clovergarden.home_write_resultpoint'
+									);
 		$support_reserve = array( // 좋은 디자인은 아니다
 											'front.page.clovergarden.home_writeresv'
 											);
+		$modify_personal = array( // 좋은 디자인은 아니다
+											'front.page.mypage.modify_personal_edit'
+											);
+		$signup = array(
+							'front.page.login.signup_write'
+							);
 		
 		foreach ($search_sponsor_exec as $fe) {
 			if($fe == $view_name) {
@@ -524,6 +585,12 @@ class MainController extends Controller
 		foreach ($search_customer_exec as $fe) {
 			if($fe == $view_name) {
 				return $this->showCustomer();
+			}
+		}
+		
+		foreach ($search_mypage_exec as $fe) {
+			if($fe == $view_name) {
+				return $this->showMypage();
 			}
 		}
 		
@@ -545,9 +612,27 @@ class MainController extends Controller
 			}
 		}
 		
+		foreach ($support_temp_point as $fe) {
+			if($fe == $view_name) {
+				return $this->showTempSupportResultPoint();
+			}
+		}
+		
 		foreach ($support_reserve as $fe) {
 			if($fe == $view_name) {
 				return $this->execReserveSupport();
+			}
+		}
+		
+		foreach ($modify_personal as $fe) {
+			if($fe == $view_name) {
+				return $this->modifyPersonal();
+			}
+		}
+		
+		foreach ($signup as $fe) {
+			if($fe == $view_name) {
+				return $this->userSignUp();
 			}
 		}
 	}
@@ -560,6 +645,10 @@ class MainController extends Controller
   | executing Payment
   |
   */
+  
+ 	private function execTempSupportPoint() {
+ 		// NON
+ 	}
 	
 	private function execReserveSupport() {
     $nClovermlist = new \ClovermlistClass(); //쪽지
@@ -655,14 +744,14 @@ class MainController extends Controller
 		}
 		$sql = "update new_tb_member set update_ck='Y' where user_id='". Auth::user()->user_id ."'";
 		mysql_query($sql);
-
 		if($nClovermlist->otype == "point"){
+			$clover_name_v = (new \CloverModel())->getCloverList();
 			$sql = "
 			insert into new_tb_point set
-				signdate = '".mktime()."',
-				depth = '".$nClovermlist->clover_name." 정기 후원',
+				signdate = '".time()."',
+				depth = '" . $clover_name_v[$nClovermlist->clover_seq] . " 정기 후원',
 				outpoint = '".$nClovermlist->price."',
-				userid = '".$login_id."'
+				userid = '" . Auth::user()->user_id . "'
 			";
 			mysql_query($sql);
 		}
@@ -704,9 +793,235 @@ class MainController extends Controller
   | Database Controller
   |--------------------------------------------------------------------------
   |
-  | executing CRUD
+  | executing CRUD <- Need to be moved to MODEL
   |
   */
+  
+  public function checkId() {
+		$nMember = new \MemberClass(); //회원
+
+		$mem_id_check = "n";
+
+		$user_id = rawurldecode(strtoupper($_GET['user_id']));
+
+		if($user_id != ''){
+			//======================== DB Module Start ============================
+			$Conn = new \DBClass();
+
+				$nMember->where = "where user_id = '".$user_id."'";
+				$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, "*", $nMember->where, null, null);
+				if($nMember->read_result){
+				   $mem_id_check = "m";
+				}else{
+				   $mem_id_check = "y";
+				}
+
+			$Conn->DisConnect();
+			//======================== DB Module End ===============================
+		}
+
+		$arr_json = array
+		(
+			"mem_id_check"   => $mem_id_check,
+		);
+		$json_return = json_encode($arr_json);
+		echo urldecode($json_return);
+  }
+  
+  public function checkSns() {
+		if($_POST['action']=='go'){
+
+		   /******************** 인증정보 ********************/
+			$sms_url = "http://sslsms.cafe24.com/sms_sender.php"; // 전송요청 URL
+			// $sms_url = "https://sslsms.cafe24.com/sms_sender.php"; // HTTPS 전송요청 URL
+			$sms['user_id'] = base64_encode("clovergarden1000"); //SMS 아이디.
+			$sms['secure'] = base64_encode("5decd3e1b30d73176110964056803208");//인증키
+
+			$_POST['msg'] = "요청하신 인증번호는 ".$_POST['msg_n']." 입니다.";
+			$sms['msg'] = base64_encode(stripslashes($_POST['msg']));
+			$_POST['smsType'] = 'S';
+			if($_POST['smsType'] == 'L') {
+				$sms['subject'] = base64_encode($_POST['subject']); //제목
+			}
+			$str_phone = substr($_POST['m_phone'],0,3);
+			$str_phone2 = substr($_POST['m_phone'],3,4);
+			$str_phone3 = substr($_POST['m_phone'],7,4);
+			$phone_s = $str_phone."-".$str_phone2."-".$str_phone3;
+
+			$_POST['sphone1'] = '02';
+			$_POST['sphone2'] = '720';
+			$_POST['sphone3'] = '3235';
+			$_POST['rphone'] = $phone_s;
+			$sms['rphone'] = base64_encode($_POST['rphone']);
+			$sms['sphone1'] = base64_encode($_POST['sphone1']);
+			$sms['sphone2'] = base64_encode($_POST['sphone2']);
+			$sms['sphone3'] = base64_encode($_POST['sphone3']);
+
+
+			$phone_aaa = $sms['sphone1'].$sms['sphone2'].$sms['sphone3'];
+			$sms['rdate'] = '';
+			$sms['rtime'] = '';
+			$sms['mode'] = base64_encode("1"); // base64 사용시 반드시 모드값을 1로 주셔야 합니다.
+			$sms['returnurl'] = '';
+			$sms['testflag'] = '';
+			$sms['destination'] = '';
+			$returnurl = '';
+			$sms['repeatFlag'] = '';
+			$sms['repeatNum'] = '';
+			$sms['repeatTime'] = '';
+			$sms['smsType'] = base64_encode($_POST['smsType']); // LMS일경우 L
+
+			$nointeractive = 1; //사용할 경우 : 1, 성공시 대화상자(alert)를 생략
+
+			$host_info = explode("/", $sms_url);
+			$host = $host_info[2];
+			$path = $host_info[3];
+
+			srand((double)microtime()*1000000);
+			$boundary = "---------------------".substr(md5(rand(0,32000)),0,10);
+			//print_r($sms);
+
+			// 헤더 생성
+			$header = "POST /".$path ." HTTP/1.0\r\n";
+			$header .= "Host: ".$host."\r\n";
+			$header .= "Content-type: multipart/form-data, boundary=".$boundary."\r\n";
+
+			// 본문 생성
+			$data = null;
+			foreach($sms AS $index => $value){
+				$data .="--$boundary\r\n";
+				$data .= "Content-Disposition: form-data; name=\"".$index."\"\r\n";
+				$data .= "\r\n".$value."\r\n";
+				$data .="--$boundary\r\n";
+			}
+			$header .= "Content-length: " . strlen($data) . "\r\n\r\n";
+
+			$fp = fsockopen($host, 80);
+
+			if ($fp) {
+				fputs($fp, $header.$data);
+				$rsp = '';
+				while(!feof($fp)) {
+					$rsp .= fgets($fp,8192);
+				}
+				fclose($fp);
+				$msg = explode("\r\n\r\n",trim($rsp));
+				$rMsg = explode(",", $msg[1]);
+				$Result= $rMsg[0]; //발송결과
+				$Count= $rMsg[1]; //잔여건수
+
+				//발송결과 알림
+				if($Result=="success") {
+					$alert = "성공";
+					$alert .= " 잔여건수는 ".$Count."건 입니다.";
+				}
+				else if($Result=="reserved") {
+					$alert = "성공적으로 예약되었습니다.";
+					$alert .= " 잔여건수는 ".$Count."건 입니다.";
+				}
+				else if($Result=="3205") {
+					$alert = "잘못된 번호형식입니다.";
+				}
+
+				else if($Result=="0044") {
+					$alert = "스팸문자는발송되지 않습니다.";
+				}
+
+				else {
+					$alert = "[Error]".$Result;
+				}
+			}
+			else {
+				$alert = "Connection Failed";
+			}
+
+			if($nointeractive=="1" && ($Result!="success" && $Result!="Test Success!" && $Result!="reserved") ) {
+				echo "<script>alert('".$alert ."')</script>";
+			}
+			else if($nointeractive!="1") {
+				echo "<script>alert('".$alert ."')</script>";
+			} else {
+				echo "<script>alert('인증번호가 발송되었습니다.')</script>";
+			}
+			//echo "<script>location.href='".$returnurl."';</script>";
+		}
+  }
+  
+  public function checkGroup() {
+		$nMember = new \MemberClass(); //회원
+
+		$mem_group_check = "n";
+
+		$group_name = rawurldecode($_GET['group_name']);
+		$group_state = rawurldecode($_GET['group_state']);
+
+		if($group_name != ''){
+			//======================== DB Module Start ============================
+			$Conn = new \DBClass();
+
+				$nMember->where = "where group_name = '".$group_name."' and user_state='".$group_state."'";
+				$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, "*", $nMember->where, null, null);
+				if($nMember->read_result){
+				   $mem_group_check = "m";
+				}else{
+				   $mem_group_check = "y";
+				}
+
+			$Conn->DisConnect();
+			//======================== DB Module End ===============================
+		}
+
+		$arr_json = array
+		(
+			"mem_group_check"   => $mem_group_check
+		);
+		$json_return = json_encode($arr_json);
+		echo urldecode($json_return);
+  }
+  
+  public function execEmail() {
+    $nEmail= new \EmailClass(); //온라인상담
+
+    $nEmail->name = $_POST['name'];
+		$nEmail->email = $_POST['email']."@".$_POST['email2'];
+
+    $counsel_check = "n";
+
+    $arr_field = array
+    (
+        'name', 'email'
+    );
+
+    $arr_value = array
+    (
+        $nEmail->name, $nEmail->email
+    );
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+		$Conn->StartTrans();
+		$out_put = $Conn->insertDB($nEmail->table_name, $arr_field, $arr_value);
+		if($out_put){
+			$Conn->CommitTrans();
+			$counsel_check = "y";
+		}else{
+			$Conn->RollbackTrans();
+		}
+
+		$Conn->DisConnect();
+		//======================== DB Module End ===============================
+
+    $arr_json = array
+    (
+        "counsel_check"   => iconv('EUC-KR', 'UTF-8', $counsel_check)
+    );
+
+    $json_return = json_encode($arr_json);
+    // echo '@@||@@'.urldecode($json_return); 무얼 위한 기능인지 모르겠다. AJAX였어서 그런 듯.
+    
+    return redirect()->route('home');
+  }
   
   private function writePost() {
   	$nFree = new \FreeClass(); //자유게시판
@@ -823,5 +1138,183 @@ class MainController extends Controller
 		$seq = isset($_POST['seq']) ? $_POST['seq'] : 0;
 		return redirect()->to(route('clovergarden').'?cate=1&dep01=0&dep02=0&type=view&seq='.$seq.'#tabs-4');
 		//return redirect()->route('clovergarden', array('cate' => 1, 'dep01' => 0, 'dep02' => 0, 'type' => 'view', 'seq' => $seq, '\#tab-4' => ''));
+  }
+  
+  private function modifyPersonal() {
+    $nMember = new \MemberClass(); //회원
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+		$nMember->where = "where user_id ='" . Auth::user()->user_id . "'";
+
+		$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, "*", $nMember->where, null, null);
+		if(count($nMember->read_result) != 0){
+			$nMember->VarList($nMember->read_result, 0, null);
+		}else{
+			$Conn->DisConnect();
+		}
+
+		$Conn->DisConnect();
+		//======================== DB Module End ===============================
+
+		$nMember->user_name        = $_POST['user_name'];
+		$nMember->group_name        = isset($_POST['group_name1']) ? $_POST['group_name1'] : '';
+
+		$file_name = explode('@',$nMember->user_id);
+
+		if($_POST['user_pw'] != null){
+			$nMember->user_pw = Hash::make(strtolower($_POST['user_pw']));
+		} else {
+			$nMember->user_pw =  $nMember->user_pw;
+		}
+
+		$nMember->user_birth     = $_POST['user_birth'];
+		$nMember->user_gender     = $_POST['user_gender'];    
+    $nMember->user_cell = $_POST['user_cell'];
+    $nMember->post1 = $_POST['post1'];
+    $nMember->post2 = $_POST['post2'];
+    $nMember->addr1 = $_POST['addr1'];
+    $nMember->addr2 = $_POST['addr2'];
+    $nMember->group_state = isset($_POST['group_state']) ? $_POST['group_state'] : ''; // NOT NULL임
+
+		if($nMember->group_state == 3){
+			$nMember->group_name = '';
+			$user_state = 2;
+		} else {
+			$nMember->group_name = $nMember->group_name;
+			$user_state = 5;
+		}
+
+    $nMember->file_real[1] = $_POST['file_real1'];
+    $nMember->file_edit[1] = $_POST['file_edit1'];
+    $nMember->file_byte[1] = $_POST['file_byte1'];
+	
+    $nMember->file_pre_name[1] = $nMember->file_edit[1];
+
+    $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
+
+    /* 파일 업로드 손 봐야 함 */
+    for($cnt_file=1; $cnt_file <= $nMember->file_up_cnt; $cnt_file++) {
+        $parsing_file = 'upfile'.$cnt_file;
+        if($_FILES[$parsing_file]['name']){
+            $arr_file[$cnt_file] = FileUpload($_FILES[$parsing_file], '/home/clovergarden/cg_app/public/imgs/up_file/member/', '', $nMember->file_volume[$cnt_file], $nMember->file_mime_type[$cnt_file],$file_name[0]);
+            $nMember->file_real[$cnt_file] = RepFile($arr_file[$cnt_file][0]);
+            $nMember->file_edit[$cnt_file] = $arr_file[$cnt_file][1];
+            $nMember->file_byte[$cnt_file] = $arr_file[$cnt_file][2];
+            if($arr_file[$cnt_file][3] == ''){
+                JsAlert(ERR_MIME_TYPE);
+            }
+            if($arr_file[$cnt_file][4] == ''){
+                JsAlert(ERR_FILESIZE1.$nMember->file_volume[$cnt_file].ERR_FILESIZE2);
+            }
+            $check_del[$cnt_file] = 1;
+        }else{
+            if($check_del[$cnt_file] == '1'){
+                $nMember->file_real[$cnt_file] = '';
+                $nMember->file_edit[$cnt_file] = '';
+                $nMember->file_byte[$cnt_file] = '';
+            }else{
+                $nMember->file_pre_name[$cnt_file] = '';
+            }
+        }
+    }	
+
+    $arr_field = array
+    (
+        'user_name', 'password','user_birth', 'user_gender', 'user_cell', 'file_real1', 'file_edit1', 'file_byte1', 'post1', 'post2', 'addr1', 'addr2'
+    );
+
+    $arr_value = array
+    (
+        $nMember->user_name, $nMember->user_pw, $nMember->user_birth, $nMember->user_gender, $nMember->user_cell, $nMember->file_real[1], $nMember->file_edit[1], $nMember->file_byte[1], $nMember->post1, $nMember->post2, $nMember->addr1, $nMember->addr2
+    );
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+    $Conn->StartTrans();
+    $out_put = $Conn->UpdateDB($nMember->table_name, $arr_field, $arr_value, "where user_id = '" . Auth::user()->user_id . "'");
+    if(!$out_put){
+        $Conn->RollbackTrans();
+        $Conn->disConnect();
+    } else {
+		for($cnt_file=1; $cnt_file <= $nMember->file_up_cnt; $cnt_file++) {
+            if($check_del[$cnt_file] == 1 && $nMember->file_pre_name[$cnt_file] != ''){
+                if(FileExists('/imgs/up_file/member/'.$nMember->file_pre_name[$cnt_file])) unlink('/imgs/up_file/member/'.$nMember->file_pre_name[$cnt_file]);
+            }
+        }
+        $Conn->CommitTrans();
+    }
+
+		$Conn->disConnect();
+		
+		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 5, 'dep02' => 0));
+  }
+  
+  private function userSignUp() {
+    $nMember = new \MemberClass(); //회원
+
+		$nMember->user_state = $_POST['user_state'];
+		if($nMember->user_state==1){
+			//
+		}
+		
+		$nMember->user_name        = $_POST['user_name'];
+
+		if($nMember->user_state==2){
+			$nMember->group_name        = $_POST['group_name1'];
+		}else if($nMember->user_state==3){
+			$nMember->group_name        = $_POST['group_name2'];
+		}else if($nMember->user_state==4){
+			$nMember->group_name        = $_POST['group_name3'];
+		}
+	
+    $nMember->user_id    = RequestAll(strtolower($_POST['user_id']));
+    $nMember->user_pw    = Hash::make(strtolower($_POST['user_pw']));
+		$nMember->user_birth     = $_POST['user_birth'];
+		$nMember->user_gender     = $_POST['user_gender'];    
+    $nMember->user_cell = $_POST['user_cell'];
+    $nMember->group_state = $_POST['group_state'];
+    $nMember->member_t = $_POST['member_t'];
+    $nMember->post1 = $_POST['post1'];
+    $nMember->post2 = $_POST['post2'];
+    $nMember->addr1 = $_POST['addr1'];
+    $nMember->addr2 = $_POST['addr2'];
+
+    $arr_field = array
+    (
+        'user_state', 'group_state', 'user_name', 'group_name', 'user_id', 'password','user_birth', 'user_gender', 'user_cell', 'member_t', 'post1', 'post2', 'addr1', 'addr2'
+    );
+
+    $arr_value = array
+    (
+        $nMember->user_state, $nMember->group_state, $nMember->user_name, $nMember->group_name, $nMember->user_id, $nMember->user_pw, $nMember->user_birth, $nMember->user_gender, $nMember->user_cell, $nMember->member_t, $nMember->post1, $nMember->post2, $nMember->addr1, $nMember->addr2
+    );
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+    $Conn->StartTrans();
+    $out_put = $Conn->insertDB($nMember->table_name, $arr_field, $arr_value);
+    if($out_put){
+        $Conn->CommitTrans();
+    }else{
+        $Conn->RollbackTrans();
+        $Conn->disConnect();
+    }
+
+		$Conn->disConnect();
+		//======================== DB Module End ===============================
+
+		if($nMember->user_state == 4){
+			// 승인 전 기업회원. 관리자의 문의 후 리다이렉트
+		} else {
+			// 자동 로그인
+			$id = DB::table('new_tb_member')->where('user_id', $nMember->user_id)->value('id');
+			Auth::loginUsingId($id);
+			
+			return redirect()->route('home');
+		}
   }
 }

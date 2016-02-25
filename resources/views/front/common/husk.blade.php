@@ -38,38 +38,6 @@
 <?php
 // 원래 checkPage 펑션 있던 자리
 ?>
-
-<?php /*
-    $sub_cate = isset($_GET['cate']) ? $_GET['cate'] : 0;
-    if($sub_cate==null);
-    $dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
-    if($dep01==null) $dep01=0;
-    $dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
-    if($dep02==null) $dep02_active=0;
-    else $dep02_active = $dep02;
-
-    //게시판타입
-    $type_get = isset($_GET['type']) ? $_GET['type'] : null;
-    if($type_get != 'list' && $type_get != null){
-        $board_type = '_'.$type_get;
-        $type = '_'.$type_get;
-    }
-
-    $view_link = '/page.php?cate='.$sub_cate.'&dep01='.$dep01.'&dep02='.$dep02_active.'&type=view';
-    $write_link = '/page.php?cate='.$sub_cate.'&dep01='.$dep01.'&dep02='.$dep02_active.'&type=write';
-    $writeresv_link = '/page.php?cate='.$sub_cate.'&dep01='.$dep01.'&dep02='.$dep02_active.'&type=writeresv';
-    $step1_link = '/page.php?cate='.$sub_cate.'&dep01='.$dep01.'&dep02='.$dep02_active.'&type=step1';
-    $list_link = '/page.php?cate='.$sub_cate.'&dep01='.$dep01.'&dep02='.$dep02_active;
-
-    $cate_file = checkPage($sub_cate,'cate');//대분류 이름
-    $cate_name = checkPage($sub_cate,'name');//대분류 이름
-    $cate_01_result = checkPage($sub_cate,'sub_cate_01');
-    $cate_01 = checkPage($sub_cate,'cate');
-    $cate_01_count = count($cate_01_result);
-    // $cate_01_type = checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-    $cate_02_result = checkPage($sub_cate,'sub_cate_02'); */
-?>
-
 <!-- END OF pagekey.blade.php -->
 
 <body

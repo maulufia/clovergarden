@@ -43,14 +43,15 @@
         function ArrList($pResult, $pCnt, $pJoin=null)
         {
             $pResultValue = array();
+            $pResultValue[$pCnt] = new StdClass();
             $pResultValue[$pCnt]->seq           = stripcslashes($pResult['seq']);
 			$pResultValue[$pCnt]->name       = stripcslashes($pResult['name']);
 			$pResultValue[$pCnt]->email    = stripcslashes($pResult['email']);
 			$pResultValue[$pCnt]->reg_date    = stripcslashes($pResult['reg_date']);
 			$pResultValue[$pCnt]->send_date    = stripcslashes($pResult['send_date']);
 			$pResultValue[$pCnt]->send_subject    = stripcslashes($pResult['send_subject']);
-			$pResultValue[$pCnt]->send_content    = stripcslashes($pResult['send_content']);
-			$pResultValue[$pCnt]->count_sn    = stripcslashes($pResult['count_sn']);
+			$pResultValue[$pCnt]->send_content    = isset($pResult['send_content']) ? stripcslashes($pResult['send_content']) : null;
+			$pResultValue[$pCnt]->count_sn    = isset($pResult['count_sn']) ? stripcslashes($pResult['count_sn']) : null;
 			
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {

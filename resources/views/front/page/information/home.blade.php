@@ -45,6 +45,7 @@ $Conn->DisConnect();
 
 
 <!-- 팝업 -->
+@if(Auth::check())
 <div id="popup_new" class="new_group_popup">		<!-- 팝업이 자동으로 열리지 않게 하려면 open 클래스를 삭제하시면 됩니다. -->
 <div class="bg"></div>
 <div id="new_group">
@@ -104,6 +105,7 @@ $Conn->DisConnect();
 </div>
 </div>
 <!-- //팝업 -->
+@endif
 
 <script type="text/javascript">
 (function($) {

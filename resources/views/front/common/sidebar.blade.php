@@ -13,13 +13,21 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 <div class="content">
 	<!-- Lnb -->
 	<div id="lnb">
-		<h2><img src="/imgs/Clover2.png" alt="" />{{ $cate_01_result[$dep01] }}</h2>
+		<h2><img src="/imgs/Clover2.png" alt="" />{{ isset($cate_01_result[$dep01]) ? $cate_01_result[$dep01] : '' }}</h2>
 		<ul class="left_nav">
 			<?php
 				for($i=0; $i<$cate_01_count; $i++){
 			?>
 			<?php if($cate_01_result[$i] != '공제센터'){ ?>
-				<li <?php if($cate_02_result[$i]!='') echo "class='depth1'"; ?>>
+				<li
+					<?php
+						if(isset($cate_02_result) && is_array($cate_02_result)) {
+							$cate_02_result[7] = null;
+						}
+						
+						if($cate_02_result[$i]!='') echo "class='depth1'";
+					?>
+				>
 
 					<?php
 						$dep02_para = "";
@@ -46,7 +54,7 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 					<ul>
 						<?php
 							for($j=0; $j<count($cate_02_result[$i]); $j++){
-								$link = "/sponsorzone?cate=".$sub_cate."&dep01=".$i."&dep02=".$j;
+								$link = "/" . CateHelper::getCateName($sub_cate) . "?cate=" .$sub_cate."&dep01=".$i."&dep02=".$j;
 						?>
 						
 			      <li>
@@ -201,12 +209,12 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 		?>
 
 		<aside>
-			<a href="/page.php?cate=6" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden; display:inline-block;"  class="xm_left mr10"><img src="/up_file/member/{{ $nMember->file_edit[1] }}" onerror="this.src='/imgs/photo05.png'" style="height:51px; width:51px;"></a>
+			<a href="{{ route('mypage') }}?cate=6" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden; display:inline-block;"  class="xm_left mr10"><img src="/imgs/up_file/member/{{ $nMember->file_edit[1] }}" onerror="this.src='/imgs/photo05.png'" style="height:51px; width:51px;"></a>
 			<div class="aside_box xm_left t_bold nanum"><?php if($group_name!=null) echo $group_name; else echo "소속그룹없음"; ?><br />
 			{{ $login_name }}<?php if($login_state==2){ ?><img src="/imgs/grade2.jpg" style="margin-left:3px;"><?php }else if($login_state==4){ ?><img src="/imgs/grade4.jpg" style="margin-left:3px;"><?php } ?></div>
 			<div class="xm_clr"></div>
 			<div class="aside_box mt10">
-				<h3><a href="../page.php?cate=6&dep01=3&dep02=0">나의 활동정보</a></h3>
+				<h3><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=0">나의 활동정보</a></h3>
 				<ul>
 	<?php
 	if(count($nPoint_sum->page_result) > 0){
@@ -215,17 +223,17 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 
 		$use_point = $nPoint_sum->inpoint - $nPoint_sum->outpoint;
 	?>
-					<li><a href="../page.php?cate=6&dep01=2&dep02=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
-					<li><a href="../page.php?cate=6&dep01=3&dep02=0&tabs=tabs-2">나의 후원금액 {{ number_format($nClovermlist_login->price) }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=2&dep02=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=0&tabs=tabs-2">나의 후원금액 {{ number_format($nClovermlist_login->price) }}원</a></li>
 	<?php
 		}
 	} else {
 	?>
-					<li><a href="../page.php?cate=6&dep01=3&dep02=0&tabs=tabs-1">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
-					<li><a href="../page.php?cate=6&dep01=3&dep02=0&tabs=tabs-2">나의 후원금액 {{ (int)$nClovermlist_login->price }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=2&dep02=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=0&tabs=tabs-2">나의 후원금액 {{ (int)$nClovermlist_login->price }}원</a></li>
 	<?php } ?>
-					<li><a href="../page.php?cate=6&dep01=3&dep02=1">후원활동 횟수 {{ number_format($nClovermlist_login->total_record) }}</a></li>
-					<li><a href="../page.php?cate=6&dep01=1&dep02=1">쪽지 {{ $nMessage->total_record }}</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=1">후원활동 횟수 {{ number_format($nClovermlist_login->total_record) }}</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=1&dep02=1">쪽지 {{ $nMessage->total_record }}</a></li>
 				</ul>
 			</div>
 			

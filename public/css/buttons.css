@@ -373,7 +373,7 @@
 div.upload {
     width: 77px;
     height: 33px;
-    background: url(../img/editBtn.png);
+    background: url(/imgs/editBtn.png);
     overflow: hidden;
 }
 

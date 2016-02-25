@@ -121,7 +121,7 @@ $(window).load(function(){
 		}
 	?>
 	</div>
-	<form name="form_submit" method="get" action="page.php" style="display:inline">
+	<form name="form_submit" method="get" action="{{ $list_link }}" style="display:inline">
 		{{ UserHelper::SubmitHidden() }}
 	</form>
 </section>

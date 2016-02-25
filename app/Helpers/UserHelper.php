@@ -13,32 +13,36 @@ class UserHelper {
   public $login_cell1;
   public $login_cell2;
   public $login_cell3;
+  
+  public $state;
 
   public function __construct() {
     if(Auth::check()) {
       $login_id = Auth::user()->user_id;
       $login_name = Auth::user()->user_name;
-      $login_state = 0; // ?
+      $login_state = Auth::user()->user_state; 
       $group_name = Auth::user()->group_name;
       $login_cell = Auth::user()->user_cell;
       $login_email = Auth::user()->user_id;
       $use_point = Auth::user()->m_point;
+
+      $this->setUserState($login_state);
     }
   }
 
   public function setUserState($login_state) {
     switch($login_state){
       case 1:
-        $state = '관리자';
+        $this->state = '관리자';
         break;
       case 2:
-        $state = '개인';
+        $this->state = '개인';
         break;
       case 3:
-        $state = '단체';
+        $this->state = '단체';
         break;
       case 4:
-        $state = '기업';
+        $this->state = '기업';
         break;
     }
   }
@@ -66,7 +70,7 @@ class UserHelper {
   {
       global $login_id;
       if(!base64_decode($login_id)){
-          JsAlert($pMsg, 1, '/page.php?cate=13&dep03=0');
+          //JsAlert($pMsg, 1, '/page.php?cate=13&dep03=0'); 어차피 안쓰는 function
       }
   }
 
@@ -111,6 +115,7 @@ class UserHelper {
     $dep02 = isset($_REQUEST['dep02']) ? $_REQUEST['dep02'] : 0;
     $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
     $mode = isset($_REQUEST['mode']) ? $_REQUEST['mode'] : '';
+    $item = isset($_REQUEST['item']) ? $_REQUEST['item'] : ''; // admin에서만 쓰임
 	  
     echo "<input type='hidden' name='seq' value='".$seq."'>".Chr(10);
 	  echo "<input type='hidden' name='row_no' value='".$row_no."'>".Chr(10);
@@ -124,6 +129,7 @@ class UserHelper {
 		echo "<input type='hidden' name='type' value='".$type."'>".Chr(10);
 		echo "<input type='hidden' name='mode' value='".$mode."'>".Chr(10);
     echo "<input type='hidden' name='_token' value='".csrf_token()."'>";
+    echo "<input type='hidden' name='item' value='".$item."'>".Chr(10);
 	}
 
 	public static function SubmitHidden2() {

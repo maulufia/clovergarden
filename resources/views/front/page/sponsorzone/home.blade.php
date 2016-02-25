@@ -111,7 +111,7 @@ if(Auth::check()){
 		<span>{{ number_format($nClovermlist_login->total_record) }} 개</span>
 	</article>
 	<article class="article_box article_box_bg article_box_last">
-		<h3 class="all_view"><a href="./page.php?cate=6&dep01=3&dep02=1"><img src="/imgs/Plusicon.png" alt="" /> 후원현황 전체보기</a></h3>
+		<h3 class="all_view"><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=1"><img src="/imgs/Plusicon.png" alt="" /> 후원현황 전체보기</a></h3>
 	</article>
 </section>
 <!-- //비로그인시 숨김 -->

@@ -105,9 +105,6 @@
                 $pWhere = $pWhere." ".$pSearchKey." like '%".$pSearchVal."%' ";
             }
             $sql = 'select * '.$pSubSql.' from '.$pTableName.' '.$pWhere.' '.$pOrderBy.' limit '.$pPageView * ($pPageNo - 1).' , '.$pPageView;
-			//echo "<BR>";
-			//echo $sql."<BR>";
-
 
             if(!$pConnect) $pConnect = $this->obj_db_conn;
             $sqlQuery = @mysql_query($sql, $pConnect);
@@ -118,6 +115,7 @@
             }
             @mysql_free_result($sqlQuery);
             unset($sqlQuery);
+
             return $returnPageList;
         }
 
