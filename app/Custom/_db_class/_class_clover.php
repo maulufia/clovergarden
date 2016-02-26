@@ -106,7 +106,7 @@
                     switch($pJoin[$i])
                     {
                         case 'comment' :
-                            $pResultValue[$pCnt]->comment_cnt = stripcslashes($pResult['comment_cnt']);
+                            $pResultValue[$pCnt]->comment_cnt = isset($pResult['comment_cnt']) ? stripcslashes($pResult['comment_cnt']) : null;
                             break;
 						case 'name' :
                             $pResultValue[$pCnt]->name = stripcslashes($pResult['name']);

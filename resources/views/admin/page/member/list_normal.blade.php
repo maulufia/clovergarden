@@ -481,9 +481,9 @@ function check_form_del(type){
 		</form>
 
         <form name="form_submit_ck" method="post" action="./m_04_email.php?cktype=member" style="display:inline">
-            <input type="hidden" name="s_mode" value="ch_send">
-			<input type="hidden" name="s_email" value="">
-			<input type="hidden" name="s_name" value="">
+          <input type="hidden" name="s_mode" value="ch_send">
+					<input type="hidden" name="s_email" value="">
+					<input type="hidden" name="s_name" value="">
         </form>
         <form name="form_submit_ckdel" method="post" action="{{ route('admin/member')}}?item=list_normal&type=del&cktype=member" style="display:inline">
           <input type="hidden" name="s_mode" value="ch_send">

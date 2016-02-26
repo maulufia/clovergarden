@@ -575,7 +575,7 @@ $Conn->DisConnect();
 			<div id="tabs-4" class="tabCont">
 
 				<div class="pt30 pb10 comment_box">
-					<form method="post" id="wrtForm" action="{{ $view_link }}&type=comment_write" style="display:inline;"  enctype="multipart/form-data">
+					<form method="post" id="wrtForm" action="{{ $list_link }}&type=comment_write" style="display:inline;"  enctype="multipart/form-data">
 						{{ UserHelper::SubmitHidden() }}
 						<input type="hidden" name="list_link" value="{{ route('clovergarden') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}#tabs-4">
 						<input type="hidden" name="clover_seq" value="{{ $seq }}">
@@ -607,7 +607,7 @@ $Conn->DisConnect();
 					<tr>
 						<th scope="row">
 							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}">
-							<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
+							<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> <!-- /imgs/up_file/member/{{ $board_image[0] }}.jpg 로 대체해야 함-->
 							</a>
 							<div class="name">
 								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}">

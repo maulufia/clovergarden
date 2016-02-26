@@ -194,5 +194,9 @@ Route::group(['middleware' => ['web']], function () {
 	# ADMIN / MEMBER
 	Route::get('/admin/member', 'AdminController@showMember')->name('admin/member');
 	Route::post('/admin/member', 'AdminController@postMember');
+	
+	# ADMIN / CLOVER
+	Route::get('/admin/clover', 'AdminController@showClover')->name('admin/clover');
+	Route::post('/admin/clover', 'AdminController@postClover');
 
 });

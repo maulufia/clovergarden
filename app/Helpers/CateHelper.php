@@ -299,7 +299,10 @@ class CateHelper {
         break;			
 	    case 'A8' :
         $content_txt = '탈퇴회원';
-        break;			
+        break;
+      case 'A9' :
+      	$content_txt = '후원대상 변경신청';
+      	break;
 			//---------------------------------------
       case 'B1' :
         $content_txt = '타임라인';
@@ -371,8 +374,8 @@ class CateHelper {
         $content_txt = '방문통계-일별';
         break;
       case 'G2' :
-      $content_txt = '방문통계-월별';
-      break;
+	      $content_txt = '방문통계-월별';
+	      break;
       //---------------------------------------
       case 'I1' :
         $content_txt = '페이지관리 - 회사소개';

@@ -62,8 +62,8 @@ function moneyEdit()
   <div id="nav_main">
   	<ul>
   		<?php if(Auth::user()->user_state > 6){ ?>
-  		<li class="first<?php if($key_large == 'A'){ echo ' on'; } ?>"><a href="../member/m_01_list.php">회원관리</a></li>			
-  		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="../clover/m_01_list.php">후원기관관리</a></li>
+  		<li class="first<?php if($key_large == 'A'){ echo ' on'; } ?>"><a href="{{ route('admin/member', array('item' => 'list_admin')) }}">회원관리</a></li>			
+  		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="{{ route('admin/clover', array('item' => 'list_clover')) }}">후원기관관리</a></li>
   		<li<?php if($key_large == 'H'){ echo " class='on'"; } ?>><a href="../service/m_01_list.php">봉사스케쥴관리</a></li>
   		<?php } else { ?>
   		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="../clover/m_03_list.php">후원기관관리</a></li>

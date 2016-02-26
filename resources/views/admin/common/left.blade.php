@@ -19,6 +19,16 @@
   $A7_BOLD = isset($A7_BOLD) ? $A7_BOLD : null;
   $A8_BOLD = isset($A8_BOLD) ? $A8_BOLD : null;
   $A9_BOLD = isset($A9_BOLD) ? $A9_BOLD : null;
+  
+  $C1 = isset($C1) ? $C1 : null;
+  $C2 = isset($C2) ? $C2 : null;
+  $C3 = isset($C3) ? $C3 : null;
+  $C6 = isset($C6) ? $C6 : null;
+  
+  $C1_BOLD = isset($C1_BOLD) ? $C1_BOLD : null;
+  $C2_BOLD = isset($C2_BOLD) ? $C2_BOLD : null;
+  $C3_BOLD = isset($C3_BOLD) ? $C3_BOLD : null;
+  $C6_BOLD = isset($C6_BOLD) ? $C6_BOLD : null;
 ?>
 
 <div id="left_area">
@@ -54,15 +64,12 @@
         case "C" :
       ?>
         <?php if(Auth::user()->user_state > 6){ ?>
-          <li{{ $C1 }}><span{{ $C1_BOLD }}><a href="../clover/m_01_list.php">후원기관목록</a></span></li>
-          <li{{ $C2 }}><span{{ $C2_BOLD }}><a href="../clover/m_02_list.php">후원등록/연동관리</a></span></li>
+          <li{{ $C1 }}><span{{ $C1_BOLD }}><a href="{{ route('admin/clover', array('item' => 'list_clover')) }}">후원기관목록</a></span></li>
+          <li{{ $C2 }}><span{{ $C2_BOLD }}><a href="{{ route('admin/clover', array('item' => 'apply_clover')) }}">후원등록/연동관리</a></span></li>
           <?php } ?>
-          <li{{ $C3 }}><span{{ $C3_BOLD }}><a href="../clover/m_03_list.php">후원기관소식</a></span></li>
+          <li{{ $C3 }}><span{{ $C3_BOLD }}><a href="{{ route('admin/clover', array('item' => 'news')) }}">후원기관소식</a></span></li>
         <?php if(Auth::user()->user_state > 6){ ?>
-          <!-- <li<?=$C4?>><span<?=$C4_BOLD?>><a href="../clover/m_04_list.php">후원목록</a></span></li>
-          <li<?=$C5?>><span<?=$C5_BOLD?>><a href="../clover/m_05_list.php">* 후원목록</a></span></li> -->
-          <li{{ $C6 }}><span{{ $C6_BOLD }}><a href="../clover/m_06_list.php">후원기관 배너등록</a></span></li>
-          <!-- <li<?=$C7?>><span<?=$C7_BOLD?>><a href="../clover/m_07_list.php">후원대상 변경신청</a></span></li> -->
+          <li{{ $C6 }}><span{{ $C6_BOLD }}><a href="{{ route('admin/clover', array('item' => 'banner')) }}">후원기관 배너등록</a></span></li>
   		  <?php } ?>
       <?php
         break;

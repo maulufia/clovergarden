@@ -520,14 +520,14 @@ class MainController extends Controller
   */
   
   public function postMethodControl() {
-	  $sub_cate = isset($_REQUEST['cate']) ? $_REQUEST['cate'] : 0;
-		$dep01 = isset($_REQUEST['dep01']) ? $_REQUEST['dep01'] : 0;
-		$dep02 = isset($_REQUEST['dep02']) ? $_REQUEST['dep02'] : 0;
+	  $sub_cate = isset($_GET['cate']) ? $_GET['cate'] : 0;
+		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
+		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		
 		// Other Options for board
 		$option = new \StdClass();
-		$option->type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
-		$option->seq = isset($_REQUEST['seq']) ? $_REQUEST['seq'] : null;
+		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
+		$option->seq = isset($_GET['seq']) ? $_GET['seq'] : null;
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
