@@ -338,7 +338,7 @@ $Conn->DisConnect();
 			if(formCheckNum(f.user_pw, "maxlen", 20, "비밀번호") == false){ return; }
 */
             $.blockUI();
-            f.action = "{{ $edit_link }}";
+            f.action = "{!! $edit_link !!}";
             f.submit();
         }
     </script>

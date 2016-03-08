@@ -161,6 +161,11 @@ return [
         clovergarden\Providers\AuthServiceProvider::class,
         clovergarden\Providers\EventServiceProvider::class,
         clovergarden\Providers\RouteServiceProvider::class,
+        
+        /*
+         * Flash
+         */
+        'Laracasts\Flash\FlashServiceProvider'
     ],
 
     /*
@@ -208,6 +213,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
+        'Flash'     => 'Laracasts\Flash\Flash'
 
     ],
 

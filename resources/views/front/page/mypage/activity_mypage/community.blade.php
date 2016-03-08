@@ -267,8 +267,7 @@ $Conn->DisConnect();
 					<tr>
 						<td class="no">{{ $row_no }}</td>
 						<td class="normal"><a href="{{ route('sponsorzone') }}?cate=0&dep01=2&dep02=0&view={{ $nSchedulepeo->schedule_seq }}">
-						{{ !empty($nSchedule_code) ? $clober_name_scode[$nSchedule_code[$nSchedulepeo->schedule_seq]] : '' }}
-						
+						{{ isset($nSchedule_code[$nSchedulepeo->schedule_seq]) ? $clober_name_scode[$nSchedule_code[$nSchedulepeo->schedule_seq]] : '' }}				
 						</a></td>
 						<td class="subject"><a href="{{ route('sponsorzone') }}?cate=0&dep01=1&dep02=2&type=view&seq={{ $nSchedulepeo->schedule_seq }}">{{ $s_value_v }}</a></td>
 						<td class="date">{{ date('Y-m-d',strtotime($nSchedulepeo->reg_date)) }}</td>

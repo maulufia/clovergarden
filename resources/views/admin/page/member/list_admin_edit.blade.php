@@ -59,7 +59,7 @@
 
 		
             $.blockUI();
-            f.action = "{{ $edit_link }}";
+            f.action = "{!! $edit_link !!}";
             f.submit();
         }
     </script>

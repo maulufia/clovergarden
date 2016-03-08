@@ -82,7 +82,7 @@
 
             echo "<a href=".Chr(34)."javascript:".$pScript."('1');".Chr(34).">".$this->start_page_img[$pNum]."</a>".Chr(10);
             if($this->pre_page != 0){
-                echo "<a href=".Chr(34)."javascript:".$pScript."('".$pre_page."');".Chr(34).">".$this->pre_page_img[$pNum]."</a>".Chr(10);
+                echo "<a href=".Chr(34)."javascript:".$pScript."('".$this->pre_page."');".Chr(34).">".$this->pre_page_img[$pNum]."</a>".Chr(10);
             }else{
                 echo $this->pre_page_img[$pNum].Chr(10);
             }
@@ -114,7 +114,7 @@
 			}
             
             if($this->pre_page != 0){
-                echo "<a href=".Chr(34)."javascript:".$pScript."('".$pre_page."');".Chr(34)." class='nor'>&lt; 이전</a>".Chr(10);
+                echo "<a href=".Chr(34)."javascript:".$pScript."('".$this->pre_page."');".Chr(34)." class='nor'>&lt; 이전</a>".Chr(10);
             }else{
                 echo "<a href='javascript:alert(\"첫페이지 입니다.\")'; class='nor'>&lt; 이전</a>";
             }

@@ -48,7 +48,7 @@ function moneyEdit()
 <div id="top_area">
 	
   <div id="nav_right">
-		<B>{{ Auth::user()->user_name }}</B> 님 환영합니다. | <a href="/new_admin/logout_exec.php">로그아웃</a>
+		<B>{{ Auth::user()->user_name }}</B> 님 환영합니다. | <a href="{{ route('admin/logout') }}">로그아웃</a>
 		<?php if(Auth::user()->user_state == 1){ ?>
 		<div style="margin-top:15px; text-align:right;">
 			<strong>금일 기부 금액 ￦ </strong> <input type="text" name="today" id="money_today" value="{{ $nMoney->today }}">    <strong>누적 기부 금액 ￦</strong> <input type="text" name="month" id="money_month" value="{{ $nMoney->month }}"> 
@@ -64,20 +64,20 @@ function moneyEdit()
   		<?php if(Auth::user()->user_state > 6){ ?>
   		<li class="first<?php if($key_large == 'A'){ echo ' on'; } ?>"><a href="{{ route('admin/member', array('item' => 'list_admin')) }}">회원관리</a></li>			
   		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="{{ route('admin/clover', array('item' => 'list_clover')) }}">후원기관관리</a></li>
-  		<li<?php if($key_large == 'H'){ echo " class='on'"; } ?>><a href="../service/m_01_list.php">봉사스케쥴관리</a></li>
+  		<li<?php if($key_large == 'H'){ echo " class='on'"; } ?>><a href="{{ route('admin/service', array('item' => 'home')) }}">봉사스케쥴관리</a></li>
   		<?php } else { ?>
-  		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="../clover/m_03_list.php">후원기관관리</a></li>
-  		<li<?php if($key_large == 'H'){ echo " class='on'"; } ?>><a href="../service/m_01_list.php">봉사스케쥴관리</a></li>
+  		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="{{ route('admin/clover', array('item' => 'list_clover')) }}">후원기관관리</a></li>
+  		<li<?php if($key_large == 'H'){ echo " class='on'"; } ?>><a href="{{ route('admin/service', array('item' => 'home')) }}">봉사스케쥴관리</a></li>
   		<?php } ?>
   		
   		<?php if(Auth::user()->user_state > 6){ ?>
-  		<li<?php if($key_large == 'B'){ echo " class='on'"; } ?>><a href="../community/m_01_list.php">커뮤니티관리</a></li>
+  		<li<?php if($key_large == 'B'){ echo " class='on'"; } ?>><a href="{{ route('admin/community', array('item' => 'timeline')) }}">커뮤니티관리</a></li>
   		
-  		<li<?php if($key_large == 'D'){ echo " class='on'"; } ?>><a href="../sponsor/m_01_list.php">클로버관리</a></li>
+  		<li<?php if($key_large == 'D'){ echo " class='on'"; } ?>><a href="{{ route('admin/sponsor', array('item' => 'companion')) }}">클로버관리</a></li>
   		
-  		<li<?php if($key_large == 'E'){ echo " class='on'"; } ?>><a href="../customer/m_01_list.php">고객센터</a></li>
-  		<li<?php if($key_large == 'G'){ echo " class='on'"; } ?>><a href="../stats/m_01_list.php">통계관리</a></li>
-  		<li<?php if($key_large == 'I'){ echo " class='on'"; } ?>><a href="../page/p_01.php">페이지관리</a></li>
+  		<li<?php if($key_large == 'E'){ echo " class='on'"; } ?>><a href="{{ route('admin/customer', array('item' => 'news')) }}">고객센터</a></li>
+  		<li<?php if($key_large == 'G'){ echo " class='on'"; } ?>><a href="{{ route('admin/stat', array('item' => 'stat_day')) }}">통계관리</a></li>
+  		<li<?php if($key_large == 'I'){ echo " class='on'"; } ?>><a href="{{ route('admin/page', array('item' => 'intro')) }}">페이지관리</a></li>
   		<?php } ?>
   	</ul>
   </div>

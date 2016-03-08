@@ -25,7 +25,7 @@
 	})(jQuery);
 	function popup(html){
 		$( ".new_group_popup" ).addClass('open');
-		$( ".new_group_popup" ).load('/page/{{ $cate_file }}/'+html+'.php');
+		$( ".new_group_popup" ).load('/page/{{ $cate_file }}/'+html+'.php'); // 쓰지 않음
 	}
 </script>
 

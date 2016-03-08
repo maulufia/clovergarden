@@ -74,7 +74,7 @@
                     switch($pJoin[$i])
                     {
                         case 'comment' :
-                            $pResultValue[$pCnt]->comment_cnt = stripcslashes($pResult['comment_cnt']);
+                            $pResultValue[$pCnt]->comment_cnt = isset($pResult['comment_cnt']) ? stripcslashes($pResult['comment_cnt']) : null;
                             break;
                     }
                     //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 1, $pResultValue);
@@ -98,7 +98,8 @@
                     switch($pJoin[$i])
                     {
                         case 'comment' :
-                            $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
+                            if(isset($pResult[$pCnt]->comment_cnt))
+                                $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
                             break;
                     }
                     //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 2);

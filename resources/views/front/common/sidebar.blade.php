@@ -136,7 +136,7 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 			(	
 				$nClover_m->table_name, $nClover_m, "*", "order by seq desc limit 10000", null, null
 			);
-
+			
 			for($i=0, $cnt_list=count($nClover_m->page_result); $i < $cnt_list; $i++) {
 				$nClover_m->VarList($nClover_m->page_result, $i, null);
 

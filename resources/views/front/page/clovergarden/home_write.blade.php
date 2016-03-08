@@ -58,7 +58,7 @@ $AGS_HASHDATA = md5($StoreId . $OrdNo );
 
 
 ?>
-
+<script language=javascript src="http://www.allthegate.com/plugin/AGSWallet_utf8.js"></script>
 <script language=javascript>
 <!--
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +189,7 @@ function Pay(form){
 				if(MakePayMessage(form) == true){										
 					Disable_Flag(form);
 					
-					var openwin = window.open("/agspay/AGS_progress.html","popup","width=300,height=160"); //"지불처리중"이라는 팝업창연결 부분
+					var openwin = window.open("{!! route('agspay/AGS_progress') !!}","popup","width=300,height=160"); //"지불처리중"이라는 팝업창연결 부분
 					
 					form.submit();
 				}else{
@@ -321,7 +321,7 @@ function point_form(form){
 	<h2 class="ti">후원자 기본정보</h2>
 
 	<article class="brd_write">
-		<form method="post" id="wrtForm" name="frmAGS_pay" action="/agspay/AGS_pay_ing.php">
+		<form method="post" id="wrtForm" name="frmAGS_pay" action="{{ route('agspay/AGS_pay_ing') }}">
 		<input type="hidden" name="clover_seq" value="{{ $nClover->code }}">
 		<input type="hidden" name="clover_name" value="{{ $nClover->subject }}">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" />

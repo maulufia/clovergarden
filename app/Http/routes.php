@@ -71,6 +71,7 @@ Route::group(['middleware' => ['web']], function () {
 	# SPONSORZONE
 	Route::get('/sponsorzone', 'MainController@showSponsorZone')->name('sponsorzone');
 	Route::get('/sponsorzone/calendar', 'MainController@showCalendar')->name('sponsorzone_calendar');
+	Route::get('/sponsorzone/calendar_detail', 'MainController@showCalendarDetail')->name('sponsorzone_calendar_detail');
 	Route::post('/sponsorzone', 'MainController@postMethodControl');
 	
 	# CLOVERGARDEN
@@ -94,40 +95,8 @@ Route::group(['middleware' => ['web']], function () {
 	
   # LOGIN
 	Route::get('/login', 'MainController@showLogin')->name('login')->middleware('auth');
-	Route::post('/login', function () { // 다른 쪽으로 정리 필요
-		// MD5로 로그인 가능한 지 체크
-	  $user = array(
-	      'user_id' => Input::get('idu'),
-	      'password' => Input::get('passwd')
-	  );
-	  $passwd_md5 = md5(Input::get('passwd'));
-	  
-	  $user_select = DB::select('select * from new_tb_member where user_id = :id && password = :pw', ['id' => $user['user_id'], 'pw' => $passwd_md5] );
-	  if($user_select) { // MD5로 로그인 가능하다면, 패스워드를 bcrypt로 바꿈
-	  	$bcrypt = Hash::make($user['password']);
-	  	$md5tobcrypt = DB::update('update new_tb_member set password = :bcrypt where user_id = :id', ['bcrypt' => $bcrypt, 'id' => $user['user_id']]);
-	  }
-	  
-	  // bcrypt로 로그인
-	  if (Auth::attempt($user)) {
-	  	if(Auth::user()->user_state < 0) {
-	  		return Redirect::route('logout')->with('flash_error', '회원탈퇴된 회원입니다.');
-	  	}
-	  	
-	  	if(Auth::user()->user_state == 4) {
-	  		if(Auth::user()->login_ck != 'y')
-	  			return Redirect::route('login')->with('flash_error', '승인 전인 기업회원입니다.');
-	  	}
-	  	return Redirect::intended('/');
-      //return Redirect::to('home')
-          //->with('flash_notice', 'You are successfully logged in.');
-	  }
-	  
-	  // authentication failure! lets go back to the login page
-	  return Redirect::route('login')
-	      ->with('flash_error', 'Your username/password combination was incorrect.')
-	      ->withInput();
-	});
+	Route::post('/login', 'UserController@loginControl');
+	
 	Route::get('login/checkgroup', 'MainController@checkGroup')->name('checkgroup');
 	Route::get('login/checkgroupname', 'MainController@showCheckGroupName')->name('checkgroupname');
 	Route::get('login/checkid', 'MainController@checkId')->name('check_id');
@@ -152,11 +121,11 @@ Route::group(['middleware' => ['web']], function () {
 	# LOGOUT
 	Route::get('/logout', function() {
 		Auth::logout();
-		return Redirect::route('home');
+		return Redirect::route('home')->with('flash_notification.message', '로그아웃이 완료되었습니다.');
 	})->name('logout');
 	
 	# ADMIN / LOGIN
-	Route::get('/admin', 'AdminController@showLogin')->name('admin/login');
+	Route::get('/admin', 'AdminController@showLogin')->name('admin/login')->middleware('auth.admin');
 	Route::post('/admin', function () { // 다른 쪽으로 정리 필요
 		// MD5로 로그인 가능한 지 체크
 	  $user = array(
@@ -189,14 +158,47 @@ Route::group(['middleware' => ['web']], function () {
 	});
 
 	# ADMIN
-	Route::get('/admin/main', 'AdminController@showAdmin')->name('admin/main');
+	Route::get('/admin/main', 'AdminController@showAdmin')->name('admin/main')->middleware('auth.admin');
+	
+	# ADMIN / LOGOUT
+	Route::get('/admin/logout', function() {
+		Auth::logout();
+		return Redirect::route('admin/login');
+	})->name('admin/logout');
 	
 	# ADMIN / MEMBER
-	Route::get('/admin/member', 'AdminController@showMember')->name('admin/member');
+	Route::get('/admin/member', 'AdminController@showMember')->name('admin/member')->middleware('auth.admin');
 	Route::post('/admin/member', 'AdminController@postMember');
 	
 	# ADMIN / CLOVER
-	Route::get('/admin/clover', 'AdminController@showClover')->name('admin/clover');
+	Route::get('/admin/clover', 'AdminController@showClover')->name('admin/clover')->middleware('auth.admin');
 	Route::post('/admin/clover', 'AdminController@postClover');
+	
+	# ADMIN / SERVICE
+	Route::get('/admin/service', 'AdminController@showService')->name('admin/service')->middleware('auth.admin');
+	Route::post('/admin/service', 'AdminController@postService');
+	
+	# ADMIN / COMMUNITY
+	Route::get('/admin/community', 'AdminController@showCommunity')->name('admin/community')->middleware('auth.admin');
+	Route::post('/admin/community', 'AdminController@postCommunity');
+	
+	# ADMIN / SPONSOR
+	Route::get('/admin/sponsor', 'AdminController@showSponsor')->name('admin/sponsor')->middleware('auth.admin');
+	Route::post('/admin/sponsor', 'AdminController@postSponsor');
+	
+	# ADMIN / CUSTOMER
+	Route::get('/admin/customer', 'AdminController@showCustomer')->name('admin/customer')->middleware('auth.admin');
+	Route::post('/admin/customer', 'AdminController@postCustomer');
+	
+	# ADMIN / STAT
+	Route::any('/admin/stat', 'AdminController@showStat')->name('admin/stat')->middleware('auth.admin');
+	
+	# ADMIN / PAGE
+	Route::any('/admin/page', 'AdminController@showPage')->name('admin/page')->middleware('auth.admin');
+	
+	## SUB ROUTE ##
+	Route::post('/ckeditor/upload', 'FileController@upload')->name('fileupload');
+	Route::get('/agspay/AGS_progress', 'ChargeController@showProgress')->name('agspay/AGS_progress');
+	Route::post('/agspay/AGS_pay_ing', 'ChargeController@showAGSPay')->name('agspay/AGS_pay_ing');
 
 });

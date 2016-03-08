@@ -52,13 +52,13 @@
 </head>
 <body>
 
-<script type="text/javascript" src="../../ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/others/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
 window.onload =function(){
  CKEDITOR.replace('content', {
-		enterMode:'1',
-        filebrowserUploadUrl : 'http:///ckeditor/upload.php',
-        filebrowserImageUploadUrl : 'http:///ckeditor/upload.php?command=QuickUpload&type=Images'
+    enterMode:'1',
+        filebrowserUploadUrl : '{{ route("fileupload") }}',
+        filebrowserImageUploadUrl : '{!! route("fileupload", array("command" => "QuickUpload", "type" => "Images", "_token" => csrf_token() )) !!}'
     });
 };
 </script>

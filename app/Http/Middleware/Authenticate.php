@@ -21,8 +21,8 @@ class Authenticate
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                if(Route::currentRouteName() != 'login') // 게스트인 경우 로그인 페이지로 들어오면 아무 행동도 취하지 않음음
-                    return redirect()->guest('login');
+                if(Route::currentRouteName() != 'login') // 게스트인 경우 로그인 페이지로 들어오면 아무 행동도 취하지 않음
+                    return redirect()->route('login');
             }
         }
 

@@ -62,10 +62,10 @@
 	<a href="{{ $list_link }}" class="orange_btn">목록보기</a>
 	<?php
 	 	if(Auth::check()) {
-			if($board_name[1] == $login_id || Auth::user()->user_id == 'master@clovergarden.co.kr'){
+			if($board_name[1] == Auth::user()->user_id || Auth::user()->user_id == 'master@clovergarden.co.kr'){
 	?>
 		<a href="javascript:if(confirm('삭제하시겠습니까?')){ window.location='{{ $list_link }}&type=view&seq={{ $_GET['seq'] }}&mode=board_del'; }" class="orange_btn">삭제하기</a><?php } ?>
-		<?php if($board_name[1] == $login_id || Auth::user()->user_id == 'master@clovergarden.co.kr'){ ?><a href="{{ $list_link }}&type=edit&seq={{ $_GET['seq'] }}" class="orange_btn">수정하기</a><?php } ?>
+		<?php if($board_name[1] == Auth::user()->user_id || Auth::user()->user_id == 'master@clovergarden.co.kr'){ ?><a href="{{ $list_link }}&type=edit&seq={{ $_GET['seq'] }}" class="orange_btn">수정하기</a><?php } ?>
 	<?php
 		}
 	?>

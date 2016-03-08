@@ -64,13 +64,14 @@
         function ArrList($pResult, $pCnt, $pJoin=null)
         {
             $pResultValue = array();
+            $pResultValue[$pCnt] = new StdClass();
             $pResultValue[$pCnt]->seq           = stripcslashes($pResult['seq']);
 			$pResultValue[$pCnt]->work_date       = stripcslashes($pResult['work_date']);
 			$pResultValue[$pCnt]->start_date       = stripcslashes($pResult['start_date']);
 			$pResultValue[$pCnt]->start_date2       = stripcslashes($pResult['start_date2']);
             $pResultValue[$pCnt]->subject       = stripcslashes($pResult['subject']);
 			$pResultValue[$pCnt]->people       = stripcslashes($pResult['people']);
-			$pResultValue[$pCnt]->service_people       = stripcslashes($pResult['service_people']);
+			$pResultValue[$pCnt]->service_people       = isset($pResult['service_people']) ? stripcslashes($pResult['service_people']) : null;
             $pResultValue[$pCnt]->content       = stripcslashes($pResult['content']);
 			$pResultValue[$pCnt]->file_real[1]   = stripcslashes($pResult['file_real1']);
             $pResultValue[$pCnt]->file_edit[1]   = stripcslashes($pResult['file_edit1']);
@@ -114,7 +115,8 @@
                     switch($pJoin[$i])
                     {
                         case 'comment' :
-                            $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
+                            if(isset($pResult[$pCnt]->comment_cnt))
+                                $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
                             break;
                     }
                     //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 2);

@@ -118,7 +118,7 @@ class MsgController extends Controller
 		
 		$Conn->DisConnect();
 		  
-  	return redirect()->route('information');
+  	return redirect()->route('information')->with('flash_notification.message', '정상적으로 등록되었습니다.');
   }
 	
 }

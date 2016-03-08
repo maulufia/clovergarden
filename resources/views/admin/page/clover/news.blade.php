@@ -21,7 +21,7 @@
   //======================== DB Module Clovernewst ============================
   $Conn = new DBClass();
 	if(Auth::user()->user_state < 7){
-		$nClovernews->where = "where clover_seq = '".$login_id."'";
+		$nClovernews->where = "where clover_seq = '" . Auth::user()->user_id . "'";
 	}
     $nClovernews->total_record = $Conn->PageListCount
     (

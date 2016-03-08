@@ -10,7 +10,7 @@
 
 //======================== DB Module Messaget ============================
 	$Conn = new DBClass();
-	$nMessage->where = " where receive_id like '%".$login_id."%'";
+	$nMessage->where = " where receive_id like '%" . Auth::user()->user_id . "%'";
 	$nMessage->total_record = $Conn->PageListCount
 	(
 		$nMessage->table_name, $nMessage->where, $search_key, $search_val

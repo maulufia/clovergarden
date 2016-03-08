@@ -1,6 +1,5 @@
 <?php
 $page_key   = 'A6';
-$list_link  = 'm_06_list.php';
 
 $nAdm = new AdmClass(); //
 $nAdm_2 = new AdmClass(); //

@@ -1,0 +1,248 @@
+<html>
+<head>
+<title>올더게이트</title>
+<style type="text/css">
+body { font-family:"돋움"; font-size:9pt; color:#333333; font-weight:normal; letter-spacing:0pt; line-height:180%; }
+td { font-family:"돋움"; font-size:9pt; color:#333333; font-weight:normal; letter-spacing:0pt; line-height:180%; }
+.clsright { padding-right:10px; text-align:right; }
+.clsleft { padding-left:10px; text-align:left; }
+.formbox_input {background-color:#FFFFFF; height:19px; font: 12px; margin:0px; "Verdana", "돋움"; color:#39393D;  border: 1 solid #CFCFCF;}
+</style>
+<script language=javascript src="http://www.allthegate.com/plugin/AGS5Wallet.js"></script>
+<script language=javascript>
+<!--
+/****************************************
+* 자동이체 플러그인 설치를 확인합니다.  *
+****************************************/
+AGS5Wallet_Update();  
+
+function Pay(form){
+	/********************************************************************************
+	* AGS5Wallet_Pay() 가 호출되면 자동이체 플러그인이 화면에 나타나며 Hidden 필드  *
+	* 에 리턴값들이 채워지게 됩니다.                                                *
+	********************************************************************************/
+	if(form.Flag.value == "enable") {
+		/****************************************
+		* 입력된 데이타의 유효성을 검사합니다.  *
+		****************************************/
+		if(AGS5Wallet_Pay(form) == true) {
+			/*******************************************************
+			* 자동이체 플러그인에서 "확인"버튼을 클릭시 처리 부분  *
+			*******************************************************/
+			Disable_Flag(form);
+			
+			form.action = "../agspay/ags5ing.php";
+			form.submit();
+		} else {
+			/*******************************************************
+			* 자동이체 플러그인에서 "취소"버튼을 클릭시 처리 부분  *
+			*******************************************************/
+			alert("등록에 실패하였습니다.");
+		}
+	}
+}
+function Enable_Flag(form){
+    form.Flag.value = "enable";
+}
+function Disable_Flag(form){
+    form.Flag.value = "disable";
+}
+-->
+</script>
+</head>
+<body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 onload="javascript:Enable_Flag(frmags5pay);">
+<table border=0 width=100% height=100% cellpadding=0 cellspacing=0>
+	<tr>
+		<td align=center>
+		<table width=650 border=0 cellpadding=0 cellspacing=0>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td><hr></td></tr>
+			<tr><td class=clsleft><b>자동이체 등록요청 테스트페이지</b></td></tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class=clsleft>
+				1) 본 자동이체 등록요청 페이지를 상점에 맞게 적절하게 수정하여 사용하십시오.<br>
+				2) 본 페이지에서는 올더게이트 자동이체 플러그인을 다운로드하여 설치하도록 되어 있습니다. 다운로드 후에  <font color=#006C6C>보안경고창이 뜨면 확인 버튼("예")을 선택하여</font> 플러그인을 설치해 주십시오. 만약 설치에 실패하였을 경우 수동으로 <a href="http://www.allthegate.com/plugin/AGS5WalletV5.exe"><font color=#006C6C>다운로드</font></a>하여 설치해 주십시오.<br>
+				3) 자동이체 등록요청을 위해 필요한 정보를 입력후 '등록요청'버튼을 클릭하시면 자동이체 플러그인을 실행합니다.<br>
+				4) DB 작업을 하실 경우 <font color=#006C6C>결제성공여부(rSuccYn)</font>을 확인후에 작업하여 주십시오.<br>
+				5) 데이터 입력시 <font color=#006C6C>"|"</font>는 올더게이트에서 구분자로 사용하는 문자이므로 입력하지 말아 주십시오.
+				</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td class=clsleft>☞ 표시는 필수 입력사항입니다. </td></tr>
+			<tr><td><hr></td></tr>
+			<tr>
+				<td>
+				<form name=frmags5pay method=post>
+				<table width=650 border=0 cellpadding=0 cellspacing=0>
+					<tr>
+						<td class=clsleft>☞ 지불방법</td>
+						<td>
+						<!-- 신용카드만 사용하도록 연동 <input type=hidden name=Job value="onlycard"> -->
+						<!-- CMS(계좌이체)만 사용하도록 연동 <input type=hidden name=Job value="onlycms"> -->
+						<!-- 핸드폰만 사용하도록 연동 <input type=hidden name=Job value="onlyhp"> -->
+						<select class=formbox_input name=Job style=width:150px>
+							<option value="" selected>선택하십시오.
+							<option value="onlycard">신용카드(전용)
+							<option value="onlyhp">핸드폰(전용)
+							<option value="onlycms">계좌이체(전용)
+						</select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 상점아이디</td>
+						<!--상점아이디를 실거래 전환후에는 발급받은 아이디로 바꾸시기 바랍니다.-->
+						<td><input type=text class=formbox_input name=StoreId style=width:100px maxlength=20 value="aegis"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 상점명</td>
+						<td><input type=text class=formbox_input name=StoreName style=width:300px maxlength=50 value="올더게이트몰"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 상품명</td>
+						<td><input type=text class=formbox_input name=ProductName style=width:300px maxlength=100 value="마우스"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 상품금액</td> 
+						<td><input type=text class=formbox_input name=ProductAmount style=width:100px maxlength=12 value="1000"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 회원아이디</td>
+						<td><input type=text class=formbox_input name=OrderId style=width:100px value="test"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 주문번호</td>
+						<td><input type=text class=formbox_input name=OrderNo style=width:100px maxlength=40 value="200701250001"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 주문자명</td>
+						<td><input type=text class=formbox_input name=OrderName style=width:100px maxlength=40 value="홍길동"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 선승인금액</td>
+						<!--자동이체 지정을 선불방식으로 이용하시는 경우 반드시 입력해 주시기 바랍니다.-->
+						<td><input type=text class=formbox_input name=PreAmount style=width:100px maxlength=12 value="1000"></td>
+						<td>신용카드 전용</td>
+					</tr>
+					<tr>
+						<td class=clsleft>주문자핸드폰번호</td>
+						<td><input type=text class=formbox_input name=OrderHandphone style=width:100px maxlength=21 value="01044443333"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>주문자이메일</td>
+						<td><input type=text class=formbox_input name=OrderEmail style=width:300px maxlength=50 value="test@test.com"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>상점URL</td>
+						<td><input type=text class=formbox_input name=StoreUrl style=width:300px maxlength=50 value="http://www.allthegate.com"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>상품코드</td>
+						<td><input type=text class=formbox_input name=ProductCode style=width:100px maxlength=10 value="1000001234"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>주문자전화번호</td>
+						<td><input type=text class=formbox_input name=OrderTelephone style=width:100px maxlength=21 value="0211112222"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>주문자주소</td>
+						<td><input type=text class=formbox_input name=OrderAddress style=width:300px maxlength=100 value="서울 강남구 청담동 테스트"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>주문자요구사항</td>
+						<td><input type=text class=formbox_input name=OrderRemark style=width:300px maxlength=350 value="오후에 배송해 주세요."></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>수신자명</td>
+						<td><input type=text class=formbox_input name=ReceiverName style=width:100px maxlength=40 value="홍순이"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>수신자전화번호</td>
+						<td><input type=text class=formbox_input name=ReceiverTelephone style=width:100px maxlength=21 value="0222221111"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>수신자핸드폰번호</td>
+						<td><input type=text class=formbox_input name=ReceiverHandphone style=width:100px maxlength=21 value="01033334444"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>수신자주소</td>
+						<td><input type=text class=formbox_input name=ReceiverAddress style=width:300px maxlength=100 value="서울 강남구 압구정동 테스트"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 납부개월수</td>
+						<td><input type=text class=formbox_input name=MonthPayCount style=width:100px maxlength=2 value="6"></td>
+						<td></td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr>
+						<td class=clsleft colspan=3><font color=#006C6C>+ 자동이체 결제 사용 변수</font></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 약정일</td>
+						<!--약정일은 자동이체 신청시 설정을 약정일로 하셨을 경우에만 적용됩니다.
+						연도/월/일 을 8자리로 넣어주시면 됩니다 ex) 2010년 5월1일 -> 20100501--> 
+						<td><input type=text class=formbox_input name=MonthPayStart style=width:100px maxlength=8 value="20100401"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class=clsleft>납부등록번호</td>
+						<!--납부등록번호는 이미 등록이 완료된 고객님이 정보 수정을 원할 경우에만 입력합니다.(신규등록시 입력하지 말 것!)-->
+						<!--입력 예시..(등록시 에 발행되는 다음과 같은 번호 입력...(등록번호형식 : AGS20060101000001)-->
+						<!--정보 수정은 신용카드 자동이체에 대해서만 이용이 가능합니다.(핸드폰 / 계좌이체 결제는 고객 정보 수정이 불가능 함)-->
+						<td><input type=text class=formbox_input name=MonthPayNo style=width:300px maxlength=17 value=""></td>
+						<td>정보 수정시에만 입력! (신용카드)</td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr>
+						<td class=clsleft colspan=3><font color=#006C6C>+ CMS(계좌이체) 결제 사용 변수</font></td>
+					</tr>
+					<tr>
+						<td class=clsleft>☞ 서비스종료일</td>
+						<!--서비스종료일은 반드시 다음달( 예)금일이 2007년 10월 24일인 경우 -> '20071101'이후로 설정 )이후로 입력하여 주시기 바랍니다.-->
+						<td><input type=text class=formbox_input name=MonthPayEnd style=width:100px maxlength=6 value="20071124"></td>
+						<td></td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			<tr><td><hr></td></tr>
+			<tr>
+				<td align=center><input type="button" class=formbox_input value="등록요청" onclick="javascript:Pay(frmags5pay);"></td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+		</table>
+		</td>
+	</tr>
+</table>
+<!-- 스크립트 및 플러그인에서 값을 설정하는 Hidden 필드!! ※수정을 하시거나 삭제하지 마십시오.-->
+
+<input type=hidden name=Flag value="">					<!--스크립트결제사용구분플래그        -->
+<input type=hidden name=ServerIP value="">				<!--올더게이트 통신 서버 IP설정       -->
+<input type=hidden name=ServerPort value="">			<!--올더게이트 통신 서버 Port설정     -->
+<input type=hidden name=ServerTimeOut value="">			<!--올더게이트 통신 서버 대기시간설정 -->
+<input type=hidden name=PayType value="">				<!--계좌이체등록종류구분플래그		  -->
+<input type=hidden name=SendData value="">				<!--올더게이트로 전송할 데이터 필드   -->
+
+<!-- 스크립트 및 플러그인에서 값을 설정하는 Hidden 필드!! ※수정을 하시거나 삭제하지 마십시오.-->
+</form>
+</body>
+</html>

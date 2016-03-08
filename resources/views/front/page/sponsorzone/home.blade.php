@@ -56,15 +56,14 @@
 			$nMoney->VarList($nMoney->read_result, 0, array('comment'));
 		}
 
-
-
+		$login_id = isset(Auth::user()->user_id) ? Auth::user()->user_id : null;
 		$nClovermlist_login->read_result = $Conn->AllList($nClovermlist_login->table_name, $nClovermlist_login, "*, sum(price) price", "where id ='$login_id'", $nClovermlist_login->sub_sql, null);
 
 		if(count($nClovermlist_login->read_result) != 0){
 			$nClovermlist_login->VarList($nClovermlist_login->read_result, 0, array('comment'));
 		}
 
-		$nClovermlist_login->where = "where id='".$login_id."' group by id";
+		$nClovermlist_login->where = "where id='" . $login_id . "' group by id";
 		$nClovermlist_login->total_record = $Conn->PageListCount
 		(
 			$nClovermlist_login->table_name, $nClovermlist_login->where, $search_key, $search_val

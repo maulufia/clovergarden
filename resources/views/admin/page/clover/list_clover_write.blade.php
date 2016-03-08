@@ -20,13 +20,13 @@
 
   $nClover = new CloverClass();
 ?>
-<script type="text/javascript" src="../../ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/others/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
 window.onload =function(){
  CKEDITOR.replace('content', {
 		enterMode:'1',
-        filebrowserUploadUrl : 'http:///ckeditor/upload.php',
-        filebrowserImageUploadUrl : 'http:///ckeditor/upload.php?command=QuickUpload&type=Images'
+        filebrowserUploadUrl : '{{ route("fileupload") }}',
+        filebrowserImageUploadUrl : '{!! route("fileupload", array("command" => "QuickUpload", "type" => "Images", "_token" => csrf_token() )) !!}'
     });
 };
 </script>
@@ -37,7 +37,7 @@ window.onload =function(){
 		var f = document.frm;
 
 		$.blockUI();
-		f.action = "{{ $write_link }}";
+		f.action = "{!! $write_link !!}";
 		f.submit();
 	}
 </script>
@@ -57,7 +57,7 @@ window.onload =function(){
         <div id="right_area">
             <h4 class="main-title">{{ $content_txt }}</h4>
             <form id="frm" name="frm" method="post" enctype="multipart/form-data" style="display:inline;">
-			      <input type="hidden" name="view_n" value="1">
+			<input type="hidden" name="view_n" value="1">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <table class="bbs-write">
                 <caption>{{ $content_txt }}</caption>

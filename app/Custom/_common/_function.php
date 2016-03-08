@@ -31,9 +31,9 @@
 		$port = 25;
 		$type = "text/html";
 		$charSet = "UTF-8";
+        $sendmail_flag = null;
 
-
-		//Open Socket
+		//Open Socket // 엄청나군..
 		$fp = @fsockopen($smtp_host, $port, $errno, $errstr, 1);
 		if($fp){
 

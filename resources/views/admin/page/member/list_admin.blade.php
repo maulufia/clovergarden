@@ -46,6 +46,7 @@
     	echo "
     	<script>
     	alert('기부금액 및 마스터키가 적용되었습니다.');
+        window.location = '/admin/member?item=list_admin';
     	</script>
     	";
         // Redirect 필요

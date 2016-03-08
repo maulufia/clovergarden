@@ -15,14 +15,6 @@
 
 	$nClover_banner = new CloverClass(); //
 	$nSchedule  = new ScheduleClass(); //봉사스케쥴
-	
-	//================= UserInit =================
-		$userHelper = new UserHelper();
-		$login_id = $userHelper->login_id;
-		$login_name = $userHelper->login_name;
-		$login_state = $userHelper->login_state; // ?
-		$use_point = $userHelper->use_point;
-		$group_name = $userHelper->group_name;
 		
 	//======================== DB Module Freet ============================
 	$Conn = new DBClass();

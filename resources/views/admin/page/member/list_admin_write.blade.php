@@ -37,7 +37,7 @@
 			if(formCheckNum(f.user_pw, "maxlen", 15, "패스워드") == false){ return; }
 
             $.blockUI();
-            f.action = "{{ $write_link }}";
+            f.action = "{!! $write_link !!}";
             f.submit();
         }
 

@@ -15,13 +15,13 @@
   $search_key = isset($_REQUEST['search_key']) ? $_REQUEST['search_key'] : '';
   $search_val = isset($_REQUEST['search_val']) ? $_REQUEST['search_val'] : '';
 ?>
-<script type="text/javascript" src="../../ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/others/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
 window.onload =function(){
  CKEDITOR.replace('content', {
-		enterMode:'1',
-        filebrowserUploadUrl : 'http:///ckeditor/upload.php',
-        filebrowserImageUploadUrl : 'http:///ckeditor/upload.php?command=QuickUpload&type=Images'
+        enterMode:'1',
+        filebrowserUploadUrl : '{{ route("fileupload") }}',
+        filebrowserImageUploadUrl : '{!! route("fileupload", array("command" => "QuickUpload", "type" => "Images", "_token" => csrf_token() )) !!}'
     });
 };
 </script>

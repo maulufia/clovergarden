@@ -15,8 +15,8 @@
   $search_key = isset($_REQUEST['search_key']) ? $_REQUEST['search_key'] : '';
   $search_val = isset($_REQUEST['search_val']) ? $_REQUEST['search_val'] : '';
 
-	$code = isset($_POST['code']) ? $_POST['code'] : null;
-	$group  = isset($_POST['group_name']) ? $_POST['group_name'] : null;
+  $code = isset($_POST['code']) ? $_POST['code'] : null;
+  $group  = isset($_POST['group_name']) ? $_POST['group_name'] : null;
 
   $nClovermlist   = new ClovermlistClass(); //후원기관
 	$nClover   = new CloverClass(); //후원기관
@@ -75,7 +75,7 @@
     <script language="javascript">
 
 function pop(seq,group){
-  var url = "http://clovergarden.co.kr/new_admin/clover/m_02_popup.php?clover_seq="+seq+"&group="+group;
+  var url = "/admin/clover?item=apply_clover&type=detail&clover_seq=" + seq + "&group=" + group; 
   var option="width=540,height=600,scrollbars=yes,toolbar=no,location=no,status=yes,menubar=no,resizable=yes"; 
   
   window.open(url,'popCdr',option);

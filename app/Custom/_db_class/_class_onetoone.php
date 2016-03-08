@@ -49,6 +49,7 @@
         function ArrList($pResult, $pCnt, $pJoin=null)
         {
             $pResultValue = array();
+            $pResultValue[$pCnt] = new StdClass();
             $pResultValue[$pCnt]->seq           = stripcslashes($pResult['seq']);
 			$pResultValue[$pCnt]->writer       = stripcslashes($pResult['writer']);
 			$pResultValue[$pCnt]->name       = stripcslashes($pResult['name']);
@@ -64,7 +65,7 @@
                     switch($pJoin[$i])
                     {
                         case 'comment' :
-                            $pResultValue[$pCnt]->comment_cnt = stripcslashes($pResult['comment_cnt']);
+                            $pResultValue[$pCnt]->comment_cnt = isset($pResult['comment_cnt']) ? stripcslashes($pResult['comment_cnt']) : null;
                             break;
                     }
                     //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 1, $pResultValue);
@@ -90,7 +91,8 @@
                     switch($pJoin[$i])
                     {
                         case 'comment' :
-                            $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
+                            if(isset($pResult[$pCnt]->comment_cnt))
+                                $this->comment_cnt = $pResult[$pCnt]->comment_cnt;
                             break;
                     }
                     //$this->JoinVar($pResult, $pCnt, $pJoin[$i] , 2);

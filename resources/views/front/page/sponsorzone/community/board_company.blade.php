@@ -2,19 +2,9 @@
 
 @section('sponsorzone')
 <?php
-	// TEMP
-	$_REQUEST['page_no'] = null;
-	$_REQUEST['search_key'] = null;
-	$_REQUEST['search_val'] = null;
-	$group_name = null;
-	$login_id = null;
-	$view_link = null;
-	$list_link = null;
-	$write_link = null;
-	
-	$page_no    = NullNumber($_REQUEST['page_no']);
-	$search_key = RequestAll($_REQUEST['search_key']);
-	$search_val = RequestAll($_REQUEST['search_val']);
+	$page_no = isset($_REQUEST['page_no']) ? $_REQUEST['page_no'] : 1;
+	$search_key = isset($_REQUEST['search_key']) ? $_REQUEST['search_key'] : '';
+	$search_val = isset($_REQUEST['search_val']) ? $_REQUEST['search_val'] : '';
 
 	//$nFree = new FreeClass(); //
 	$nFree = new ScheduleClass(); //자유게시판
@@ -68,7 +58,7 @@ $Conn->DisConnect();
 					$row_no = $nFree->total_record - ($nFree->page_view * ($page_no - 1));
 					for($i=0, $cnt_list=count($nFree->page_result); $i < $cnt_list; $i++) {
 						$nFree->VarList($nFree->page_result, $i,  array('comment'));
-						$board_name = explode(',',$nFree->writer);
+						$board_name = isset($nFree->writer) ? explode(',',$nFree->writer) : null;
 			?>
 			<tr>
 				<td class="no">{{ $row_no }}</td>

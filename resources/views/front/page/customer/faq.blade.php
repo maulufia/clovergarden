@@ -77,6 +77,7 @@ $Conn->DisConnect();
 	<div class="search_box">
 		<form name="frm" id="searchForm" method="post" action="{{ $list_link }}" style="display:inline">
 			<input type="hidden" name="search_key" value="subject">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 			<div class="styled-select xm_left">
 				{{ $nFaq->ArrFaq(null, "name='search_key'", null, 'search') }}
 			</div>

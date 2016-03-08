@@ -14,6 +14,7 @@
         $typeProc = false; //파일업로드제한
         $sizeProc = false; //파일사이즈제한
         $randNum  = rand(100,9999);
+        
         if($pUpFile['type']){
             $fileNameOrg   = $pUpFile['name'];
             $fileExp       = explode(".",$fileNameOrg);

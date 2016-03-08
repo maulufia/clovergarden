@@ -1,0 +1,986 @@
+INFO	[2015-03-20 00:15:56:149] <27542> ===============================================================
+INFO	[2015-03-20 00:15:56:149] <27542> START AgsPay40 php (OS:Linux2.6.18-348.4.1.el5,PHP:5.2.9p2)
+INFO	[2015-03-20 00:15:56:149] <27542> card Pay Start!
+INFO	[2015-03-20 00:15:56:150] <27542> AgsPayHome:../agspay
+INFO	[2015-03-20 00:15:56:150] <27542> StoreId:aegis
+INFO	[2015-03-20 00:15:56:150] <27542> log:true
+INFO	[2015-03-20 00:15:56:150] <27542> logLevel:INFO
+INFO	[2015-03-20 00:15:56:150] <27542> UseNetCancel:true
+INFO	[2015-03-20 00:15:56:150] <27542> Type:Pay
+INFO	[2015-03-20 00:15:56:150] <27542> RecvLen:7
+INFO	[2015-03-20 00:15:56:150] <27542> AuthTy:card
+INFO	[2015-03-20 00:15:56:150] <27542> SubTy:isp
+INFO	[2015-03-20 00:15:56:150] <27542> OrdNo:20150320_121151_2
+INFO	[2015-03-20 00:15:56:150] <27542> Amt:1000
+INFO	[2015-03-20 00:15:56:150] <27542> UserEmail:@
+INFO	[2015-03-20 00:15:56:150] <27542> ProdNm:남산원
+INFO	[2015-03-20 00:15:56:150] <27542> MallUrl:http://www.clovergarden.com
+INFO	[2015-03-20 00:15:56:150] <27542> UserId:test
+INFO	[2015-03-20 00:15:56:150] <27542> OrdNm:
+INFO	[2015-03-20 00:15:56:150] <27542> OrdPhone:--
+INFO	[2015-03-20 00:15:56:150] <27542> OrdAddr:
+INFO	[2015-03-20 00:15:56:150] <27542> RcpNm:
+INFO	[2015-03-20 00:15:56:150] <27542> RcpPhone:
+INFO	[2015-03-20 00:15:56:150] <27542> DlvAddr:
+INFO	[2015-03-20 00:15:56:150] <27542> Remark:
+INFO	[2015-03-20 00:15:56:150] <27542> DeviId:9000400001
+INFO	[2015-03-20 00:15:56:150] <27542> AuthYn:N;121.168.57.24
+INFO	[2015-03-20 00:15:56:150] <27542> Instmt:00
+INFO	[2015-03-20 00:15:56:150] <27542> UserIp:121.168.57.24
+INFO	[2015-03-20 00:15:56:150] <27542> partial_mm:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>
+INFO	[2015-03-20 00:15:56:150] <27542> noIntMonth:
+INFO	[2015-03-20 00:15:56:150] <27542> KVP_CURRENCY:WON
+INFO	[2015-03-20 00:15:56:150] <27542> KVP_CARDCODE:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>;121.168.57.24;N;;1000;;;;
+INFO	[2015-03-20 00:15:56:150] <27542> KVP_SESSIONKEY:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>
+INFO	[2015-03-20 00:15:56:150] <27542> KVP_ENCDATA:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>
+INFO	[2015-03-20 00:15:56:150] <27542> KVP_CONAME:ISP
+INFO	[2015-03-20 00:15:56:150] <27542> KVP_NOINT:0
+INFO	[2015-03-20 00:15:56:150] <27542> KVP_QUOTA:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>
+INFO	[2015-03-20 00:15:56:150] <27542> CardNo:
+INFO	[2015-03-20 00:15:56:150] <27542> MPI_CAVV:
+INFO	[2015-03-20 00:15:56:150] <27542> MPI_ECI:
+INFO	[2015-03-20 00:15:56:150] <27542> MPI_MD64:
+INFO	[2015-03-20 00:15:56:150] <27542> ExpMon:12
+INFO	[2015-03-20 00:15:56:150] <27542> ExpYear:2049
+INFO	[2015-03-20 00:15:56:150] <27542> Passwd:
+INFO	[2015-03-20 00:15:56:150] <27542> SocId:
+INFO	[2015-03-20 00:15:56:150] <27542> ICHE_OUTBANKNAME:
+INFO	[2015-03-20 00:15:56:150] <27542> ICHE_OUTACCTNO:
+INFO	[2015-03-20 00:15:56:150] <27542> ICHE_OUTBANKMASTER:
+INFO	[2015-03-20 00:15:56:150] <27542> ICHE_AMOUNT:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_SERVERINFO:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_HANDPHONE:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_COMPANY:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_ID:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_SUBID:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_UNITType:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_IDEN:
+INFO	[2015-03-20 00:15:56:151] <27542> HP_IPADDR:
+INFO	[2015-03-20 00:15:56:151] <27542> ARS_NAME:
+INFO	[2015-03-20 00:15:56:151] <27542> ARS_PHONE:
+INFO	[2015-03-20 00:15:56:151] <27542> VIRTUAL_CENTERCD:99
+INFO	[2015-03-20 00:15:56:151] <27542> VIRTUAL_DEPODT:
+INFO	[2015-03-20 00:15:56:151] <27542> ZuminCode:
+INFO	[2015-03-20 00:15:56:151] <27542> MallPage:
+INFO	[2015-03-20 00:15:56:151] <27542> VIRTUAL_NO:
+INFO	[2015-03-20 00:15:56:151] <27542> ES_SENDNO:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_SOCKETYN:Y
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_POSMTID:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_FNBCMTID:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_APTRTS:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_REMARK1:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_REMARK2:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_ECWYN:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_ECWID:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_ECWAMT1:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_ECWAMT2:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_CASHYN:N
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_CASHGUBUN_CD:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHE_CASHID_NO:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHEARS_SOCKETYN:Y
+INFO	[2015-03-20 00:15:56:151] <27542> ICHEARS_ADMNO:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHEARS_POSMTID:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHEARS_CENTERCD:
+INFO	[2015-03-20 00:15:56:151] <27542> ICHEARS_HPNO:
+INFO	[2015-03-20 00:15:56:151] <27542> Make NetCancel ID Start
+INFO	[2015-03-20 00:15:56:151] <27542> AEGIS_ISP_aegis_20150320001556151778
+INFO	[2015-03-20 00:15:56:151] <27542> Make NetCancel ID End
+INFO	[2015-03-20 00:15:56:151] <27542> Make NetCancelID OK
+INFO	[2015-03-20 00:15:56:151] <27542> Make Msg Start
+INFO	[2015-03-20 00:15:56:151] <27542> card-isp Make MSG OK 
+INFO	[2015-03-20 00:15:56:151] <27542> Make Msg End
+INFO	[2015-03-20 00:15:56:151] <27542> Make Pay Msg OK
+INFO	[2015-03-20 00:15:56:151] <27542> Send & Recv Msg Start
+INFO	[2015-03-20 00:15:56:151] <27542> Send Data To PG Start [ 
+INFO	[2015-03-20 00:15:56:151] <27542> 0:0120802plug15
+INFO	[2015-03-20 00:15:56:151] <27542> 1:aegis
+INFO	[2015-03-20 00:15:56:151] <27542> 2:test
+INFO	[2015-03-20 00:15:56:151] <27542> 3:1000
+INFO	[2015-03-20 00:15:56:151] <27542> 4:20150320_121151_2
+INFO	[2015-03-20 00:15:56:151] <27542> 5:9000400001
+INFO	[2015-03-20 00:15:56:151] <27542> 6:
+INFO	[2015-03-20 00:15:56:151] <27542> 7:
+INFO	[2015-03-20 00:15:56:151] <27542> 8:
+INFO	[2015-03-20 00:15:56:151] <27542> 9:
+INFO	[2015-03-20 00:15:56:151] <27542> 10:--
+INFO	[2015-03-20 00:15:56:151] <27542> 11:
+INFO	[2015-03-20 00:15:56:151] <27542> 12:남산원
+INFO	[2015-03-20 00:15:56:151] <27542> 13:WON
+INFO	[2015-03-20 00:15:56:151] <27542> 14:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>
+INFO	[2015-03-20 00:15:56:151] <27542> 15:
+INFO	[2015-03-20 00:15:56:151] <27542> 16:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>;121.168.57.24;N;;1000;;;;
+INFO	[2015-03-20 00:15:56:151] <27542> 17:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>
+INFO	[2015-03-20 00:15:56:151] <27542> 18:<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>
+INFO	[2015-03-20 00:15:56:151] <27542> 19:ISP
+INFO	[2015-03-20 00:15:56:151] <27542> 20:121.168.57.24
+INFO	[2015-03-20 00:15:56:151] <27542> 21:@
+INFO	[2015-03-20 00:15:56:151] <27542> 22:AEGIS_ISP_aegis_20150320001556151778
+INFO	[2015-03-20 00:15:56:151] <27542> 23:
+INFO	[2015-03-20 00:15:56:152] <27542> ] Send Data To PG End 
+INFO	[2015-03-20 00:15:56:152] <27542> SendMsg : [0120802plug15|aegis|test|1000|20150320_121151_2|9000400001|||||--||남산원|WON|<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>||<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>;121.168.57.24;N;;1000;;;;|<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>|<TABLE border=0 cellSpacing=0 cellPadding=0 width=730><!-- Error title -->
+<TBODY>
+<TR>
+<TD id=infoIconAlign vAlign=top rowSpan=2 align=left><IMG id=infoIcon alt=\"정보 아이콘\" src=\"info_48.png\"> </TD>
+<TD id=mainTitleAlign vAlign=center width=* align=left>
+<H1 id=mainTitle>이 프로그램은 웹 페이지를 표시할 수 없습니다.</H1></TD></TR>
+<TR><!-- This row is for HTTP status code, as well as the divider-->
+<TD id=statusCodeAlign class=errorCodeAndDivider align=right>&nbsp; 
+<DIV class=divider></DIV></TD></TR><!-- Error Body -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=likelyCausesAlign vAlign=top align=left>
+<H3 id=likelyCauses>가능성이 높은 원인:</H3>
+<UL>
+<LI id=causeNotConnected>인터넷에 연결되어 있지 않습니다. 
+<LI id=causeSiteProblem>웹 사이트에 문제가 발생했습니다. 
+<LI id=causeErrorInAddress>주소에 오타가 있을 수 있습니다. </LI></UL></TD></TR><!-- What you can do -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=whatToTryAlign vAlign=top align=left>
+<H2 id=whatToTry>가능한 해결 방법:</H2></TD></TR><!-- Check Connection -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=checkConnectionID vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=checkConnection>인터넷 연결을 확인하십시오. 다른 웹 사이트를 열어 인터넷에 연결되는지 확인하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- retype address -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=retypeAddressAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><ID id=retypeAddress>주소를 다시 입력하십시오.</ID> </TD></TR></TBODY></TABLE></H4></TD></TR><!-- back to previous page -->
+<TR>
+<TD>&nbsp; </TD>
+<TD id=goBackAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><IMG class=actionIcon border=0 alt=\"\" src=\"bullet.png\"> </TD>
+<TD vAlign=top><SPAN id=goBackContainer></SPAN><NOSCRIPT id=goBack></NOSCRIPT></TD></TR></TBODY></TABLE></H4></TD></TR><!-- InfoBlock -->
+<TR>
+<TD id=infoBlockAlign vAlign=top align=right>&nbsp; </TD>
+<TD id=moreInfoAlign vAlign=center align=left>
+<H4>
+<TABLE>
+<TBODY>
+<TR>
+<TD vAlign=top><A onclick=\"javascript:expandCollapse(\'infoBlockID\', true); return false;\" href=\"#\"><IMG id=infoBlockIDImage class=actionIcon border=0 alt=\"추가 정보\" src=\"down.png\"></A> </TD>
+<TD vAlign=top><SPAN id=moreInfoContainer></SPAN><NOSCRIPT></NOSCRIPT></TD></TR></TBODY></TABLE></H4>
+<DIV style=\"DISPLAY: none\" id=infoBlockID class=infoBlock>
+<P><ID id=errorExpl1>이 문제는 다음과 같은 여러 가지 원인이 있을 수 있습니다.</ID> 
+<UL>
+<LI id=errorExpl2>인터넷 연결이 끊어졌습니다. 
+<LI id=errorExpl3>웹 사이트를 일시적으로 사용할 수 없습니다. 
+<LI id=errorExpl4>DNS(도메인 이름 서버)에 연결할 수 없습니다. 
+<LI id=errorExpl5>DNS(도메인 이름 서버)에 웹 사이트의 도메인에 대한 목록이 없습니다. </LI></UL>
+<P></P></DIV></TD></TR></TBODY></TABLE>|ISP|121.168.57.24|@|AEGIS_ISP_aegis_20150320001556151778|]
+INFO	[2015-03-20 00:15:56:152] <27542> Connect IP:[220.85.12.3] Port:[29760]
+INFO	[2015-03-20 00:15:56:156] <27542> Socket Open OK
+INFO	[2015-03-20 00:15:56:695] <27542> RecvMsg Length : []
+INFO	[2015-03-20 00:15:56:695] <27542> RecvMsg : []
+INFO	[2015-03-20 00:15:56:695] <27542> Socket Close OK
+ERROR	[2015-03-20 00:15:56:695] <27542> Recv Msg Length Check Errror : sRecvLen[]sRecvMsg Length[0]
+FATAL	[2015-03-20 00:15:56:695] <27542> Send & Recv Msg Fail
+WARN	[2015-03-20 00:15:56:695] <27542> NetCancel Call
+WARN	[2015-03-20 00:15:56:695] <27542> card-isp Cancel Start
+WARN	[2015-03-20 00:15:56:695] <27542> Cancel Reason : Send & Recv Msg Fail
+INFO	[2015-03-20 00:15:56:695] <27542> Make Cancel Msg Start
+INFO	[2015-03-20 00:15:56:696] <27542> card-isp Make Cancel MSG OK 
+INFO	[2015-03-20 00:15:56:696] <27542> Make Cancel Msg End
+INFO	[2015-03-20 00:15:56:696] <27542> Send & Recv Msg Start
+INFO	[2015-03-20 00:15:56:696] <27542> Send Data To PG Start [ 
+INFO	[2015-03-20 00:15:56:696] <27542> 0:0000542cancel
+INFO	[2015-03-20 00:15:56:696] <27542> 1:aegis
+INFO	[2015-03-20 00:15:56:696] <27542> 2:
+INFO	[2015-03-20 00:15:56:696] <27542> 3:
+INFO	[2015-03-20 00:15:56:696] <27542> 4:
+INFO	[2015-03-20 00:15:56:696] <27542> 5:AEGIS_ISP_aegis_20150320001556151778
+INFO	[2015-03-20 00:15:56:696] <27542> 6:
+INFO	[2015-03-20 00:15:56:696] <27542> ] Send Data To PG End 
+INFO	[2015-03-20 00:15:56:696] <27542> SendMsg : [0000542cancel|aegis||||AEGIS_ISP_aegis_20150320001556151778|]
+INFO	[2015-03-20 00:15:56:696] <27542> Connect IP:[220.85.12.3] Port:[29760]
+INFO	[2015-03-20 00:15:56:699] <27542> Socket Open OK
+INFO	[2015-03-20 00:15:57:98] <27542> RecvMsg Length : [000000]
+INFO	[2015-03-20 00:15:57:98] <27542> RecvMsg : []
+INFO	[2015-03-20 00:15:57:98] <27542> Socket Close OK
+ERROR	[2015-03-20 00:15:57:98] <27542> Recv Msg Length Check Errror : sRecvLen[000000]sRecvMsg Length[0]
+ERROR	[2015-03-20 00:15:57:98] <27542> Send & Recv Msg Error
+FATAL	[2015-03-20 00:15:57:98] <27542> NetCancel Fail End
+INFO	[2015-03-20 00:15:57:98] <27542> END  Recv Msg Length Check Errror Transaction time:[0.95sec]
+INFO	[2015-03-20 00:15:57:98] <27542> ===============================================================

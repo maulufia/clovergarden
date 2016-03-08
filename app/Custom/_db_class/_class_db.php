@@ -22,7 +22,7 @@
         function DBClass()
         {
             $this->connect_host = 'localhost';
-            $this->connect_id   = 'root';
+            $this->connect_id   = 'clovergarden';
             $this->connect_pass = 'clovergarden12*!';
             $this->connect_db   = 'clovergarden100';
 
@@ -225,9 +225,9 @@
 		
         function InsertMultiDB($pTableName, $pField, $pArr, $pConnect=null)
         {
-			echo $pField;
             $sql = 'insert into '.$pTableName.' ('.join(',',$pField).") values";
 			
+            $multiValue = null;
             for($i=0, $cnt=count($pArr); $i < $cnt; $i++) {
                 $multiValue = $multiValue.",('".join("','",$pArr[$i])."')";
             }

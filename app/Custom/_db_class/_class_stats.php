@@ -34,7 +34,8 @@
         function ArrList($pResult, $pCnt, $pJoin=null)
         {
             $pResultValue = array();
-            $pResultValue[$pCnt]->user_ip    = stripcslashes($pResult['user_ip']);
+            $pResultValue[$pCnt] = new StdClass();
+            $pResultValue[$pCnt]->user_ip    = isset($pResult['user_ip']) ? stripcslashes($pResult['user_ip']) : null;
             $pResultValue[$pCnt]->stats_date = stripcslashes($pResult['stats_date']);
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {

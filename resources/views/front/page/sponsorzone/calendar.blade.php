@@ -90,6 +90,8 @@
 	$arr_people = null;
 	$arr_service_people = null;
 	$arr_board_name = null;
+	$arr_board_name_other = null; // $nschedule->work_date때문에 임시로 씀
+	$arr_board_people_other = null; // 위와 동일
 	
 	//======================== DB Module End ===============================
 	if(count($nSchedule->page_result) > 0){
@@ -101,12 +103,19 @@
 			(	
 				$nSchedulepeo->table_name, $nSchedulepeo, "*", "where schedule_seq='".$nSchedule->seq."' order by seq desc", null, null
 			);
-			$arr_board_name[$i][$nSchedule->work_date."_on"] = $arr_board_name[$nSchedule->work_date]."<a class='orange_small_btn' href='javascript:dateDetail($nSchedule->seq)'>".$nSchedule->subject."</a><br>";
-			$arr_board_name[$i][$nSchedule->work_date."_off"] = $arr_board_name[$nSchedule->work_date]."<a class='gray_small_btn' href='javascript:dateDetail($nSchedule->seq)'>".$nSchedule->subject."</a><br>";
+			
+			$arr_board_name_other = isset($arr_board_name[$nSchedule->work_date]) ? $arr_board_name[$nSchedule->work_date] : null;
+			
+			$arr_board_name[$i][$nSchedule->work_date."_on"] = $arr_board_name_other."<a class='orange_small_btn' href='javascript:dateDetail($nSchedule->seq)'>".$nSchedule->subject."</a><br>";
+
+			$arr_board_name[$i][$nSchedule->work_date."_off"] = $arr_board_name_other."<a class='gray_small_btn' href='javascript:dateDetail($nSchedule->seq)'>".$nSchedule->subject."</a><br>";
+
+			$arr_board_people_other = isset($arr_board_people[$nSchedule->work_date]) ? $arr_board_people[$nSchedule->work_date] : null;
+			
 			$service_people = explode(',',$nSchedule->service_people);
 			//$arr_service_people[$nSchedule->work_date] = $arr_board_people[$nSchedule->work_date].count($service_people);
 			$arr_service_people[$nSchedule->work_date] = count($nSchedulepeo->page_result);
-			$arr_people[$nSchedule->work_date] = $arr_board_people[$nSchedule->work_date].$nSchedule->people;
+			$arr_people[$nSchedule->work_date] = $arr_board_people_other . $nSchedule->people;
 			
 		
 		}
@@ -164,8 +173,8 @@ $Conn->DisConnect();
 							$calendar_date = date('Y-m-d',strtotime($year."-".$month."-".$day));
 							$reserv = dateDiff($today,$calendar_date);
 
-							$service_people_count = $arr_service_people[date('Y-m-d',strtotime($year."-".$month."-".$day))];
-							$people_count = $arr_people[date('Y-m-d',strtotime($year."-".$month."-".$day))];
+							$service_people_count = isset($arr_service_people[date('Y-m-d',strtotime($year."-".$month."-".$day))]) ? $arr_service_people[date('Y-m-d',strtotime($year."-".$month."-".$day))] : null;
+							$people_count = isset($arr_people[date('Y-m-d',strtotime($year."-".$month."-".$day))]) ? $arr_people[date('Y-m-d',strtotime($year."-".$month."-".$day))] : null;
 
 							if($reserv > 0 || $service_people_count >= $people_count){ 
 								$ckeck = "_off";
@@ -193,7 +202,8 @@ $Conn->DisConnect();
 							echo $day;
 							echo "</span>";
 							for($k=0; $k<count($arr_board_name); $k++){
-								echo $arr_board_name[$k][date('Y-m-d',strtotime($year."-".$month."-".$day)).$ckeck]; 
+								if(isset($arr_board_name[$k][date('Y-m-d',strtotime($year."-".$month."-".$day)).$ckeck]))
+									echo $arr_board_name[$k][date('Y-m-d',strtotime($year."-".$month."-".$day)).$ckeck]; 
 							}
 
 							
@@ -231,11 +241,11 @@ $Conn->DisConnect();
 
 
 	function dateDetail(seq){
-		var detail_link = '/page/sponsor/calendar_detail.php';
+		var detail_link = '{{ route("sponsorzone_calendar_detail") }}';
 		$.ajax({
 			type: 'GET',
 			url: detail_link,
-			data: { seq:seq},
+			data: { seq:seq },
 			success: function (data) {
 				$('.schedule_submit').empty();
 				$('.schedule_submit').html(data);

@@ -55,6 +55,10 @@ class MainController extends Controller
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
+		// 원래 삭제는 POST로 해야하나, 기존에 GET으로 되어 있어서 바꾸기 힘들어 이렇게 해놓음
+		if($view_name == 'front.page.sponsorzone.activity_del')
+			return $this->cancelService();
+		
 		if($view_name == null) // view_name이 null이면(인증필요) 리다이렉트
 			return redirect()->route('login');
 		
@@ -444,6 +448,39 @@ class MainController extends Controller
   	return view('front.page.sponsorzone.calendar');
   }
   
+  public function showCalendarDetail() {
+  	return view('front.page.sponsorzone.calendar_detail');
+  }
+  
+  public function showTempSupportResult() {
+  	$sub_cate = 1; // initiate
+		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
+		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
+		$dep02_active = isset($dep02) ? $dep02 : 0;
+		
+		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
+    $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
+		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
+		$cate_01_count = count($cate_01_result);
+		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
+		$cate_01_type = ""; 
+		$cate_02_result = 0;
+
+  	return view('front.page.clovergarden.home_write_result', ['cate' => 1,
+																														 'sub_cate' => $sub_cate,
+																														 'cate_file' => $cate_file,
+																														 'cate_name' => $cate_name,
+																														 'sub_cate' => $sub_cate,
+																														 'dep01' => $dep01,
+																														 'dep02' => $dep02,
+																														 'dep02_active' => $dep02_active,
+																														 'cate_01_result' => $cate_01_result,
+																														 'cate_01_count' => $cate_01_count,
+																														 'cate_01_type' => $cate_01_type,
+																														 'cate_02_result' => $cate_02_result
+																														 ]);
+  }
+  
   public function showTempSupportResultPoint() {
   	$sub_cate = 1; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
@@ -546,16 +583,26 @@ class MainController extends Controller
 										'front.page.mypage.messagebox.messagebox_get',
 										'front.page.mypage.point'
 									);
-		$board_write = array( // 좋은 디자인은 아니다
-									'front.page.sponsorzone.community.board_sponsor_write',
+		$board_sponsor_write = array( // 좋은 디자인은 아니다
+									'front.page.sponsorzone.community.board_sponsor_write'
+									);
+		$board_company_write = array( // 좋은 디자인은 아니다
 									'front.page.sponsorzone.community.board_company_write'
 									);
-		$board_edit = array( // 좋은 디자인은 아니다
-									'front.page.sponsorzone.community.board_sponsor_edit',
+		$board_sponsor_edit = array( // 좋은 디자인은 아니다
+									'front.page.sponsorzone.community.board_sponsor_edit'
+									);
+		$board_company_edit = array( // 좋은 디자인은 아니다
 									'front.page.sponsorzone.community.board_company_edit'
+									);
+		$service_apply = array( // 좋은 디자인은 아니다
+									'front.page.sponsorzone.activity_write',
 									);
 		$cheer_write = array( // 좋은 디자인은 아니다
 									'front.page.clovergarden.home_comment_write'
+									);
+		$support_temp = array( // 좋은 디자인은 아니다
+									'front.page.clovergarden.home_write_result'
 									);
 		$support_temp_point = array( // 좋은 디자인은 아니다
 									'front.page.clovergarden.home_write_resultpoint'
@@ -594,21 +641,45 @@ class MainController extends Controller
 			}
 		}
 		
-		foreach ($board_write as $fe) {
+		foreach ($board_sponsor_write as $fe) {
 			if($fe == $view_name) {
 				return $this->writePost();
 			}
 		}
-		
-		foreach ($board_edit as $fe) {
+				
+		foreach ($board_sponsor_edit as $fe) {
 			if($fe == $view_name) {
 				return $this->editPost();
+			}
+		}
+		
+		foreach ($board_company_write as $fe) {
+			if($fe == $view_name) {
+				return $this->writeCompanyPost();
+			}
+		}
+		
+		foreach ($board_company_edit as $fe) {
+			if($fe == $view_name) {
+				return $this->editCompanyPost();
+			}
+		}
+		
+		foreach ($service_apply as $fe) {
+			if($fe == $view_name) {
+				return $this->applyService();
 			}
 		}
 		
 		foreach ($cheer_write as $fe) {
 			if($fe == $view_name) {
 				return $this->writeCheer();
+			}
+		}
+		
+		foreach ($support_temp as $fe) {
+			if($fe == $view_name) {
+				return $this->showTempSupportResult();
 			}
 		}
 		
@@ -1100,6 +1171,107 @@ class MainController extends Controller
 																									'type' => 'view',
 																									'seq' => $seq
 																									));
+  }
+  
+  private function editCompanyPost() {
+		$nSchedule = new \ScheduleClass(); //
+
+		$nSchedule->writer    = $_POST['writer']."," . Auth::user()->user_id; // 작성자ID
+		$nSchedule->subject    = $_POST['subject'];
+		$nSchedule->content    = RepEditor($_POST['content']); // 내용
+		
+		$seq = isset($_POST['seq']) ? $_POST['seq'] : 0;
+
+    $arr_field = array
+    (
+        'subject', 'content'
+    );
+
+    $arr_value = array
+    (
+        $nSchedule->subject, $nSchedule->content
+    );
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+			$Conn->StartTrans();
+			$out_put = $Conn->UpdateDB($nSchedule->table_name, $arr_field, $arr_value, "where seq = '".$seq."'");
+			if(!$out_put){
+				$Conn->RollbackTrans();
+				$Conn->disConnect();
+			}else{
+				$Conn->CommitTrans();
+			}
+
+		$Conn->disConnect();
+		//======================== DB Module End ===============================
+
+		return redirect()->route('sponsorzone', array('cate' => 0,
+																									'dep01' => 1,
+																									'dep02' => 2,
+																									'type' => 'view',
+																									'seq' => $seq
+																									));
+  }
+  
+  private function applyService() {
+    $nSchedulepeo = new \SchedulepeoClass(); //자유게시판
+
+    $seq    = $_POST['seq'];
+
+    $edit_cnt = 0;
+    $arr_field= array('name', 'phone','schedule_seq','writer');
+    $arr_value = array();
+    $arr_where = array();
+
+    for($i=1, $cnt_list=count($_POST['name']); $i < $cnt_list; $i++) {
+        //if($_POST['name'][$i] != '' && $_POST['phone'][$i] != ''){
+		if($_POST['name'][$i] != ''){
+			if($_POST['phone'][$i] == '') $_POST['phone'][$i] = "-";
+            $arr_value[$edit_cnt] = array($_POST['name'][$i], $_POST['phone'][$i], $_POST['seq'], Auth::user()->user_id);
+            if($cnt_list != $edit_cnt) $edit_cnt = $edit_cnt + 1;
+        }
+    }
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+		$Conn->StartTrans();
+		if($edit_cnt != '0') $out_put = $Conn->InsertMultiDB($nSchedulepeo->table_name, $arr_field, $arr_value);
+		if($out_put){
+			$Conn->CommitTrans();
+		}else{
+			$Conn->RollbackTrans();
+			$Conn->disConnect();
+		}
+
+		$Conn->disConnect();
+		//======================== DB Module End ===============================
+		
+		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 2));
+  }
+  
+  private function cancelService() {
+    $nSchedulepeo   = new \SchedulepeoClass();
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+    $Conn->StartTrans();
+    $out_put = $Conn->DeleteDB($nSchedulepeo->table_name, "where writer = '" . Auth::user()->user_id . "' and schedule_seq='".$_GET['schedule_seq']."'");
+
+    if($out_put){
+        $Conn->CommitTrans();
+    }else{
+        $Conn->RollbackTrans();
+        $Conn->disConnect();
+    }
+
+		$Conn->disConnect();
+		//======================== DB Module End ===============================
+
+		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 2));
   }
   
   private function writeCheer() {

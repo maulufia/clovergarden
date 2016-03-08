@@ -32,6 +32,9 @@
     <script src="/js/vendor/html5.js"></script>
     <script src="/js/vendor/respond.js"></script>
     <![endif]-->
+    
+    <!-- Flash -->
+    @include('flash::message_alert')
 </head>
 
 <!-- pagekey.blade.php -->
