@@ -161,6 +161,7 @@ return [
         clovergarden\Providers\AuthServiceProvider::class,
         clovergarden\Providers\EventServiceProvider::class,
         clovergarden\Providers\RouteServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         
         /*
          * Flash
@@ -213,8 +214,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
-        'Flash'     => 'Laracasts\Flash\Flash'
-
+        'Flash'     => 'Laracasts\Flash\Flash',
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class
     ],
 
 ];

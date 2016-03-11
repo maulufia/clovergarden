@@ -7,15 +7,23 @@
 	</header>
 	<div class="login">
 		<form method="POST" id="loginForm" action="/login">
-			<input type="text" name="idu" placeholder="이메일을 입력해주세요.">
-			<input type="password" name="passwd" placeholder="비밀번호를 입력해주세요." class="mt20">
-			{{ UserHelper::SubmitHidden() }}
-			<input type="submit" value="LOGIN" id="login" class="ml10 orange_big_btn2" style="position:absolute; margin-top:-33px;border:none;">
-			<a href="#" onclick="javascript:FaceBookLoginAPI();"  scope="public_profile,email" class="ml10 orange_big_btn2 blue" style="position: absolute; margin-top: -33px; left: 537px;">
-				페이스북<br>로그인
-			</a>
-			
-			<div id="fb-root"></div>
+			<div id="loginForm_col1" style="float: left; width: 290px;">
+				<input type="text" name="idu" placeholder="이메일을 입력해주세요.">
+				<input type="password" name="passwd" placeholder="비밀번호를 입력해주세요." class="mt20">
+				{{ UserHelper::SubmitHidden() }}
+			</div>
+			<div id="loginForm_col2" style="float: left;">
+				<input type="submit" value="LOGIN" id="login" class="ml10 orange_big_btn2" style="float: left; border:none;">
+				<a href="#" onclick="javascript:FaceBookLogin();"  scope="public_profile,email" class="ml10 orange_big_btn2 blue" style="float: left;">
+					페이스북<br>로그인
+				</a>
+				<a href="#" onclick="javascript:NaverLogin();" class="ml10 orange_big_btn2" style="background: #1EB501; box-shadow: 0px 2px 0px 0px #135606">
+					네이버<br>로그인
+				</a>
+				<a href="#" onclick="javascript:KakaoLogin();" class="ml10 orange_big_btn2" style="display: none;">
+					카카오<br>로그인
+				</a>
+			</div>
 
 		</form>
 	</div>
@@ -54,6 +62,21 @@
 </script>
 
 <script>
+	function FaceBookLogin() {
+		$('#loginForm').attr('action', '/login/facebook');
+		$('#loginForm').submit();
+	}
+	
+	function NaverLogin() {
+		$('#loginForm').attr('action', '/login/naver');
+		$('#loginForm').submit();
+	}
+	
+	function KakaoLogin() {
+		$('#loginForm').attr('action', '/login/kakao');
+		$('#loginForm').submit();
+	}
+
   window.fbAsyncInit = function() {         //페이스북 sdk 초기화 작업
   FB.init({
     appId      : '231731487016840',

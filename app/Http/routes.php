@@ -97,6 +97,14 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/login', 'MainController@showLogin')->name('login')->middleware('auth');
 	Route::post('/login', 'UserController@loginControl');
 	
+	# LOGIN (SOCIAL)
+	Route::any('/login/facebook', 'UserController@snsLoginControl');
+	Route::any('/login/naver', 'UserController@snsLoginControl');
+	Route::any('/login/kakao', 'UserController@snsLoginControl');
+	Route::get('/login/facebook/callback', 'UserController@snsLoginCallbackFacebook');
+	Route::get('/login/naver/callback', 'UserController@snsLoginCallbackNaver');
+	Route::get('/login/kakao/callback', 'UserController@snsLoginCallbackKakao');
+	
 	Route::get('login/checkgroup', 'MainController@checkGroup')->name('checkgroup');
 	Route::get('login/checkgroupname', 'MainController@showCheckGroupName')->name('checkgroupname');
 	Route::get('login/checkid', 'MainController@checkId')->name('check_id');

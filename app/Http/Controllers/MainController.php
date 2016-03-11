@@ -1335,7 +1335,7 @@ class MainController extends Controller
 
 		$file_name = explode('@',$nMember->user_id);
 
-		if($_POST['user_pw'] != null){
+		if(isset($_POST['user_pw'])){
 			$nMember->user_pw = Hash::make(strtolower($_POST['user_pw']));
 		} else {
 			$nMember->user_pw =  $nMember->user_pw;

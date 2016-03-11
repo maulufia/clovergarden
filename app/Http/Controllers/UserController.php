@@ -2,7 +2,8 @@
 
 namespace clovergarden\Http\Controllers;
 
-use Input, DB, Auth, Redirect, Hash;
+use Input, DB, Auth, Route, Redirect, Hash;
+use Socialite;
 
 class UserController extends Controller
 {
@@ -12,13 +13,105 @@ class UserController extends Controller
 	}
 	
 	/*
-	  |--------------------------------------------------------------------------
-	  | User Control Methods
-	  |--------------------------------------------------------------------------
-	  |
-	  | These methods below are for user control.
-	  |
-	  */
+  |--------------------------------------------------------------------------
+  | User Control Methods
+  |--------------------------------------------------------------------------
+  |
+  | These methods below are for user control.
+  |
+  */
+	  
+	public function snsLoginControl() {
+		$driver = Route::getCurrentRoute()->getPath();
+		switch($driver) {
+			case 'login/facebook':
+				return Socialite::driver('facebook')->redirect();
+				break;
+			case 'login/naver':
+				return Socialite::driver('naver')->redirect();
+				break;
+			case 'login/kakao':
+				return Socialite::driver('kakao')->redirect();
+				break;
+		}
+	}
+	
+	public function snsLoginCallbackFacebook() {
+		$user = Socialite::driver('facebook')->user(); // get data from user (sns)
+		
+		$user_name = $user->getName();
+		$user_email = $user->getEmail();
+
+		// Check whether user is exist
+		$user_select = DB::table('new_tb_member')->select('id', 'social_type')->where('user_id', '=', $user_email)->get();
+		if($user_select) {
+			if(is_null($user_select[0]->social_type)) {
+				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 일반회원으로 로그인해 주시길 바랍니다.');
+			}
+			
+			if($user_select[0]->social_type == 'n') {
+				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 네이버 로그인을 이용해 주시길 바랍니다.');
+			}
+			
+			Auth::loginUsingId($user_select[0]->id);
+		} else { // If not exist, add the user in DB
+			$id = DB::table('new_tb_member')->insertGetId(
+				['user_state' => 2, 'user_id' => $user_email, 'user_name' => $user_name, 'social_type' => 'f']
+				);
+			
+			Auth::loginUsingId($id);
+		}
+
+		return redirect()->route('home');
+	}
+	
+	public function snsLoginCallbackNaver() {
+		$user = Socialite::driver('naver')->user(); // get data from user (sns)
+		$user_name = $user->getName();
+		$user_email = $user->getEmail();
+
+		// Check whether user is exist
+		$user_select = DB::table('new_tb_member')->select('id', 'social_type')->where('user_id', '=', $user_email)->get();
+		if($user_select) {
+			if(is_null($user_select[0]->social_type)) {
+				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 일반회원으로 로그인해 주시길 바랍니다.');
+			}
+			
+			if($user_select[0]->social_type == 'f') {
+				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 페이스북 로그인을 이용해 주시길 바랍니다.');
+			}
+			
+			Auth::loginUsingId($user_select[0]->id);
+		} else { // If not exist, add the user in DB
+			$id = DB::table('new_tb_member')->insertGetId(
+				['user_state' => 2, 'user_id' => $user_email, 'user_name' => $user_name, 'social_type' => 'n']
+				);
+			
+			Auth::loginUsingId($id);
+		}
+
+		return redirect()->route('home');
+	}
+	
+	public function snsLoginCallbackKakao() {
+		$user = Socialite::driver('kakao')->user(); // get data from user (sns)
+		$user_name = $user->getName();
+		$user_email = $user->getEmail();
+
+		// Check whether user is exist
+		$user_select = DB::table('new_tb_member')->select('id')->where('user_id', '=', $user_email)->get();
+		if($user_select) {
+			Auth::loginUsingId($user_select[0]->id);
+		} else { // If not exist, add the user in DB
+			$id = DB::table('new_tb_member')->insertGetId(
+				['user_state' => 2, 'user_id' => $user_email, 'user_name' => $user_name]
+				);
+			
+			Auth::loginUsingId($id);
+		}
+
+		return redirect()->route('home');
+	}
 	  
   public function loginControl() {
   	$type = isset($_GET['type']) ? $_GET['type'] : null;

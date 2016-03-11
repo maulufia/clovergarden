@@ -100,6 +100,7 @@ function openDaumPostcode() {
 					<th scope="row">이메일(ID)</th>
 					<td class="c_dark_gray t_bold fs14">{{ $nMember->user_id }}</td>
 				</tr>
+			@if(!Auth::user()->social_type)
 				<tr >
 					<th scope="row">비밀번호</th>
 					<td><input type="password" name="user_pw" placeholder="**********" class="w420"></td>
@@ -108,6 +109,7 @@ function openDaumPostcode() {
 					<th scope="row">비밀번호 확인</th>
 					<td><input type="password" name="user_repw" placeholder="**********" class="w420"></td>
 				</tr>
+			@endif
 				<tr >
 					<th scope="row">성별</th>
 					<td>

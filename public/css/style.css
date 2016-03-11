@@ -670,7 +670,7 @@ h3.banner_title2 {padding-top:5px; margin:70px 0 10px 32px;}
 	padding-left: 10px;
 	width: 277px;
 }
-.login #loginForm {width:527px; margin:160px auto 0;}
+.login #loginForm {width:650px; margin:160px auto 0; overflow: hidden;}
 .login .desc {margin-top:20px; font-weight: bold; color: #FD4F00; text-align: center;}
 
 /* Webkit */
@@ -685,7 +685,10 @@ h3.banner_title2 {padding-top:5px; margin:70px 0 10px 32px;}
 /* IE10+ */
 .login :-ms-input-placeholder, .edit :-ms-input-placeholder { color: #D8D8D8; font-weight: bold; }
 
-.login .btns {margin:150px 0 0 150px}
+.login .btns {
+	margin-top: 150px;
+	text-align: center;
+}
 
 .edit {widows: 790px; height: 100px; border: 1px solid #e2e2e2; margin: 50px auto 0; padding: 20px 0 20px; text-align: center; vertical-align: middle;}
 .edit .desc {margin-left: 134px; margin-top:15px; font-weight: bold; color: #FD4F00; text-align: left;}

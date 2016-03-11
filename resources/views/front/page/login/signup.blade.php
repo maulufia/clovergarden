@@ -6,10 +6,13 @@
 		<h2 class="ti">회원가입</h2>
 	</header>
 	<div class="login">
-		<div class="btns" style="margin-left:220px;">
+		<div class="btns">
 			<a href="{{ route('login', array('cate' => 5, 'dep01' => 4)) }}" class="ml10 orange_big_btn2 resize">일반 회원<br>가입하기</a>
-			<a href="javascript:FaceBookLoginAPI();" class="ml10 orange_big_btn2 resize blue">
+			<a href="javascript:FaceBookLogin();" class="ml10 orange_big_btn2 resize blue">
 				페이스북<br>가입하기
+			</a>
+			<a href="/login/naver" class="ml10 orange_big_btn2 resize green">
+				네이버<br>가입하기
 			</a>
 			<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 			</fb:login-button> -->
@@ -22,6 +25,10 @@
 </section>
 
 <script>
+	function FaceBookLogin() {
+		$(location).attr('href', '/login/facebook');
+	}
+	
   window.fbAsyncInit = function() {         //페이스북 sdk 초기화 작업
   FB.init({
     appId      : '231731487016840',

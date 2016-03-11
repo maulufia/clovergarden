@@ -34,5 +34,23 @@ return [
         'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    
+    'facebook' => [
+        'client_id' => '192015317838438',
+        'client_secret' => '8ba778ae392a18758beaa61ecaf5ba71',
+        'redirect' => 'http://clovergarden.co.kr/login/facebook/callback',
+    ],
+    
+    'naver' => [
+        'client_id' => 'vFxs5eu9CEF4puGua7IE',
+        'client_secret' => '0b5VSdaabW',
+        'redirect' => 'http://clovergarden.co.kr/login/naver/callback',
+    ],
+    
+    'kakao' => [
+        'client_id' => '74aa869cab3419d7054058079c7dd094',
+        'client_secret' => '',
+        'redirect' => 'http://clovergarden.co.kr/login/kakao/callback',
+    ],
 
 ];
