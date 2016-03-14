@@ -129,7 +129,8 @@ Route::group(['middleware' => ['web']], function () {
 	# LOGOUT
 	Route::get('/logout', function() {
 		Auth::logout();
-		return Redirect::route('home')->with('flash_notification.message', '로그아웃이 완료되었습니다.');
+		Flash::success('로그아웃이 완료되었습니다.');
+		return Redirect::route('home');
 	})->name('logout');
 	
 	# ADMIN / LOGIN
@@ -151,7 +152,8 @@ Route::group(['middleware' => ['web']], function () {
 	  // bcrypt로 로그인
 	  if (Auth::attempt($user)) {
 	  	if( !(Auth::user()->user_state == 10 || Auth::user()->user_state == 1) ) {
-	  		return Redirect::route('logout')->with('flash_error', '관리자만 이용 가능합니다');
+	  		Flash::error('관리자만 이용 가능합니다.');
+	  		return Redirect::route('logout');
 	  	}
 
 	  	return Redirect::intended('/admin/main');
@@ -204,9 +206,13 @@ Route::group(['middleware' => ['web']], function () {
 	# ADMIN / PAGE
 	Route::any('/admin/page', 'AdminController@showPage')->name('admin/page')->middleware('auth.admin');
 	
+	# ADMIN / SETTING
+	Route::any('/admin/setting', 'AdminController@showSetting')->name('admin/setting')->middleware('auth.admin');
+	
 	## SUB ROUTE ##
 	Route::post('/ckeditor/upload', 'FileController@upload')->name('fileupload');
 	Route::get('/agspay/AGS_progress', 'ChargeController@showProgress')->name('agspay/AGS_progress');
 	Route::post('/agspay/AGS_pay_ing', 'ChargeController@showAGSPay')->name('agspay/AGS_pay_ing');
+	Route::any('/agspay/AGS_VirAcctResult', 'ChargeController@showVirAcctResult')->name('agspay/AGS_VirAcctResult');
 
 });

@@ -143,26 +143,28 @@
 			$ex_clover_seq_adm = explode("[@@@@]",$nMember->clover_seq_adm);
 			$ex_date_or_type = explode("[@@]",$nMember->clover_seq_adm_type);
 ?>
-                <tr>
-                    <td>{{ $row_no }}</td>
-                    <td>{{ date("Y-m-d",$ex_date_or_type[0]) }}</td>					
-                    <td>{{ $nMember->user_name }}</td>
-                    <td>
+      	<tr>
+          <td>{{ $row_no }}</td>
+          <td>{{ date("Y-m-d",$ex_date_or_type[0]) }}</td>					
+          <td>{{ $nMember->user_name }}</td>
+          <td>
 					<?php
-					$ex_seq_clover_1 = explode("[@@@]",$ex_clover_seq_adm[0]);
-					for($j=0; $j<count($ex_seq_clover_1); $j++){
-						$v_ex = explode("[@@]",$ex_seq_clover_1[$j]);
-						echo $clover_name[$v_ex[0]]." ".number_format($v_ex[1])."원 <BR>";
-					}
+						$ex_seq_clover_1 = explode("[@@@]",$ex_clover_seq_adm[0]);
+						for($j=0; $j<count($ex_seq_clover_1); $j++){
+							$v_ex = explode("[@@]",$ex_seq_clover_1[$j]);
+							if(isset($v_ex[0]) && isset($v_ex[1])) {
+								echo $clover_name[$v_ex[0]]." ".number_format($v_ex[1])."원 <BR>";
+							}
+						}
 					?>
 					</td>
           <td>
 					<?php
-					$ex_seq_clover_1 = explode("[@@@]",$ex_clover_seq_adm[1]);
-					for($j=0; $j<count($ex_seq_clover_1); $j++){
-						$v_ex = explode("[@@]",$ex_seq_clover_1[$j]);
-						echo $clover_name[$v_ex[0]]." ".number_format($v_ex[1])."원 <BR>";
-					}
+						$ex_seq_clover_1 = explode("[@@@]",$ex_clover_seq_adm[1]);
+						for($j=0; $j<count($ex_seq_clover_1); $j++){
+							$v_ex = explode("[@@]",$ex_seq_clover_1[$j]);
+							echo $clover_name[$v_ex[0]]." ".number_format($v_ex[1])."원 <BR>";
+						}
 					?>
 					</td>
 					<td>

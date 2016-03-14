@@ -10,21 +10,17 @@
 	$nClovermlist_login = new ClovermlistClass(); //후원목록
 	$nClover_m = new CloverClass(); //클로버목록
 	$nClovernews = new ClovernewsClass(); //
-//======================== DB Module Start ============================
-$Conn = new DBClass();
-
+	
+	//======================== DB Module Start ============================
+	$Conn = new DBClass();
 
 	$nClovermlist_login->page_result = $Conn->AllList
 	(	
-		$nClovermlist_login->table_name, $nClovermlist_login, "*", "where id='" . Auth::user()->user_id . "' group by clover_seq order by reg_date desc", null, null
+		$nClovermlist_login->table_name, $nClovermlist_login, "*", "where id='" . Auth::user()->user_id . "'and order_adm_ck = 'y' group by clover_seq order by reg_date desc", null, null
 	);
 
-
-$Conn->DisConnect();
-
-
-
-//======================== DB Module End ===============================
+	$Conn->DisConnect();
+	//======================== DB Module End ===============================
 ?>
 
 <section class="wrap">
@@ -85,15 +81,19 @@ $Conn->DisConnect();
 						$Conn->DisConnect();
 
 			?>
-			<div class="box5 <?php if($i%4==3) echo "box5_last"; ?>">
-				<div class="img">
-				<a href="javascript:news_popup({{ $nClovernews->seq }});">
-					<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
-				</a>
-				</div>
-				<div class="title">
-					<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank"><img src="/imgs/pdf.jpg"></a>
-				<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php } else { ?><img src="/imgs/dot2.jpg"><?php } ?> <a href="javascript:news_popup({{ $nClovernews->seq }});">{{ $nClovernews->subject }}</a>
+			<div class="box5-wrapper">
+				<div class="box5 <?php if($i%4==3) echo "box5_last"; ?>">
+					<div class="img">
+					<a href="javascript:news_popup({{ $nClovernews->seq }});">
+						<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
+					</a>
+					</div>
+					<div class="title">
+						<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">
+							<img src="/imgs/pdf.jpg">
+						<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php } else { ?><img src="/imgs/dot2.jpg"><?php } ?> <span style="display: block;">{{ $nClovernews->subject }}</span>
+						</a>
+					</div>
 				</div>
 			</div>
 			<?php

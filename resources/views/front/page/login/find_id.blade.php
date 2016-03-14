@@ -7,11 +7,13 @@
 	</header>
 	<div class="login">
 		<form method="post" id="loginForm" action="{{ route('login', array('cate' => 5, 'dep01' => 1, 'type' => 'id_step1')) }}" style="margin-top:140px;">
-			<input type="text" name="user_name" placeholder="이름을 입력해주세요.">
-			<input type="text" name="user_cell" placeholder="연락처를 입력해주세요." class="mt20">
+            <div id="loginForm_col1" style="float: left; width: 290px;">
+    			<input type="text" name="user_name" placeholder="이름을 입력해주세요.">
+    			<input type="text" name="user_cell" placeholder="연락처를 입력해주세요." class="mt20">
+            </div>
 			<input type="hidden" name="list_link" value="{{ route('login', array('cate' => 5, 'dep01' => 1)) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-			<a href="#" id="find" class="ml10 orange_big_btn2" style="position:absolute; margin-top:-33px;">아이디 찾기</a>
+			<a href="#" id="find" class="ml10 orange_big_btn2">아이디 찾기</a>
 		</form>
 		<div class="desc">* 이름과 휴대폰번호를 입력하시면 아이디를 확인하실 수 있습니다.</div>
 	</div>

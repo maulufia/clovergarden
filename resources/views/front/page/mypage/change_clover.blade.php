@@ -42,70 +42,8 @@
 		$nClovermlist->table_name, $nClovermlist, "*", "where id='" . Auth::user()->user_id . "' and order_adm_ck='y' and start != '' group by clover_seq order by reg_date desc limit 10000", null, null
 	);
 
-	$cseq = isset($_GET['cseq']) ? $_GET['cseq'] : '';
-	if($cseq != ""){
-		$sql = "update new_tb_member set clover_seq='" . $cseq . "', update_ck='Y' where user_id='" . Auth::user()->user_id . "'";
-		mysql_query($sql);
-			echo "
-			<script>
-			alert('정보가 수정되었습니다.');
-			window.location='{{ route('mypage') }}?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."';
-			</script>
-			";
-	}
-
-	$cseq2 = isset($_GET['cseq2']) ? $_GET['cseq2'] : '';
-	$ck_price = null;
-	if($cseq2 != ""){
-
-		for($i=1; $i<count($cseq2); $i++){
-			$ck_price += $_GET['select_money'][$i];
-			if($i == 1){
-				$seq_clover_ex = $cseq2[$i]."[@@]".$_GET['select_money'][$i];
-			} else {
-				$seq_clover_ex .= "[@@@]" . $cseq2[$i] . "[@@]".$_GET['select_money'][$i];
-			}
-			$arr_count_v[$i] = $cseq2[$i];
-		}
-		if($_GET['sum_price_ck'] != $ck_price){
-			echo "
-			<script>
-			alert('변경금액을 확인해주세요!');
-			window.location='{{ route('mypage') }}?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."';
-			</script>
-			";
-			exit;
-		}
-		$arr_count = count($arr_count_v);
-
-		$uniq_count = count(array_unique($arr_count_v));
-
-		if($arr_count != $uniq_count) {
-
-			echo "
-			<script>
-			alert('중복된 값이 있습니다!');
-			window.location='{{ route('mypage') }}?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."';
-			</script>
-			";
-			exit;
-
-		}
-
-		$sql = "update new_tb_member set clover_seq='".$seq_clover_ex."', clover_seq_adm='".$nMember->clover_seq."[@@@@]".$seq_clover_ex."', clover_seq_adm_type='".time()."', update_ck='Y' where user_id='" . Auth::user()->user_id . "'";
-		mysql_query($sql);
-
-			echo "
-			<script>
-			alert('정보가 수정되었습니다.');
-			window.location='{{ route('mypage') }}?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."';
-			</script>
-			";
-
-	}
-
-$Conn->DisConnect();
-//======================== DB Module End ===============================
+	$Conn->DisConnect();
+	//======================== DB Module End ===============================
 	$search_val = ReXssChk($search_val);
 ?>
 
@@ -138,32 +76,31 @@ $Conn->DisConnect();
 							</tr>
 							<tr>
 								<td valign=top align="center">
-<br>
+								<br>
 								<table cellpadding=0 cellspacing=0 border=0 align=center>
-<?php
-$ex_date_or_type = explode("[@@]",$nMember->clover_seq_adm_type);
+								<?php
+									$ex_date_or_type = explode("[@@]",$nMember->clover_seq_adm_type);
+									$cloverModel = new CloverModel();
+									$clover_name_v = $cloverModel->getCloverList();
 
-$cloverModel = new CloverModel();
-$clover_name_v = $cloverModel->getCloverList();
+									if(count($ex_date_or_type) > 1){
+										if($ex_date_or_type[1] == 'ok')
+											$ex_seq_clover = explode("[@@@]",$nMember->clover_seq);
+									} else {
+										$ex_clover_seq_adm = explode("[@@@@]",$nMember->clover_seq_adm);
+										$ex_seq_clover = explode("[@@@]",$ex_clover_seq_adm[0]);
+									}
+								?>
 
-if(count($ex_date_or_type) > 1){
-	if($ex_date_or_type[1] == 'ok')
-		$ex_seq_clover = explode("[@@@]",$nMember->clover_seq);
-} else {
-	$ex_clover_seq_adm = explode("[@@@@]",$nMember->clover_seq_adm);
-	$ex_seq_clover = explode("[@@@]",$ex_clover_seq_adm[0]);
-}
-
-?>
-
-<?php
-	$ex_date_or_type_result = isset($ex_date_or_type[1]) ? $ex_date_or_type[1] : null;
-	if($nMember->clover_seq != '' && $ex_date_or_type_result == 'ok') {
-?>
-<?php
-for($j=0; $j<count($ex_seq_clover); $j++){
-$v_ex = explode("[@@]",$ex_seq_clover[$j]);
-?>
+								<?php
+									$ex_date_or_type_result = isset($ex_date_or_type[1]) ? $ex_date_or_type[1] : null;
+									if($nMember->clover_seq != '' && $ex_date_or_type_result == 'ok') {
+								?>
+								<?php
+									$sum_price_v = 0;
+									for($j=0; $j<count($ex_seq_clover); $j++){
+									$v_ex = explode("[@@]",$ex_seq_clover[$j]);
+								?>
 								<tr height=50>
 									<?php if($v_ex[1] < 1){ ?>
 									<td align="center" colspan=2 class="fa-minus-square">후원내역이 없습니다.</td>
@@ -216,12 +153,13 @@ $v_ex = explode("[@@]",$ex_seq_clover[$j]);
 				</form>
 <br><br>
 	    	
-	    	<form method="get" name="editForm2" id="editForm2" action="{{ route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0, 'type' => 'edit')) }}">
+	    	<form method="POST" name="editForm2" id="editForm2" action="{{ route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0, 'type' => 'edit')) }}">
 					<input type="hidden" name="cate" value="{{ $_GET['cate'] }}">
 					<input type="hidden" name="dep01" value="{{ $_GET['dep01'] }}">
 					<input type="hidden" name="dep02" value="{{ isset($_GET['dep02']) ? $_GET['dep02'] : 0 }}">
 					<input type="hidden" name="sum_price_ck" value="{{ $sum_price_v }}">
 					<input type="hidden" name="clover_sql_v" value="{{ isset($clover_sql_v) ? $clover_sql_v[0] : '' }}">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	    			<div class="join_wrap">
 		    			<table>
 						 	<caption>결제정보수정</caption>

@@ -1,38 +1,38 @@
 <?php 
-header('Content-type: text/html; charset=euc-kr');
 
+header('Content-type: text/html; charset=euc-kr');
 /********************************************************************************
 *
-* íŒŒì¼ëª… : AGS_pay_ing.php
-* ìµœì¢…ìˆ˜ì •ì¼ìž : 2012/04/30
+* ÆÄÀÏ¸í : AGS_pay_ing.php
+* ÃÖÁ¾¼öÁ¤ÀÏÀÚ : 2012/04/30
 *
-* ì˜¬ë”ê²Œì´íŠ¸ í”ŒëŸ¬ê·¸ì¸ì—ì„œ ë¦¬í„´ëœ ë°ì´íƒ€ë¥¼ ë°›ì•„ì„œ ì†Œì¼“ê²°ì œìš”ì²­ì„ í•©ë‹ˆë‹¤.
+* ¿Ã´õ°ÔÀÌÆ® ÇÃ·¯±×ÀÎ¿¡¼­ ¸®ÅÏµÈ µ¥ÀÌÅ¸¸¦ ¹Þ¾Æ¼­ ¼ÒÄÏ°áÁ¦¿äÃ»À» ÇÕ´Ï´Ù.
 *
 * Copyright AEGIS ENTERPRISE.Co.,Ltd. All rights reserved.
 *
 *
-*  â€» ìœ ì˜ì‚¬í•­ â€»
-*  1.  "|"(íŒŒì´í”„) ê°’ì€ ê²°ì œì²˜ë¦¬ ì¤‘ êµ¬ë¶„ìžë¡œ ì‚¬ìš©í•˜ëŠ” ë¬¸ìžì´ë¯€ë¡œ ê²°ì œ ë°ì´í„°ì— "|"ì´ ìžˆì„ê²½ìš°
-*   ê²°ì œê°€ ì •ìƒì ìœ¼ë¡œ ì²˜ë¦¬ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.(ìˆ˜ì‹  ë°ì´í„° ê¸¸ì´ ì—ëŸ¬ ë“±ì˜ ì‚¬ìœ )
+*  ¡Ø À¯ÀÇ»çÇ× ¡Ø
+*  1.  "|"(ÆÄÀÌÇÁ) °ªÀº °áÁ¦Ã³¸® Áß ±¸ºÐÀÚ·Î »ç¿ëÇÏ´Â ¹®ÀÚÀÌ¹Ç·Î °áÁ¦ µ¥ÀÌÅÍ¿¡ "|"ÀÌ ÀÖÀ»°æ¿ì
+*   °áÁ¦°¡ Á¤»óÀûÀ¸·Î Ã³¸®µÇÁö ¾Ê½À´Ï´Ù.(¼ö½Å µ¥ÀÌÅÍ ±æÀÌ ¿¡·¯ µîÀÇ »çÀ¯)
 ********************************************************************************/
 
 	/****************************************************************************
 	*
-	* [1] ë¼ì´ë¸ŒëŸ¬ë¦¬(AGSLib.php)ë¥¼ ì¸í´ë£¨ë“œ í•©ë‹ˆë‹¤.
+	* [1] ¶óÀÌºê·¯¸®(AGSLib.php)¸¦ ÀÎÅ¬·çµå ÇÕ´Ï´Ù.
 	*
 	****************************************************************************/
 	require(app_path() . "/Libraries/agspay/lib/AGSLib.php");
 
 	/****************************************************************************
 	*
-	* [2]. agspay4.0 í´ëž˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+	* [2]. agspay4.0 Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º¸¦ »ý¼ºÇÕ´Ï´Ù.
 	*
 	****************************************************************************/
 	$agspay = new agspay40;
 
 	/****************************************************************************
 	*
-	* [3] AGS_pay.html ë¡œ ë¶€í„° ë„˜ê²¨ë°›ì„ ë°ì´íƒ€
+	* [3] AGS_pay.html ·Î ºÎÅÍ ³Ñ°Ü¹ÞÀ» µ¥ÀÌÅ¸
 	*
 	****************************************************************************/
 	
@@ -40,233 +40,237 @@ header('Content-type: text/html; charset=euc-kr');
 		$_POST[$key] = iconv("UTF-8", "EUC-KR", $row);
 	}
 
-	/*ê³µí†µì‚¬ìš©*/
-	//$agspay->SetValue("AgsPayHome","C:/htdocs/agspay");			//ì˜¬ë”ê²Œì´íŠ¸ ê²°ì œì„¤ì¹˜ ë””ë ‰í† ë¦¬ (ìƒì ì— ë§žê²Œ ìˆ˜ì •)
-	$agspay->SetValue("AgsPayHome", app_path() . "/Libraries/agspay");			//ì˜¬ë”ê²Œì´íŠ¸ ê²°ì œì„¤ì¹˜ ë””ë ‰í† ë¦¬ (ìƒì ì— ë§žê²Œ ìˆ˜ì •)
-	$agspay->SetValue("StoreId",trim($_POST["StoreId"]));		//ìƒì ì•„ì´ë””
-	$agspay->SetValue("Type", "Pay");							//ê³ ì •ê°’(ìˆ˜ì •ë¶ˆê°€)
-	$agspay->SetValue("log","true");							//true : ë¡œê·¸ê¸°ë¡, false : ë¡œê·¸ê¸°ë¡ì•ˆí•¨.
-	$agspay->SetValue("logLevel","INFO");						//ë¡œê·¸ë ˆë²¨ : DEBUG, INFO, WARN, ERROR, FATAL (í•´ë‹¹ ë ˆë²¨ì´ìƒì˜ ë¡œê·¸ë§Œ ê¸°ë¡ë¨)
-	$agspay->SetValue("RecvLen", 7);							//ìˆ˜ì‹  ë°ì´í„°(ê¸¸ì´) ì²´í¬ ì—ëŸ¬ì‹œ 6 ë˜ëŠ” 7 ì„¤ì •. 
+	/*°øÅë»ç¿ë*/
+	//$agspay->SetValue("AgsPayHome","C:/htdocs/agspay");			//¿Ã´õ°ÔÀÌÆ® °áÁ¦¼³Ä¡ µð·ºÅä¸® (»óÁ¡¿¡ ¸Â°Ô ¼öÁ¤)
+	$agspay->SetValue("AgsPayHome", app_path() . "/Libraries/agspay");			//¿Ã´õ°ÔÀÌÆ® °áÁ¦¼³Ä¡ µð·ºÅä¸® (»óÁ¡¿¡ ¸Â°Ô ¼öÁ¤)
+	$agspay->SetValue("StoreId",trim($_POST["StoreId"]));		//»óÁ¡¾ÆÀÌµð
+	$agspay->SetValue("Type", "Pay");							//°íÁ¤°ª(¼öÁ¤ºÒ°¡)
+	$agspay->SetValue("log","false");							//true : ·Î±×±â·Ï, false : ·Î±×±â·Ï¾ÈÇÔ.
+	$agspay->SetValue("logLevel","INFO");						//·Î±×·¹º§ : DEBUG, INFO, WARN, ERROR, FATAL (ÇØ´ç ·¹º§ÀÌ»óÀÇ ·Î±×¸¸ ±â·ÏµÊ)
+	$agspay->SetValue("RecvLen", 7);							//¼ö½Å µ¥ÀÌÅÍ(±æÀÌ) Ã¼Å© ¿¡·¯½Ã 6 ¶Ç´Â 7 ¼³Á¤. 
 	
-	$agspay->SetValue("AuthTy",trim($_POST["AuthTy"]));			//ê²°ì œí˜•íƒœ
+	$agspay->SetValue("AuthTy",trim($_POST["AuthTy"]));			//°áÁ¦ÇüÅÂ
 	
-	$agspay->SetValue("UseNetCancel","true");					//true : ë§ì·¨ì†Œ ì‚¬ìš©. false: ë§ì·¨ì†Œ ë¯¸ì‚¬ìš© // !! ìˆœì„œê°€ ì´ìƒí•¨. AuthTy ê°’ ì„¤ì •í›„ ì´ ë¼ì¸ ì‹¤í–‰í•´ì¤˜ì•¼ í•¨
+	$agspay->SetValue("UseNetCancel","true");					//true : ¸ÁÃë¼Ò »ç¿ë. false: ¸ÁÃë¼Ò ¹Ì»ç¿ë // !! ¼ø¼­°¡ ÀÌ»óÇÔ. AuthTy °ª ¼³Á¤ÈÄ ÀÌ ¶óÀÎ ½ÇÇàÇØÁà¾ß ÇÔ
 	
-	$agspay->SetValue("SubTy",trim($_POST["SubTy"]));			//ì„œë¸Œê²°ì œí˜•íƒœ
-	$agspay->SetValue("OrdNo",trim($_POST["OrdNo"]));			//ì£¼ë¬¸ë²ˆí˜¸
-	$agspay->SetValue("Amt",trim($_POST["Amt"]));				//ê¸ˆì•¡
-	$agspay->SetValue("UserEmail",trim($_POST["UserEmail"])."@".trim(isset($_POST["UserEmail2"]) ? $_POST["UserEmail2"] : null));	//ì£¼ë¬¸ìžì´ë©”ì¼
-	//$agspay->SetValue("UserEmail",trim($_POST["UserEmail"]));	//ì£¼ë¬¸ìžì´ë©”ì¼ (ìˆ˜ì •)
-	$agspay->SetValue("ProdNm",trim($_POST["ProdNm"]));			//ìƒí’ˆëª…
-	$AGS_HASHDATA 		= trim( $_POST["AGS_HASHDATA"] );		//ì•”í˜¸í™” HASHDATA
+	$agspay->SetValue("SubTy",trim($_POST["SubTy"]));			//¼­ºê°áÁ¦ÇüÅÂ
+	$agspay->SetValue("OrdNo",trim($_POST["OrdNo"]));			//ÁÖ¹®¹øÈ£
+	$agspay->SetValue("Amt",trim($_POST["Amt"]));				//±Ý¾×
+	$agspay->SetValue("UserEmail",trim($_POST["UserEmail"]));	//ÁÖ¹®ÀÚÀÌ¸ÞÀÏ
+	//$agspay->SetValue("UserEmail",trim($_POST["UserEmail"]));	//ÁÖ¹®ÀÚÀÌ¸ÞÀÏ (¼öÁ¤)
+	$agspay->SetValue("ProdNm",trim($_POST["ProdNm"]));			//»óÇ°¸í
+	$AGS_HASHDATA 		= trim( $_POST["AGS_HASHDATA"] );		//¾ÏÈ£È­ HASHDATA
 
-	/*ì‹ ìš©ì¹´ë“œ&ê°€ìƒê³„ì¢Œì‚¬ìš©*/
-	$agspay->SetValue("MallUrl",trim($_POST["MallUrl"]));		//MallUrl(ë¬´í†µìž¥ìž…ê¸ˆ) - ìƒì  ë„ë©”ì¸ ê°€ìƒê³„ì¢Œì¶”ê°€
-	$agspay->SetValue("UserId",trim($_POST["UserId"]));			//íšŒì›ì•„ì´ë””
+	/*½Å¿ëÄ«µå&°¡»ó°èÁÂ»ç¿ë*/
+	$agspay->SetValue("MallUrl",trim($_POST["MallUrl"]));		//MallUrl(¹«ÅëÀåÀÔ±Ý) - »óÁ¡ µµ¸ÞÀÎ °¡»ó°èÁÂÃß°¡
+	$agspay->SetValue("UserId",trim($_POST["UserId"]));			//È¸¿ø¾ÆÀÌµð
 
 
-	/*ì‹ ìš©ì¹´ë“œì‚¬ìš©*/
-	$agspay->SetValue("OrdNm",trim($_POST["OrdNm"]));			//ì£¼ë¬¸ìžëª…
-	$agspay->SetValue("OrdPhone",trim($_POST["OrdPhone"])."-".trim($_POST["OrdPhone2"])."-".trim($_POST["OrdPhone3"]));		//ì£¼ë¬¸ìžì—°ë½ì²˜
-	$agspay->SetValue("OrdAddr",trim($_POST["OrdAddr"]));		//ì£¼ë¬¸ìžì£¼ì†Œ ê°€ìƒê³„ì¢Œì¶”ê°€
-	$agspay->SetValue("RcpNm",trim($_POST["RcpNm"]));			//ìˆ˜ì‹ ìžëª…
-	$agspay->SetValue("RcpPhone",trim($_POST["RcpPhone"]));		//ìˆ˜ì‹ ìžì—°ë½ì²˜
-	$agspay->SetValue("DlvAddr",trim($_POST["DlvAddr"]));		//ë°°ì†¡ì§€ì£¼ì†Œ
-	$agspay->SetValue("Remark",trim($_POST["Remark"]));			//ë¹„ê³ 
-	$agspay->SetValue("DeviId",trim($_POST["DeviId"]));			//ë‹¨ë§ê¸°ì•„ì´ë””
-	$agspay->SetValue("AuthYn",trim($_POST["AuthYn"]));			//ì¸ì¦ì—¬ë¶€
-	$agspay->SetValue("Instmt",trim($_POST["Instmt"]));			//í• ë¶€ê°œì›”ìˆ˜
-	$agspay->SetValue("UserIp",$_SERVER["REMOTE_ADDR"]);		//íšŒì› IP
+	/*½Å¿ëÄ«µå»ç¿ë*/
+	$agspay->SetValue("OrdNm",trim($_POST["OrdNm"]));			//ÁÖ¹®ÀÚ¸í
+	$agspay->SetValue("OrdPhone",trim($_POST["OrdPhone"])) ;		//ÁÖ¹®ÀÚ¿¬¶ôÃ³
+	$agspay->SetValue("OrdAddr", trim($_POST["OrdAddr"] . "-" . $_POST["OrdAddr2"] . " " . $_POST["addr1"] . " " . $_POST["addr2"]));		//ÁÖ¹®ÀÚÁÖ¼Ò °¡»ó°èÁÂÃß°¡
+	// $agspay->SetValue("RcpNm",trim($_POST["RcpNm"]));			//¼ö½ÅÀÚ¸í
+	$agspay->SetValue("RcpNm", trim($_POST["OrdNm"]));			//¼ö½ÅÀÚ¸í
+	// $agspay->SetValue("RcpPhone",trim($_POST["RcpPhone"]));		//¼ö½ÅÀÚ¿¬¶ôÃ³
+	$agspay->SetValue("RcpPhone", trim($_POST["OrdPhone"]));		//¼ö½ÅÀÚ¿¬¶ôÃ³
+	// $agspay->SetValue("DlvAddr", trim($_POST["DlvAddr"]));		//¹è¼ÛÁöÁÖ¼Ò
+	$agspay->SetValue("DlvAddr", trim($_POST["OrdAddr"] . "-" . $_POST["OrdAddr2"] . " " . $_POST["addr1"] . " " . $_POST["addr2"]));		//¹è¼ÛÁöÁÖ¼Ò
+	$agspay->SetValue("Remark",trim($_POST["Remark"]));			//ºñ°í
+	$agspay->SetValue("DeviId",trim($_POST["DeviId"]));			//´Ü¸»±â¾ÆÀÌµð
+	$agspay->SetValue("AuthYn",trim($_POST["AuthYn"]));			//ÀÎÁõ¿©ºÎ
+	$agspay->SetValue("Instmt",trim($_POST["Instmt"]));			//ÇÒºÎ°³¿ù¼ö
+	$agspay->SetValue("UserIp",$_SERVER["REMOTE_ADDR"]);		//È¸¿ø IP
 
-	/*ì‹ ìš©ì¹´ë“œ(ISP)*/
-	$agspay->SetValue("partial_mm",trim($_POST["partial_mm"]));		//ì¼ë°˜í• ë¶€ê¸°ê°„
-	$agspay->SetValue("noIntMonth",trim($_POST["noIntMonth"]));		//ë¬´ì´ìží• ë¶€ê¸°ê°„
-	$agspay->SetValue("KVP_CURRENCY",trim($_POST["KVP_CURRENCY"]));	//KVP_í†µí™”ì½”ë“œ
-	$agspay->SetValue("KVP_CARDCODE",trim($_POST["KVP_CARDCODE"]));	//KVP_ì¹´ë“œì‚¬ì½”ë“œ
+	/*½Å¿ëÄ«µå(ISP)*/
+	$agspay->SetValue("partial_mm",trim($_POST["partial_mm"]));		//ÀÏ¹ÝÇÒºÎ±â°£
+	$agspay->SetValue("noIntMonth",trim($_POST["noIntMonth"]));		//¹«ÀÌÀÚÇÒºÎ±â°£
+	$agspay->SetValue("KVP_CURRENCY",trim($_POST["KVP_CURRENCY"]));	//KVP_ÅëÈ­ÄÚµå
+	$agspay->SetValue("KVP_CARDCODE",trim($_POST["KVP_CARDCODE"]));	//KVP_Ä«µå»çÄÚµå
 	$agspay->SetValue("KVP_SESSIONKEY",$_POST["KVP_SESSIONKEY"]);	//KVP_SESSIONKEY
 	$agspay->SetValue("KVP_ENCDATA",$_POST["KVP_ENCDATA"]);			//KVP_ENCDATA
-	$agspay->SetValue("KVP_CONAME",trim($_POST["KVP_CONAME"]));		//KVP_ì¹´ë“œëª…
-	$agspay->SetValue("KVP_NOINT",trim($_POST["KVP_NOINT"]));		//KVP_ë¬´ì´ìž=1 ì¼ë°˜=0
-	$agspay->SetValue("KVP_QUOTA",trim($_POST["KVP_QUOTA"]));		//KVP_í• ë¶€ê°œì›”
+	$agspay->SetValue("KVP_CONAME",trim($_POST["KVP_CONAME"]));		//KVP_Ä«µå¸í
+	$agspay->SetValue("KVP_NOINT",trim($_POST["KVP_NOINT"]));		//KVP_¹«ÀÌÀÚ=1 ÀÏ¹Ý=0
+	$agspay->SetValue("KVP_QUOTA",trim($_POST["KVP_QUOTA"]));		//KVP_ÇÒºÎ°³¿ù
 
-	/*ì‹ ìš©ì¹´ë“œ(ì•ˆì‹¬)*/
-	$agspay->SetValue("CardNo",trim($_POST["CardNo"]));			//ì¹´ë“œë²ˆí˜¸
+	/*½Å¿ëÄ«µå(¾È½É)*/
+	$agspay->SetValue("CardNo",trim($_POST["CardNo"]));			//Ä«µå¹øÈ£
 	$agspay->SetValue("MPI_CAVV",$_POST["MPI_CAVV"]);			//MPI_CAVV
 	$agspay->SetValue("MPI_ECI",$_POST["MPI_ECI"]);				//MPI_ECI
 	$agspay->SetValue("MPI_MD64",$_POST["MPI_MD64"]);			//MPI_MD64
 
-	/*ì‹ ìš©ì¹´ë“œ(ì¼ë°˜)*/
-	$agspay->SetValue("ExpMon",trim($_POST["ExpMon"]));				//ìœ íš¨ê¸°ê°„(ì›”)
-	$agspay->SetValue("ExpYear",trim($_POST["ExpYear"]));			//ìœ íš¨ê¸°ê°„(ë…„)
-	$agspay->SetValue("Passwd",trim($_POST["Passwd"]));				//ë¹„ë°€ë²ˆí˜¸
-	$agspay->SetValue("SocId",trim($_POST["SocId"]));				//ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸/ì‚¬ì—…ìžë“±ë¡ë²ˆí˜¸
+	/*½Å¿ëÄ«µå(ÀÏ¹Ý)*/
+	$agspay->SetValue("ExpMon",trim($_POST["ExpMon"]));				//À¯È¿±â°£(¿ù)
+	$agspay->SetValue("ExpYear",trim($_POST["ExpYear"]));			//À¯È¿±â°£(³â)
+	$agspay->SetValue("Passwd",trim($_POST["Passwd"]));				//ºñ¹Ð¹øÈ£
+	$agspay->SetValue("SocId",trim($_POST["SocId"]));				//ÁÖ¹Îµî·Ï¹øÈ£/»ç¾÷ÀÚµî·Ï¹øÈ£
 
-	/*ê³„ì¢Œì´ì²´ì‚¬ìš©*/
-	$agspay->SetValue("ICHE_OUTBANKNAME",trim($_POST["ICHE_OUTBANKNAME"]));		//ì´ì²´ì€í–‰ëª…
-	$agspay->SetValue("ICHE_OUTACCTNO",trim($_POST["ICHE_OUTACCTNO"]));			//ì´ì²´ê³„ì¢Œë²ˆí˜¸
-	$agspay->SetValue("ICHE_OUTBANKMASTER",trim($_POST["ICHE_OUTBANKMASTER"]));	//ì´ì²´ê³„ì¢Œì†Œìœ ì£¼
-	$agspay->SetValue("ICHE_AMOUNT",trim($_POST["ICHE_AMOUNT"]));				//ì´ì²´ê¸ˆì•¡
+	/*°èÁÂÀÌÃ¼»ç¿ë*/
+	$agspay->SetValue("ICHE_OUTBANKNAME",trim($_POST["ICHE_OUTBANKNAME"]));		//ÀÌÃ¼ÀºÇà¸í
+	$agspay->SetValue("ICHE_OUTACCTNO",trim($_POST["ICHE_OUTACCTNO"]));			//ÀÌÃ¼°èÁÂ¹øÈ£
+	$agspay->SetValue("ICHE_OUTBANKMASTER",trim($_POST["ICHE_OUTBANKMASTER"]));	//ÀÌÃ¼°èÁÂ¼ÒÀ¯ÁÖ
+	$agspay->SetValue("ICHE_AMOUNT",trim($_POST["ICHE_AMOUNT"]));				//ÀÌÃ¼±Ý¾×
 
-	/*í•¸ë“œí°ì‚¬ìš©*/
-	$agspay->SetValue("HP_SERVERINFO",trim($_POST["HP_SERVERINFO"]));	//SERVER_INFO(í•¸ë“œí°ê²°ì œ)
-	$agspay->SetValue("HP_HANDPHONE",trim($_POST["HP_HANDPHONE"]));		//HANDPHONE(í•¸ë“œí°ê²°ì œ)
-	$agspay->SetValue("HP_COMPANY",trim($_POST["HP_COMPANY"]));			//COMPANY(í•¸ë“œí°ê²°ì œ)
-	$agspay->SetValue("HP_ID",trim(isset($_POST["HP_ID"]) ? $_POST["HP_ID"] : null));					//HP_ID(í•¸ë“œí°ê²°ì œ)
-	$agspay->SetValue("HP_SUBID",trim(isset($_POST["HP_SUBID"]) ? $_POST["HP_SUBID"] : null));				//HP_SUBID(í•¸ë“œí°ê²°ì œ)
-	$agspay->SetValue("HP_UNITType",trim(isset($_POST["HP_UNITType"]) ? $_POST["HP_UNITType"] : null));		//HP_UNITType(í•¸ë“œí°ê²°ì œ)
-	$agspay->SetValue("HP_IDEN",trim($_POST["HP_IDEN"]));				//HP_IDEN(í•¸ë“œí°ê²°ì œ)
-	$agspay->SetValue("HP_IPADDR",trim($_POST["HP_IPADDR"]));			//HP_IPADDR(í•¸ë“œí°ê²°ì œ)
+	/*ÇÚµåÆù»ç¿ë*/
+	$agspay->SetValue("HP_SERVERINFO",trim($_POST["HP_SERVERINFO"]));	//SERVER_INFO(ÇÚµåÆù°áÁ¦)
+	$agspay->SetValue("HP_HANDPHONE",trim($_POST["HP_HANDPHONE"]));		//HANDPHONE(ÇÚµåÆù°áÁ¦)
+	$agspay->SetValue("HP_COMPANY",trim($_POST["HP_COMPANY"]));			//COMPANY(ÇÚµåÆù°áÁ¦)
+	$agspay->SetValue("HP_ID",trim(isset($_POST["HP_ID"]) ? $_POST["HP_ID"] : null));					//HP_ID(ÇÚµåÆù°áÁ¦)
+	$agspay->SetValue("HP_SUBID",trim(isset($_POST["HP_SUBID"]) ? $_POST["HP_SUBID"] : null));				//HP_SUBID(ÇÚµåÆù°áÁ¦)
+	$agspay->SetValue("HP_UNITType",trim(isset($_POST["HP_UNITType"]) ? $_POST["HP_UNITType"] : null));		//HP_UNITType(ÇÚµåÆù°áÁ¦)
+	$agspay->SetValue("HP_IDEN",trim($_POST["HP_IDEN"]));				//HP_IDEN(ÇÚµåÆù°áÁ¦)
+	$agspay->SetValue("HP_IPADDR",trim($_POST["HP_IPADDR"]));			//HP_IPADDR(ÇÚµåÆù°áÁ¦)
 
-	/*ARSì‚¬ìš©*/
-	$agspay->SetValue("ARS_NAME",trim($_POST["ARS_NAME"]));				//ARS_NAME(ARSê²°ì œ)
-	$agspay->SetValue("ARS_PHONE",trim($_POST["ARS_PHONE"]));			//ARS_PHONE(ARSê²°ì œ)
+	/*ARS»ç¿ë*/
+	$agspay->SetValue("ARS_NAME",trim($_POST["ARS_NAME"]));				//ARS_NAME(ARS°áÁ¦)
+	$agspay->SetValue("ARS_PHONE",trim($_POST["ARS_PHONE"]));			//ARS_PHONE(ARS°áÁ¦)
 
-	/*ê°€ìƒê³„ì¢Œì‚¬ìš©*/
-	$agspay->SetValue("VIRTUAL_CENTERCD",trim($_POST["VIRTUAL_CENTERCD"]));	//ì€í–‰ì½”ë“œ(ê°€ìƒê³„ì¢Œ)
-	$agspay->SetValue("VIRTUAL_DEPODT",trim(isset($_POST["VIRTUAL_DEPODT"]) ? $_POST["VIRTUAL_DEPODT"] : null));		//ìž…ê¸ˆì˜ˆì •ì¼(ê°€ìƒê³„ì¢Œ)
-	$agspay->SetValue("ZuminCode",trim($_POST["ZuminCode"]));				//ì£¼ë¯¼ë²ˆí˜¸(ê°€ìƒê³„ì¢Œ)
-	$agspay->SetValue("MallPage",trim(isset($_POST["MallPage"]) ? $_POST["MallPage"] : null));					//ìƒì  ìž…/ì¶œê¸ˆ í†µë³´ íŽ˜ì´ì§€(ê°€ìƒê³„ì¢Œ)
-	$agspay->SetValue("VIRTUAL_NO",trim($_POST["VIRTUAL_NO"]));				//ê°€ìƒê³„ì¢Œë²ˆí˜¸(ê°€ìƒê³„ì¢Œ)
+	/*°¡»ó°èÁÂ»ç¿ë*/
+	$agspay->SetValue("VIRTUAL_CENTERCD",trim($_POST["VIRTUAL_CENTERCD"]));	//ÀºÇàÄÚµå(°¡»ó°èÁÂ)
+	$agspay->SetValue("VIRTUAL_DEPODT",trim(!empty($_POST["VIRTUAL_DEPODT"]) ? $_POST["VIRTUAL_DEPODT"] : date("Ymd") + 5));		//ÀÔ±Ý¿¹Á¤ÀÏ(°¡»ó°èÁÂ)
+	$agspay->SetValue("ZuminCode",trim($_POST["ZuminCode"]));				//ÁÖ¹Î¹øÈ£(°¡»ó°èÁÂ)
+	$agspay->SetValue("MallPage", trim(isset($_POST["MallPage"]) ? $_POST["MallPage"] : null));					//»óÁ¡ ÀÔ/Ãâ±Ý Åëº¸ ÆäÀÌÁö(°¡»ó°èÁÂ)
+	$agspay->SetValue("VIRTUAL_NO",trim($_POST["VIRTUAL_NO"]));				//°¡»ó°èÁÂ¹øÈ£(°¡»ó°èÁÂ)
 
-	/*ì—ìŠ¤í¬ë¡œì‚¬ìš©*/
-	$agspay->SetValue("ES_SENDNO",trim($_POST["ES_SENDNO"]));				//ì—ìŠ¤í¬ë¡œì „ë¬¸ë²ˆí˜¸
+	/*¿¡½ºÅ©·Î»ç¿ë*/
+	$agspay->SetValue("ES_SENDNO",trim($_POST["ES_SENDNO"]));				//¿¡½ºÅ©·ÎÀü¹®¹øÈ£
 
-	/*ê³„ì¢Œì´ì²´(ì†Œì¼“) ê²°ì œ ì‚¬ìš© ë³€ìˆ˜*/
-	$agspay->SetValue("ICHE_SOCKETYN",trim($_POST["ICHE_SOCKETYN"]));			//ê³„ì¢Œì´ì²´(ì†Œì¼“) ì‚¬ìš© ì—¬ë¶€
-	$agspay->SetValue("ICHE_POSMTID",trim($_POST["ICHE_POSMTID"]));				//ê³„ì¢Œì´ì²´(ì†Œì¼“) ì´ìš©ê¸°ê´€ì£¼ë¬¸ë²ˆí˜¸
-	$agspay->SetValue("ICHE_FNBCMTID",trim($_POST["ICHE_FNBCMTID"]));			//ê³„ì¢Œì´ì²´(ì†Œì¼“) FNBCê±°ëž˜ë²ˆí˜¸
-	$agspay->SetValue("ICHE_APTRTS",trim($_POST["ICHE_APTRTS"]));				//ê³„ì¢Œì´ì²´(ì†Œì¼“) ì´ì²´ ì‹œê°
-	$agspay->SetValue("ICHE_REMARK1",trim($_POST["ICHE_REMARK1"]));				//ê³„ì¢Œì´ì²´(ì†Œì¼“) ê¸°íƒ€ì‚¬í•­1
-	$agspay->SetValue("ICHE_REMARK2",trim($_POST["ICHE_REMARK2"]));				//ê³„ì¢Œì´ì²´(ì†Œì¼“) ê¸°íƒ€ì‚¬í•­2
-	$agspay->SetValue("ICHE_ECWYN",trim($_POST["ICHE_ECWYN"]));					//ê³„ì¢Œì´ì²´(ì†Œì¼“) ì—ìŠ¤í¬ë¡œì—¬ë¶€
-	$agspay->SetValue("ICHE_ECWID",trim($_POST["ICHE_ECWID"]));					//ê³„ì¢Œì´ì²´(ì†Œì¼“) ì—ìŠ¤í¬ë¡œID
-	$agspay->SetValue("ICHE_ECWAMT1",trim($_POST["ICHE_ECWAMT1"]));				//ê³„ì¢Œì´ì²´(ì†Œì¼“) ì—ìŠ¤í¬ë¡œê²°ì œê¸ˆì•¡1
-	$agspay->SetValue("ICHE_ECWAMT2",trim($_POST["ICHE_ECWAMT2"]));				//ê³„ì¢Œì´ì²´(ì†Œì¼“) ì—ìŠ¤í¬ë¡œê²°ì œê¸ˆì•¡2
-	$agspay->SetValue("ICHE_CASHYN",trim($_POST["ICHE_CASHYN"]));				//ê³„ì¢Œì´ì²´(ì†Œì¼“) í˜„ê¸ˆì˜ìˆ˜ì¦ë°œí–‰ì—¬ë¶€
-	$agspay->SetValue("ICHE_CASHGUBUN_CD",trim($_POST["ICHE_CASHGUBUN_CD"]));	//ê³„ì¢Œì´ì²´(ì†Œì¼“) í˜„ê¸ˆì˜ìˆ˜ì¦êµ¬ë¶„
-	$agspay->SetValue("ICHE_CASHID_NO",trim($_POST["ICHE_CASHID_NO"]));			//ê³„ì¢Œì´ì²´(ì†Œì¼“) í˜„ê¸ˆì˜ìˆ˜ì¦ì‹ ë¶„í™•ì¸ë²ˆí˜¸
+	/*°èÁÂÀÌÃ¼(¼ÒÄÏ) °áÁ¦ »ç¿ë º¯¼ö*/
+	$agspay->SetValue("ICHE_SOCKETYN",trim($_POST["ICHE_SOCKETYN"]));			//°èÁÂÀÌÃ¼(¼ÒÄÏ) »ç¿ë ¿©ºÎ
+	$agspay->SetValue("ICHE_POSMTID",trim($_POST["ICHE_POSMTID"]));				//°èÁÂÀÌÃ¼(¼ÒÄÏ) ÀÌ¿ë±â°üÁÖ¹®¹øÈ£
+	$agspay->SetValue("ICHE_FNBCMTID",trim($_POST["ICHE_FNBCMTID"]));			//°èÁÂÀÌÃ¼(¼ÒÄÏ) FNBC°Å·¡¹øÈ£
+	$agspay->SetValue("ICHE_APTRTS",trim($_POST["ICHE_APTRTS"]));				//°èÁÂÀÌÃ¼(¼ÒÄÏ) ÀÌÃ¼ ½Ã°¢
+	$agspay->SetValue("ICHE_REMARK1",trim($_POST["ICHE_REMARK1"]));				//°èÁÂÀÌÃ¼(¼ÒÄÏ) ±âÅ¸»çÇ×1
+	$agspay->SetValue("ICHE_REMARK2",trim($_POST["ICHE_REMARK2"]));				//°èÁÂÀÌÃ¼(¼ÒÄÏ) ±âÅ¸»çÇ×2
+	$agspay->SetValue("ICHE_ECWYN",trim($_POST["ICHE_ECWYN"]));					//°èÁÂÀÌÃ¼(¼ÒÄÏ) ¿¡½ºÅ©·Î¿©ºÎ
+	$agspay->SetValue("ICHE_ECWID",trim($_POST["ICHE_ECWID"]));					//°èÁÂÀÌÃ¼(¼ÒÄÏ) ¿¡½ºÅ©·ÎID
+	$agspay->SetValue("ICHE_ECWAMT1",trim($_POST["ICHE_ECWAMT1"]));				//°èÁÂÀÌÃ¼(¼ÒÄÏ) ¿¡½ºÅ©·Î°áÁ¦±Ý¾×1
+	$agspay->SetValue("ICHE_ECWAMT2",trim($_POST["ICHE_ECWAMT2"]));				//°èÁÂÀÌÃ¼(¼ÒÄÏ) ¿¡½ºÅ©·Î°áÁ¦±Ý¾×2
+	$agspay->SetValue("ICHE_CASHYN",trim($_POST["ICHE_CASHYN"]));				//°èÁÂÀÌÃ¼(¼ÒÄÏ) Çö±Ý¿µ¼öÁõ¹ßÇà¿©ºÎ
+	$agspay->SetValue("ICHE_CASHGUBUN_CD",trim($_POST["ICHE_CASHGUBUN_CD"]));	//°èÁÂÀÌÃ¼(¼ÒÄÏ) Çö±Ý¿µ¼öÁõ±¸ºÐ
+	$agspay->SetValue("ICHE_CASHID_NO",trim($_POST["ICHE_CASHID_NO"]));			//°èÁÂÀÌÃ¼(¼ÒÄÏ) Çö±Ý¿µ¼öÁõ½ÅºÐÈ®ÀÎ¹øÈ£
 
-	/*ê³„ì¢Œì´ì²´-í…”ëž˜ë±…í‚¹(ì†Œì¼“) ê²°ì œ ì‚¬ìš© ë³€ìˆ˜*/
-	$agspay->SetValue("ICHEARS_SOCKETYN", trim($_POST["ICHEARS_SOCKETYN"]));	//í…”ë ˆë±…í‚¹ê³„ì¢Œì´ì²´(ì†Œì¼“) ì‚¬ìš© ì—¬ë¶€
-	$agspay->SetValue("ICHEARS_ADMNO", trim($_POST["ICHEARS_ADMNO"]));			//í…”ë ˆë±…í‚¹ê³„ì¢Œì´ì²´ ìŠ¹ì¸ë²ˆí˜¸       
-	$agspay->SetValue("ICHEARS_POSMTID", trim($_POST["ICHEARS_POSMTID"]));		//í…”ë ˆë±…í‚¹ê³„ì¢Œì´ì²´ ì´ìš©ê¸°ê´€ì£¼ë¬¸ë²ˆí˜¸
-	$agspay->SetValue("ICHEARS_CENTERCD", trim($_POST["ICHEARS_CENTERCD"]));	//í…”ë ˆë±…í‚¹ê³„ì¢Œì´ì²´ ì€í–‰ì½”ë“œ      
-	$agspay->SetValue("ICHEARS_HPNO", trim($_POST["ICHEARS_HPNO"]));			//í…”ë ˆë±…í‚¹ê³„ì¢Œì´ì²´ íœ´ëŒ€í°ë²ˆí˜¸   
+	/*°èÁÂÀÌÃ¼-ÅÚ·¡¹ðÅ·(¼ÒÄÏ) °áÁ¦ »ç¿ë º¯¼ö*/
+	$agspay->SetValue("ICHEARS_SOCKETYN", trim($_POST["ICHEARS_SOCKETYN"]));	//ÅÚ·¹¹ðÅ·°èÁÂÀÌÃ¼(¼ÒÄÏ) »ç¿ë ¿©ºÎ
+	$agspay->SetValue("ICHEARS_ADMNO", trim($_POST["ICHEARS_ADMNO"]));			//ÅÚ·¹¹ðÅ·°èÁÂÀÌÃ¼ ½ÂÀÎ¹øÈ£       
+	$agspay->SetValue("ICHEARS_POSMTID", trim($_POST["ICHEARS_POSMTID"]));		//ÅÚ·¹¹ðÅ·°èÁÂÀÌÃ¼ ÀÌ¿ë±â°üÁÖ¹®¹øÈ£
+	$agspay->SetValue("ICHEARS_CENTERCD", trim($_POST["ICHEARS_CENTERCD"]));	//ÅÚ·¹¹ðÅ·°èÁÂÀÌÃ¼ ÀºÇàÄÚµå      
+	$agspay->SetValue("ICHEARS_HPNO", trim($_POST["ICHEARS_HPNO"]));			//ÅÚ·¹¹ðÅ·°èÁÂÀÌÃ¼ ÈÞ´ëÆù¹øÈ£   
 
 	/****************************************************************************
 	*
-	* [4] ì˜¬ë”ê²Œì´íŠ¸ ê²°ì œì„œë²„ë¡œ ê²°ì œë¥¼ ìš”ì²­í•©ë‹ˆë‹¤.
+	* [4] ¿Ã´õ°ÔÀÌÆ® °áÁ¦¼­¹ö·Î °áÁ¦¸¦ ¿äÃ»ÇÕ´Ï´Ù.
 	*
 	****************************************************************************/
 	$agspay->startPay();
-
 	
 	/****************************************************************************
 	*
-	* [5] ê²°ì œê²°ê³¼ì— ë”°ë¥¸ ìƒì DB ì €ìž¥ ë° ê¸°íƒ€ í•„ìš”í•œ ì²˜ë¦¬ìž‘ì—…ì„ ìˆ˜í–‰í•˜ëŠ” ë¶€ë¶„ìž…ë‹ˆë‹¤.
+	* [5] °áÁ¦°á°ú¿¡ µû¸¥ »óÁ¡DB ÀúÀå ¹× ±âÅ¸ ÇÊ¿äÇÑ Ã³¸®ÀÛ¾÷À» ¼öÇàÇÏ´Â ºÎºÐÀÔ´Ï´Ù.
 	*
-	*	ì•„ëž˜ì˜ ê²°ê³¼ê°’ë“¤ì„ í†µí•˜ì—¬ ê° ê²°ì œìˆ˜ë‹¨ë³„ ê²°ì œê²°ê³¼ê°’ì„ ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+	*	¾Æ·¡ÀÇ °á°ú°ªµéÀ» ÅëÇÏ¿© °¢ °áÁ¦¼ö´Üº° °áÁ¦°á°ú°ªÀ» »ç¿ëÇÏ½Ç ¼ö ÀÖ½À´Ï´Ù.
 	*	
-	*	-- ê³µí†µì‚¬ìš© --
-	*	ì—…ì²´ID : $agspay->GetResult("rStoreId")
-	*	ì£¼ë¬¸ë²ˆí˜¸ : $agspay->GetResult("rOrdNo")
-	*	ìƒí’ˆëª… : $agspay->GetResult("rProdNm")
-	*	ê±°ëž˜ê¸ˆì•¡ : $agspay->GetResult("rAmt")
-	*	ì„±ê³µì—¬ë¶€ : $agspay->GetResult("rSuccYn") (ì„±ê³µ:y ì‹¤íŒ¨:n)
-	*	ê²°ê³¼ë©”ì‹œì§€ : $agspay->GetResult("rResMsg")
+	*	-- °øÅë»ç¿ë --
+	*	¾÷Ã¼ID : $agspay->GetResult("rStoreId")
+	*	ÁÖ¹®¹øÈ£ : $agspay->GetResult("rOrdNo")
+	*	»óÇ°¸í : $agspay->GetResult("rProdNm")
+	*	°Å·¡±Ý¾× : $agspay->GetResult("rAmt")
+	*	¼º°ø¿©ºÎ : $agspay->GetResult("rSuccYn") (¼º°ø:y ½ÇÆÐ:n)
+	*	°á°ú¸Þ½ÃÁö : $agspay->GetResult("rResMsg")
 	*
-	*	1. ì‹ ìš©ì¹´ë“œ
+	*	1. ½Å¿ëÄ«µå
 	*	
-	*	ì „ë¬¸ì½”ë“œ : $agspay->GetResult("rBusiCd")
-	*	ê±°ëž˜ë²ˆí˜¸ : $agspay->GetResult("rDealNo")
-	*	ìŠ¹ì¸ë²ˆí˜¸ : $agspay->GetResult("rApprNo")
-	*	í• ë¶€ê°œì›” : $agspay->GetResult("rInstmt")
-	*	ìŠ¹ì¸ì‹œê° : $agspay->GetResult("rApprTm")
-	*	ì¹´ë“œì‚¬ì½”ë“œ : $agspay->GetResult("rCardCd")
+	*	Àü¹®ÄÚµå : $agspay->GetResult("rBusiCd")
+	*	°Å·¡¹øÈ£ : $agspay->GetResult("rDealNo")
+	*	½ÂÀÎ¹øÈ£ : $agspay->GetResult("rApprNo")
+	*	ÇÒºÎ°³¿ù : $agspay->GetResult("rInstmt")
+	*	½ÂÀÎ½Ã°¢ : $agspay->GetResult("rApprTm")
+	*	Ä«µå»çÄÚµå : $agspay->GetResult("rCardCd")
 	*
-	*	2.ê³„ì¢Œì´ì²´(ì¸í„°ë„·ë±…í‚¹/í…”ë ˆë±…í‚¹)
-	*	ì—ìŠ¤í¬ë¡œì£¼ë¬¸ë²ˆí˜¸ : $agspay->GetResult("ES_SENDNO") (ì—ìŠ¤í¬ë¡œ ê²°ì œì‹œ)
+	*	2.°èÁÂÀÌÃ¼(ÀÎÅÍ³Ý¹ðÅ·/ÅÚ·¹¹ðÅ·)
+	*	¿¡½ºÅ©·ÎÁÖ¹®¹øÈ£ : $agspay->GetResult("ES_SENDNO") (¿¡½ºÅ©·Î °áÁ¦½Ã)
 	*
-	*	3.ê°€ìƒê³„ì¢Œ
-	*	ê°€ìƒê³„ì¢Œì˜ ê²°ì œì„±ê³µì€ ê°€ìƒê³„ì¢Œë°œê¸‰ì˜ ì„±ê³µë§Œì„ ì˜ë¯¸í•˜ë©° ìž…ê¸ˆëŒ€ê¸°ìƒíƒœë¡œ ì‹¤ì œ ê³ ê°ì´ ìž…ê¸ˆì„ ì™„ë£Œí•œ ê²ƒì€ ì•„ë‹™ë‹ˆë‹¤.
-	*	ë”°ë¼ì„œ ê°€ìƒê³„ì¢Œ ê²°ì œì™„ë£Œì‹œ ê²°ì œì™„ë£Œë¡œ ì²˜ë¦¬í•˜ì—¬ ìƒí’ˆì„ ë°°ì†¡í•˜ì‹œë©´ ì•ˆë©ë‹ˆë‹¤.
-	*	ê²°ì œí›„ ê³ ê°ì´ ë°œê¸‰ë°›ì€ ê³„ì¢Œë¡œ ìž…ê¸ˆì´ ì™„ë£Œë˜ë©´ MallPage(ìƒì  ìž…ê¸ˆí†µë³´ íŽ˜ì´ì§€(ê°€ìƒê³„ì¢Œ))ë¡œ ìž…ê¸ˆê²°ê³¼ê°€ ì „ì†¡ë˜ë©°
-	*	ì´ë•Œ ë¹„ë¡œì†Œ ê²°ì œê°€ ì™„ë£Œë˜ê²Œ ë˜ë¯€ë¡œ ê²°ì œì™„ë£Œì— ëŒ€í•œ ì²˜ë¦¬(ë°°ì†¡ìš”ì²­ ë“±)ì€  MallPageì— ìž‘ì—…í•´ì£¼ì…”ì•¼ í•©ë‹ˆë‹¤.
-	*	ê²°ì œì¢…ë¥˜ : $agspay->GetResult("rAuthTy") (ê°€ìƒê³„ì¢Œ ì¼ë°˜ : vir_n ìœ í´ë¦­ : vir_u ì—ìŠ¤í¬ë¡œ : vir_s)
-	*	ìŠ¹ì¸ì¼ìž : $agspay->GetResult("rApprTm")
-	*	ê°€ìƒê³„ì¢Œë²ˆí˜¸ : $agspay->GetResult("rVirNo")
+	*	3.°¡»ó°èÁÂ
+	*	°¡»ó°èÁÂÀÇ °áÁ¦¼º°øÀº °¡»ó°èÁÂ¹ß±ÞÀÇ ¼º°ø¸¸À» ÀÇ¹ÌÇÏ¸ç ÀÔ±Ý´ë±â»óÅÂ·Î ½ÇÁ¦ °í°´ÀÌ ÀÔ±ÝÀ» ¿Ï·áÇÑ °ÍÀº ¾Æ´Õ´Ï´Ù.
+	*	µû¶ó¼­ °¡»ó°èÁÂ °áÁ¦¿Ï·á½Ã °áÁ¦¿Ï·á·Î Ã³¸®ÇÏ¿© »óÇ°À» ¹è¼ÛÇÏ½Ã¸é ¾ÈµË´Ï´Ù.
+	*	°áÁ¦ÈÄ °í°´ÀÌ ¹ß±Þ¹ÞÀº °èÁÂ·Î ÀÔ±ÝÀÌ ¿Ï·áµÇ¸é MallPage(»óÁ¡ ÀÔ±ÝÅëº¸ ÆäÀÌÁö(°¡»ó°èÁÂ))·Î ÀÔ±Ý°á°ú°¡ Àü¼ÛµÇ¸ç
+	*	ÀÌ¶§ ºñ·Î¼Ò °áÁ¦°¡ ¿Ï·áµÇ°Ô µÇ¹Ç·Î °áÁ¦¿Ï·á¿¡ ´ëÇÑ Ã³¸®(¹è¼Û¿äÃ» µî)Àº  MallPage¿¡ ÀÛ¾÷ÇØÁÖ¼Å¾ß ÇÕ´Ï´Ù.
+	*	°áÁ¦Á¾·ù : $agspay->GetResult("rAuthTy") (°¡»ó°èÁÂ ÀÏ¹Ý : vir_n À¯Å¬¸¯ : vir_u ¿¡½ºÅ©·Î : vir_s)
+	*	½ÂÀÎÀÏÀÚ : $agspay->GetResult("rApprTm")
+	*	°¡»ó°èÁÂ¹øÈ£ : $agspay->GetResult("rVirNo")
 	*
-	*	4.í•¸ë“œí°ê²°ì œ
-	*	í•¸ë“œí°ê²°ì œì¼ : $agspay->GetResult("rHP_DATE")
-	*	í•¸ë“œí°ê²°ì œ TID : $agspay->GetResult("rHP_TID")
+	*	4.ÇÚµåÆù°áÁ¦
+	*	ÇÚµåÆù°áÁ¦ÀÏ : $agspay->GetResult("rHP_DATE")
+	*	ÇÚµåÆù°áÁ¦ TID : $agspay->GetResult("rHP_TID")
 	*
-	*	5.ARSê²°ì œ
-	*	ARSê²°ì œì¼ : $agspay->GetResult("rHP_DATE")
-	*	ARSê²°ì œ TID : $agspay->GetResult("rHP_TID")
+	*	5.ARS°áÁ¦
+	*	ARS°áÁ¦ÀÏ : $agspay->GetResult("rHP_DATE")
+	*	ARS°áÁ¦ TID : $agspay->GetResult("rHP_TID")
 	*
 	****************************************************************************/
 	
 	if($agspay->GetResult("rSuccYn") == "y")
 	{ 
 		if($agspay->GetResult("AuthTy") == "virtual"){
-			//ê°€ìƒê³„ì¢Œê²°ì œì˜ ê²½ìš° ìž…ê¸ˆì´ ì™„ë£Œë˜ì§€ ì•Šì€ ìž…ê¸ˆëŒ€ê¸°ìƒíƒœ(ê°€ìƒê³„ì¢Œ ë°œê¸‰ì„±ê³µ)ì´ë¯€ë¡œ ìƒí’ˆì„ ë°°ì†¡í•˜ì‹œë©´ ì•ˆë©ë‹ˆë‹¤. 
+			//°¡»ó°èÁÂ°áÁ¦ÀÇ °æ¿ì ÀÔ±ÝÀÌ ¿Ï·áµÇÁö ¾ÊÀº ÀÔ±Ý´ë±â»óÅÂ(°¡»ó°èÁÂ ¹ß±Þ¼º°ø)ÀÌ¹Ç·Î »óÇ°À» ¹è¼ÛÇÏ½Ã¸é ¾ÈµË´Ï´Ù. 
 
 		}else{
-			// ê²°ì œì„±ê³µì— ë”°ë¥¸ ìƒì ì²˜ë¦¬ë¶€ë¶„
-			//echo ("ê²°ì œê°€ ì„±ê³µì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤. [" . $agspay->GetResult("rSuccYn")."]". $agspay->GetResult("rResMsg").". " );
+			// °áÁ¦¼º°ø¿¡ µû¸¥ »óÁ¡Ã³¸®ºÎºÐ
+			//echo ("°áÁ¦°¡ ¼º°øÃ³¸®µÇ¾ú½À´Ï´Ù. [" . $agspay->GetResult("rSuccYn")."]". $agspay->GetResult("rResMsg").". " );
 			// dd(iconv("EUC-KR", "UTF-8", $agspay->GetResult("rSuccYn")) . " " . iconv("EUC-KR", "UTF-8", $agspay->GetResult("rResMsg")) );
 		}
 	}
 	else
 	{
-		// ê²°ì œì‹¤íŒ¨ì— ë”°ë¥¸ ìƒì ì²˜ë¦¬ë¶€ë¶„
-		//echo ("ê²°ì œê°€ ì‹¤íŒ¨ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤. [" . $agspay->GetResult("rSuccYn")."]". $agspay->GetResult("rResMsg").". " );
-		// dd(iconv("EUC-KR", "UTF-8", $agspay->GetResult("rSuccYn")) . " " . iconv("EUC-KR", "UTF-8", $agspay->GetResult("rResMsg")) );
+		// °áÁ¦½ÇÆÐ¿¡ µû¸¥ »óÁ¡Ã³¸®ºÎºÐ
+		//echo ("°áÁ¦°¡ ½ÇÆÐÃ³¸®µÇ¾ú½À´Ï´Ù. [" . $agspay->GetResult("rSuccYn")."]". $agspay->GetResult("rResMsg").". " );
+		//dd($agspay);
+		dd(iconv("EUC-KR", "UTF-8", $agspay->GetResult("rResMsg")));
+		dd(iconv("EUC-KR", "UTF-8", $agspay->GetResult("rSuccYn")) . " " . iconv("EUC-KR", "UTF-8", $agspay->GetResult("rResMsg")) );
 	}
 	
 
 	/*******************************************************************
-	* [6] ê²°ì œê°€ ì •ìƒì²˜ë¦¬ë˜ì§€ ëª»í–ˆì„ ê²½ìš° $agspay->GetResult("NetCancID") ê°’ì„ ì´ìš©í•˜ì—¬                                     
-	* ê²°ì œê²°ê³¼ì— ëŒ€í•œ ìž¬í™•ì¸ìš”ì²­ì„ í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+	* [6] °áÁ¦°¡ Á¤»óÃ³¸®µÇÁö ¸øÇßÀ» °æ¿ì $agspay->GetResult("NetCancID") °ªÀ» ÀÌ¿ëÇÏ¿©                                     
+	* °áÁ¦°á°ú¿¡ ´ëÇÑ ÀçÈ®ÀÎ¿äÃ»À» ÇÒ ¼ö ÀÖ½À´Ï´Ù.
 	* 
-	* ì¶”ê°€ ë°ì´í„°ì†¡ìˆ˜ì‹ ì´ ë°œìƒí•˜ë¯€ë¡œ ê²°ì œê°€ ì •ìƒì²˜ë¦¬ë˜ì§€ ì•Šì•˜ì„ ê²½ìš°ì—ë§Œ ì‚¬ìš©í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤. 
+	* Ãß°¡ µ¥ÀÌÅÍ¼Û¼ö½ÅÀÌ ¹ß»ýÇÏ¹Ç·Î °áÁ¦°¡ Á¤»óÃ³¸®µÇÁö ¾Ê¾ÒÀ» °æ¿ì¿¡¸¸ »ç¿ëÇÏ½Ã±â ¹Ù¶ø´Ï´Ù. 
 	*
-	* ì‚¬ìš©ë°©ë²• :
+	* »ç¿ë¹æ¹ý :
 	* $agspay->checkPayResult($agspay->GetResult("NetCancID"));
 	*                           
 	*******************************************************************/
 	
 	/*
-	$agspay->SetValue("Type", "Pay"); // ê³ ì •
+	$agspay->SetValue("Type", "Pay"); // °íÁ¤
 	$agspay->checkPayResult($agspay->GetResult("NetCancID"));
 	*/
 	
 	/*******************************************************************
-	* [7] ìƒì DB ì €ìž¥ ë° ê¸°íƒ€ ì²˜ë¦¬ìž‘ì—… ìˆ˜í–‰ì‹¤íŒ¨ì‹œ ê°•ì œì·¨ì†Œ                                      
+	* [7] »óÁ¡DB ÀúÀå ¹× ±âÅ¸ Ã³¸®ÀÛ¾÷ ¼öÇà½ÇÆÐ½Ã °­Á¦Ãë¼Ò                                      
 	*   
-	* $cancelReq : "true" ê°•ì œì·¨ì†Œì‹¤í–‰, "false" ê°•ì œì·¨ì†Œì‹¤í–‰ì•ˆí•¨.
+	* $cancelReq : "true" °­Á¦Ãë¼Ò½ÇÇà, "false" °­Á¦Ãë¼Ò½ÇÇà¾ÈÇÔ.
 	*
-	* ê²°ì œê²°ê³¼ì— ë”°ë¥¸ ìƒì ì²˜ë¦¬ë¶€ë¶„ ìˆ˜í–‰ ì¤‘ ì‹¤íŒ¨í•˜ëŠ” ê²½ìš°    
-	* ì•„ëž˜ì˜ ì½”ë“œë¥¼ ì°¸ì¡°í•˜ì—¬ ê±°ëž˜ë¥¼ ì·¨ì†Œí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
-	*	ì·¨ì†Œì„±ê³µì—¬ë¶€ : $agspay->GetResult("rCancelSuccYn") (ì„±ê³µ:y ì‹¤íŒ¨:n)
-	*	ì·¨ì†Œê²°ê³¼ë©”ì‹œì§€ : $agspay->GetResult("rCancelResMsg")
+	* °áÁ¦°á°ú¿¡ µû¸¥ »óÁ¡Ã³¸®ºÎºÐ ¼öÇà Áß ½ÇÆÐÇÏ´Â °æ¿ì    
+	* ¾Æ·¡ÀÇ ÄÚµå¸¦ ÂüÁ¶ÇÏ¿© °Å·¡¸¦ Ãë¼ÒÇÒ ¼ö ÀÖ½À´Ï´Ù.
+	*	Ãë¼Ò¼º°ø¿©ºÎ : $agspay->GetResult("rCancelSuccYn") (¼º°ø:y ½ÇÆÐ:n)
+	*	Ãë¼Ò°á°ú¸Þ½ÃÁö : $agspay->GetResult("rCancelResMsg")
 	*
-	* ìœ ì˜ì‚¬í•­ :
-	* ê°€ìƒê³„ì¢Œ(virtual)ëŠ” ê°•ì œì·¨ì†Œ ê¸°ëŠ¥ì´ ì§€ì›ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	* À¯ÀÇ»çÇ× :
+	* °¡»ó°èÁÂ(virtual)´Â °­Á¦Ãë¼Ò ±â´ÉÀÌ Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
 	*******************************************************************/
 	
-	// ìƒì ì²˜ë¦¬ë¶€ë¶„ ìˆ˜í–‰ì‹¤íŒ¨ì‹œ $cancelReqë¥¼ "true"ë¡œ ë³€ê²½í•˜ì—¬ 
-	// ê²°ì œì·¨ì†Œë¥¼ ìˆ˜í–‰ë˜ë„ë¡ í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
-	// $cancelReqì˜ "true"ê°’ìœ¼ë¡œ ë³€ê²½ì¡°ê±´ì€ ìƒì ì—ì„œ íŒë‹¨í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.
+	// »óÁ¡Ã³¸®ºÎºÐ ¼öÇà½ÇÆÐ½Ã $cancelReq¸¦ "true"·Î º¯°æÇÏ¿© 
+	// °áÁ¦Ãë¼Ò¸¦ ¼öÇàµÇµµ·Ï ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+	// $cancelReqÀÇ "true"°ªÀ¸·Î º¯°æÁ¶°ÇÀº »óÁ¡¿¡¼­ ÆÇ´ÜÇÏ¼Å¾ß ÇÕ´Ï´Ù.
 	
 	/*
 	$cancelReq = "false";
 
 	if($cancelReq == "true")
 	{
-		$agspay->SetValue("Type", "Cancel"); // ê³ ì •
-		$agspay->SetValue("CancelMsg", "DB FAIL"); // ì·¨ì†Œì‚¬ìœ 
+		$agspay->SetValue("Type", "Cancel"); // °íÁ¤
+		$agspay->SetValue("CancelMsg", "DB FAIL"); // Ãë¼Ò»çÀ¯
 		$agspay->startPay();
 	}
 	*/
@@ -277,55 +281,97 @@ header('Content-type: text/html; charset=euc-kr');
 <head>
 </head>
 <body onload="javascript:frmAGS_pay_ing.submit();">
-<form name=frmAGS_pay_ing method="POST" accept-charset="EUC-KR" action="{{ route('clovergarden', array('cate' => 1, 'dep01' => 0, 'dep02' => 0, 'type' => 'write_result', 'seq' => 2)) }}"> 
+	
+<form name=frmAGS_pay_ing method="POST" action="{{ route('clovergarden', array('cate' => 1, 'dep01' => 0, 'dep02' => 0, 'type' => 'write_result', 'seq' => 2)) }}"> 
 	
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-<!-- ê° ê²°ì œ ê³µí†µ ì‚¬ìš© ë³€ìˆ˜ -->
-<input type=hidden name=AuthTy value="<?=$agspay->GetResult("AuthTy")?>">		<!-- ê²°ì œí˜•íƒœ -->
-<input type=hidden name=SubTy value="<?=$agspay->GetResult("SubTy")?>">			<!-- ì„œë¸Œê²°ì œí˜•íƒœ -->
-<input type=hidden name=rStoreId value="<?=$agspay->GetResult("rStoreId")?>">	<!-- ìƒì ì•„ì´ë”” -->
-<input type=hidden name=rOrdNo value="<?=$agspay->GetResult("rOrdNo")?>">		<!-- ì£¼ë¬¸ë²ˆí˜¸ -->
-<input type=hidden name=rProdNm value="<?=$agspay->GetResult("ProdNm")?>">		<!-- ìƒí’ˆëª… -->
-<input type=hidden name=rAmt value="<?=$agspay->GetResult("rAmt")?>">			<!-- ê²°ì œê¸ˆì•¡ -->
-<input type=hidden name=rOrdNm value="<?=$agspay->GetResult("OrdNm")?>">		<!-- ì£¼ë¬¸ìžëª… -->
-<input type=hidden name=AGS_HASHDATA value="<?=$AGS_HASHDATA?>">				<!-- ì•”í˜¸í™” HASHDATA -->
+<?php
+// UTF-8 ÀÎÄÚµùÀÇ ÀÓ½Ã º¯¼öµé
+$AuthTy = $agspay->GetResult('AuthTy');
+$SubTy = $agspay->GetResult('SubTy');
+$rStoreId = $agspay->GetResult('rStoreId');
+$rOrdNo = $agspay->GetResult('rOrdNo');
+$rProdNm = $agspay->GetResult('ProdNm');
+$rAmt = $agspay->GetResult('rAmt');
+$rOrdNm = $agspay->GetResult('OrdNm');
 
-<input type=hidden name=rSuccYn value="<?=$agspay->GetResult("rSuccYn")?>">	<!-- ì„±ê³µì—¬ë¶€ -->
-<input type=hidden name=rResMsg value="<?=$agspay->GetResult("rResMsg")?>">	<!-- ê²°ê³¼ë©”ì‹œì§€ -->
-<input type=hidden name=rApprTm value="<?=$agspay->GetResult("rApprTm")?>">	<!-- ê²°ì œì‹œê°„ -->
+$rSuccYn = $agspay->GetResult('rSuccYn');
+$rResMsg = $agspay->GetResult('rResMsg');
+$rApprTm = $agspay->GetResult('rApprTm');
 
-<!-- ì‹ ìš©ì¹´ë“œ ê²°ì œ ì‚¬ìš© ë³€ìˆ˜ -->
-<input type=hidden name=rBusiCd value="<?=$agspay->GetResult("rBusiCd")?>">		<!-- (ì‹ ìš©ì¹´ë“œê³µí†µ)ì „ë¬¸ì½”ë“œ -->
-<input type=hidden name=rApprNo value="<?=$agspay->GetResult("rApprNo")?>">		<!-- (ì‹ ìš©ì¹´ë“œê³µí†µ)ìŠ¹ì¸ë²ˆí˜¸ -->
-<input type=hidden name=rCardCd value="<?=$agspay->GetResult("rCardCd")?>">	<!-- (ì‹ ìš©ì¹´ë“œê³µí†µ)ì¹´ë“œì‚¬ì½”ë“œ -->
-<input type=hidden name=rDealNo value="<?=$agspay->GetResult("rDealNo")?>">			<!-- (ì‹ ìš©ì¹´ë“œê³µí†µ)ê±°ëž˜ë²ˆí˜¸ -->
+$rBusiCd = $agspay->GetResult('rBusiCd');
+$rApprNo = $agspay->GetResult('rApprNo');
+$rCardCd = $agspay->GetResult('rCardCd');
+$rDealNo = $agspay->GetResult('rDealNo');
 
-<input type=hidden name=rCardNm value="<?=$agspay->GetResult("rCardNm")?>">	<!-- (ì•ˆì‹¬í´ë¦­,ì¼ë°˜ì‚¬ìš©)ì¹´ë“œì‚¬ëª… -->
-<input type=hidden name=rMembNo value="<?=$agspay->GetResult("rMembNo")?>">	<!-- (ì•ˆì‹¬í´ë¦­,ì¼ë°˜ì‚¬ìš©)ê°€ë§¹ì ë²ˆí˜¸ -->
-<input type=hidden name=rAquiCd value="<?=$agspay->GetResult("rAquiCd")?>">		<!-- (ì•ˆì‹¬í´ë¦­,ì¼ë°˜ì‚¬ìš©)ë§¤ìž…ì‚¬ì½”ë“œ -->
-<input type=hidden name=rAquiNm value="<?=$agspay->GetResult("rAquiNm")?>">	<!-- (ì•ˆì‹¬í´ë¦­,ì¼ë°˜ì‚¬ìš©)ë§¤ìž…ì‚¬ëª… -->
+$rCardNm = $agspay->GetResult('rCardNm');
+$rMembNo = $agspay->GetResult('rMembNo');
+$rAquiCd = $agspay->GetResult('rAquiCd');
+$rAquiNm = $agspay->GetResult('rAquiNm');
 
-<!-- ê³„ì¢Œì´ì²´ ê²°ì œ ì‚¬ìš© ë³€ìˆ˜ -->
-<input type=hidden name=ICHE_OUTBANKNAME value="<?=$agspay->GetResult("ICHE_OUTBANKNAME")?>">		<!-- ì´ì²´ì€í–‰ëª… -->
-<input type=hidden name=ICHE_OUTBANKMASTER value="<?=$agspay->GetResult("ICHE_OUTBANKMASTER")?>">	<!-- ì´ì²´ê³„ì¢Œì˜ˆê¸ˆì£¼ -->
-<input type=hidden name=ICHE_AMOUNT value="<?=$agspay->GetResult("ICHE_AMOUNT")?>">					<!-- ì´ì²´ê¸ˆì•¡ -->
+$ICHE_OUTBANKNAME = $agspay->GetResult('ICHE_OUTBANKNAME');
+$ICHE_OUTBANKMASTER = $agspay->GetResult('ICHE_OUTBANKMASTER');
+$ICHE_AMOUNT = $agspay->GetResult('ICHE_AMOUNT');
 
-<!-- í•¸ë“œí° ê²°ì œ ì‚¬ìš© ë³€ìˆ˜ -->
-<input type=hidden name=rHP_HANDPHONE value="<?=$agspay->GetResult("HP_HANDPHONE")?>">		<!-- í•¸ë“œí°ë²ˆí˜¸ -->
-<input type=hidden name=rHP_COMPANY value="<?=$agspay->GetResult("HP_COMPANY")?>">			<!-- í†µì‹ ì‚¬ëª…(SKT,KTF,LGT) -->
-<input type=hidden name=rHP_TID value="<?=$agspay->GetResult("rHP_TID")?>">					<!-- ê²°ì œTID -->
-<input type=hidden name=rHP_DATE value="<?=$agspay->GetResult("rHP_DATE")?>">				<!-- ê²°ì œì¼ìž -->
+$rHP_HANDPHONE = $agspay->GetResult('HP_HANDPHONE');
+$rHP_COMPANY = $agspay->GetResult('HP_COMPANY');
+$rHP_TID = $agspay->GetResult('rHP_TID');
+$rHP_DATE = $agspay->GetResult('rHP_DATE');
 
-<!-- ARS ê²°ì œ ì‚¬ìš© ë³€ìˆ˜ -->
-<input type=hidden name=rARS_PHONE value="<?=$agspay->GetResult("ARS_PHONE")?>">			<!-- ARSë²ˆí˜¸ -->
+$rARS_PHONE = $agspay->GetResult('ARS_PHONE');
 
-<!-- ê°€ìƒê³„ì¢Œ ê²°ì œ ì‚¬ìš© ë³€ìˆ˜ -->
-<input type=hidden name=rVirNo value="<?=$agspay->GetResult("rVirNo")?>">					<!-- ê°€ìƒê³„ì¢Œë²ˆí˜¸ -->
-<input type=hidden name=VIRTUAL_CENTERCD value="<?=$agspay->GetResult("VIRTUAL_CENTERCD")?>">	<!--ìž…ê¸ˆê°€ìƒê³„ì¢Œì€í–‰ì½”ë“œ(ìš°ë¦¬ì€í–‰:20) -->
+$rVirNo = $agspay->GetResult('rVirNo');
+$VIRTUAL_CENTERCD = $agspay->GetResult('VIRTUAL_CENTERCD');
 
-<!-- ì´ì§€ìŠ¤ì—ìŠ¤í¬ë¡œ ê²°ì œ ì‚¬ìš© ë³€ìˆ˜ -->
-<input type=hidden name=ES_SENDNO value="<?=$agspay->GetResult("ES_SENDNO")?>">				<!-- ì´ì§€ìŠ¤ì—ìŠ¤í¬ë¡œ(ì „ë¬¸ë²ˆí˜¸) -->
+$ES_SENDNO = $agspay->GetResult('ES_SENDNO');
+?>
+
+<!-- °¢ °áÁ¦ °øÅë »ç¿ë º¯¼ö -->
+<input type=hidden name=AuthTy value="{{ iconv('EUC-KR', 'UTF-8', $AuthTy) }}">		<!-- °áÁ¦ÇüÅÂ -->
+<input type=hidden name=SubTy value="{{ iconv('EUC-KR', 'UTF-8', $SubTy) }}">			<!-- ¼­ºê°áÁ¦ÇüÅÂ -->
+<input type=hidden name=rStoreId value="{{ iconv('EUC-KR', 'UTF-8', $rStoreId) }}">	<!-- »óÁ¡¾ÆÀÌµð -->
+<input type=hidden name=rOrdNo value="{{ iconv('EUC-KR', 'UTF-8', $rOrdNo) }}">		<!-- ÁÖ¹®¹øÈ£ -->
+<input type=hidden name=rProdNm value="{{ iconv('EUC-KR', 'UTF-8', $rProdNm) }}">		<!-- »óÇ°¸í -->
+<input type=hidden name=rAmt value="{{ iconv('EUC-KR', 'UTF-8', $rAmt) }}">			<!-- °áÁ¦±Ý¾× -->
+<input type=hidden name=rOrdNm value="{{ iconv('EUC-KR', 'UTF-8', $rOrdNm) }}">		<!-- ÁÖ¹®ÀÚ¸í -->
+<input type=hidden name=AGS_HASHDATA value="{{ $AGS_HASHDATA }}">				<!-- ¾ÏÈ£È­ HASHDATA -->
+
+<input type=hidden name=rSuccYn value="{{ iconv('EUC-KR', 'UTF-8', $rSuccYn) }}">	<!-- ¼º°ø¿©ºÎ -->
+<input type=hidden name=rResMsg value="{{ iconv('EUC-KR', 'UTF-8', $rResMsg) }}">	<!-- °á°ú¸Þ½ÃÁö -->
+<input type=hidden name=rApprTm value="{{ iconv('EUC-KR', 'UTF-8', $rApprTm) }}">	<!-- °áÁ¦½Ã°£ -->
+
+<!-- ½Å¿ëÄ«µå °áÁ¦ »ç¿ë º¯¼ö -->
+<input type=hidden name=rBusiCd value="{{ iconv('EUC-KR', 'UTF-8', $rBusiCd) }}">		<!-- (½Å¿ëÄ«µå°øÅë)Àü¹®ÄÚµå -->
+<input type=hidden name=rApprNo value="{{ iconv('EUC-KR', 'UTF-8', $rApprNo) }}>">		<!-- (½Å¿ëÄ«µå°øÅë)½ÂÀÎ¹øÈ£ -->
+<input type=hidden name=rCardCd value="{{ iconv('EUC-KR', 'UTF-8', $rCardCd) }}">	<!-- (½Å¿ëÄ«µå°øÅë)Ä«µå»çÄÚµå -->
+<input type=hidden name=rDealNo value="{{ iconv('EUC-KR', 'UTF-8', $rDealNo) }}">			<!-- (½Å¿ëÄ«µå°øÅë)°Å·¡¹øÈ£ -->
+
+<input type=hidden name=rCardNm value="{{ iconv('EUC-KR', 'UTF-8', $rCardNm) }}">	<!-- (¾È½ÉÅ¬¸¯,ÀÏ¹Ý»ç¿ë)Ä«µå»ç¸í -->
+<input type=hidden name=rMembNo value="{{ iconv('EUC-KR', 'UTF-8', $rMembNo) }}>">	<!-- (¾È½ÉÅ¬¸¯,ÀÏ¹Ý»ç¿ë)°¡¸ÍÁ¡¹øÈ£ -->
+<input type=hidden name=rAquiCd value="{{ iconv('EUC-KR', 'UTF-8', $rAquiCd) }}">		<!-- (¾È½ÉÅ¬¸¯,ÀÏ¹Ý»ç¿ë)¸ÅÀÔ»çÄÚµå -->
+<input type=hidden name=rAquiNm value="{{ iconv('EUC-KR', 'UTF-8', $rAquiNm) }}">	<!-- (¾È½ÉÅ¬¸¯,ÀÏ¹Ý»ç¿ë)¸ÅÀÔ»ç¸í -->
+
+<!-- °èÁÂÀÌÃ¼ °áÁ¦ »ç¿ë º¯¼ö -->
+<input type=hidden name=ICHE_OUTBANKNAME value="{{ iconv('EUC-KR', 'UTF-8', $ICHE_OUTBANKNAME) }}">		<!-- ÀÌÃ¼ÀºÇà¸í -->
+<input type=hidden name=ICHE_OUTBANKMASTER value="{{ iconv('EUC-KR', 'UTF-8', $ICHE_OUTBANKMASTER) }}">	<!-- ÀÌÃ¼°èÁÂ¿¹±ÝÁÖ -->
+<input type=hidden name=ICHE_AMOUNT value="{{ iconv('EUC-KR', 'UTF-8', $ICHE_AMOUNT) }}">					<!-- ÀÌÃ¼±Ý¾× -->
+
+<!-- ÇÚµåÆù °áÁ¦ »ç¿ë º¯¼ö -->
+<input type=hidden name=rHP_HANDPHONE value="{{ iconv('EUC-KR', 'UTF-8', $rHP_HANDPHONE) }}">		<!-- ÇÚµåÆù¹øÈ£ -->
+<input type=hidden name=rHP_COMPANY value="{{ iconv('EUC-KR', 'UTF-8', $rHP_COMPANY) }}">			<!-- Åë½Å»ç¸í(SKT,KTF,LGT) -->
+<input type=hidden name=rHP_TID value="{{ iconv('EUC-KR', 'UTF-8', $rHP_TID) }}">					<!-- °áÁ¦TID -->
+<input type=hidden name=rHP_DATE value="{{ iconv('EUC-KR', 'UTF-8', $rHP_DATE) }}">				<!-- °áÁ¦ÀÏÀÚ -->
+
+<!-- ARS °áÁ¦ »ç¿ë º¯¼ö -->
+<input type=hidden name=rARS_PHONE value="{{ iconv('EUC-KR', 'UTF-8', $rARS_PHONE) }}">			<!-- ARS¹øÈ£ -->
+
+<!-- °¡»ó°èÁÂ °áÁ¦ »ç¿ë º¯¼ö -->
+<input type=hidden name=rVirNo value="{{ iconv('EUC-KR', 'UTF-8', $rVirNo) }}">					<!-- °¡»ó°èÁÂ¹øÈ£ -->
+<input type=hidden name=VIRTUAL_CENTERCD value="{{ iconv('EUC-KR', 'UTF-8', $VIRTUAL_CENTERCD) }}">	<!--ÀÔ±Ý°¡»ó°èÁÂÀºÇàÄÚµå(¿ì¸®ÀºÇà:20) -->
+
+<!-- ÀÌÁö½º¿¡½ºÅ©·Î °áÁ¦ »ç¿ë º¯¼ö -->
+<input type=hidden name=ES_SENDNO value="{{ iconv('EUC-KR', 'UTF-8', $ES_SENDNO) }}">				<!-- ÀÌÁö½º¿¡½ºÅ©·Î(Àü¹®¹øÈ£) -->
 
 </form>
 </body> 

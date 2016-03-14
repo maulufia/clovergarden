@@ -1,11 +1,18 @@
 @extends('front.page.sponsorzone')
 
 @section('sponsorzone')
-<?php
-if(!Auth::check()){
-	JsAlert('로그인후 이용해주세요.', 1, $list_link);
-}
-?>
+
+<script type="text/javascript" src="/others/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+window.onload =function(){
+ CKEDITOR.replace('content', {
+    enterMode:'1',
+        filebrowserUploadUrl : '{{ route("fileupload") }}',
+        filebrowserImageUploadUrl : '{!! route("fileupload", array("command" => "QuickUpload", "type" => "Images", "_token" => csrf_token() )) !!}'
+    });
+};
+</script>
+
 <section class="wrap">
 	<header>
 		<h2>글쓰기</h2>

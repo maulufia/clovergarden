@@ -34,8 +34,12 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 						if($cate_02_result[$i]) {
 							$dep02_para = "&dep02=0";
 						}
-
+						
 						$link = "/". CateHelper::getCateName($sub_cate) ."?cate=".$sub_cate."&dep01=".$i.$dep02_para ;
+						
+						if(CateHelper::getCateName($sub_cate) == 'userinfo') { // 회원상세정보보기의 경우 링크가 없음
+							$link = '#!';
+						}
 					?>
 					
 					<a href="{{ $link }}" class="<?php if($i == $dep01) echo 'on'; ?>">
@@ -192,7 +196,7 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 			);
 
 
-			$nClovermlist_login->read_result = $Conn->AllList($nClovermlist_login->table_name, $nClovermlist_login, "*, sum(price) price", "where id ='$login_id'", $nClovermlist_login->sub_sql, null);
+			$nClovermlist_login->read_result = $Conn->AllList($nClovermlist_login->table_name, $nClovermlist_login, "*, sum(price) price", "where id ='$login_id' and order_adm_ck = 'y'", $nClovermlist_login->sub_sql, null);
 
 			if(count($nClovermlist_login->read_result) != 0){
 				$nClovermlist_login->VarList($nClovermlist_login->read_result, 0, array('comment'));
@@ -230,7 +234,7 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 	} else {
 	?>
 					<li><a href="{{ route('mypage') }}?cate=6&dep01=2&dep02=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
-					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=0&tabs=tabs-2">나의 후원금액 {{ (int)$nClovermlist_login->price }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=1">나의 후원금액 {{ (int)$nClovermlist_login->price }}원</a></li>
 	<?php } ?>
 					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=1">후원활동 횟수 {{ number_format($nClovermlist_login->total_record) }}</a></li>
 					<li><a href="{{ route('mypage') }}?cate=6&dep01=1&dep02=1">쪽지 {{ $nMessage->total_record }}</a></li>

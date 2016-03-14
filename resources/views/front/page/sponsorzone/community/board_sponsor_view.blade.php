@@ -19,12 +19,6 @@
 			$Conn->DisConnect();
 			JsAlert(NO_DATA, 1, $list_link);
 		}
-		$mode = isset($_GET['mode']) ? $_GET['mode'] : null;
-		if($mode == "board_del"){
-			$sql = "delete from ".$nFree->table_name." where seq='".$_GET['seq']."'";
-			mysql_query($sql);
-			JsAlert('삭제되었습니다.', 1, $list_link);
-		}
 	$Conn->DisConnect();
 	//======================== DB Module End ===============================
 ?>
@@ -51,7 +45,7 @@
 
 	<article class="brd_view_cont">
 		<h2 class="ti">내용</h2>
-		{{ $nFree->content }}
+		{!! $nFree->content !!}
 	</article>
 
 	<article class="brd_view_cont">
@@ -64,7 +58,11 @@
 	 	if(Auth::check()) {
 			if($board_name[1] == Auth::user()->user_id || Auth::user()->user_id == 'master@clovergarden.co.kr'){
 	?>
-		<a href="javascript:if(confirm('삭제하시겠습니까?')){ window.location='{{ $list_link }}&type=view&seq={{ $_GET['seq'] }}&mode=board_del'; }" class="orange_btn">삭제하기</a><?php } ?>
+		<form id="form_del" method="POST" action="{{ route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 1, 'type' => 'del', 'seq' => $_GET['seq'])) }}" style="display: inline;">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<a href="javascript:if(confirm('삭제하시겠습니까?')){ document.getElementById('form_del').submit(); }" class="orange_btn">삭제하기</a>
+		</form>
+		<?php } ?>
 		<?php if($board_name[1] == Auth::user()->user_id || Auth::user()->user_id == 'master@clovergarden.co.kr'){ ?><a href="{{ $list_link }}&type=edit&seq={{ $_GET['seq'] }}" class="orange_btn">수정하기</a><?php } ?>
 	<?php
 		}

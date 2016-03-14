@@ -17,4 +17,8 @@ class ChargeController extends Controller
 	public function showAGSPay() {
 		return view('payment.agspay.AGS_pay_ing');
 	}
+	
+	public function showAGSVirAcctResult() {
+		return view('payment.agspay.AGS_VirAcctResult');
+	}
 }

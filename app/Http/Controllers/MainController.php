@@ -3,6 +3,7 @@
 namespace clovergarden\Http\Controllers;
 
 use Auth, Redirect, URL, Hash, DB;
+use Flash;
 
 class MainController extends Controller
 {
@@ -24,7 +25,12 @@ class MainController extends Controller
 	public function showHome() {
 		$sub_cate = null; // initiate
 		
+		// 팝업 (현재는 메인에만 적용됨)
+		$configModel = new \ConfigModel;
+		$popup = $configModel->getConfig('popup')->content;
+		
 		return view('front.home', ['sub_cate' => $sub_cate,
+															 'popup' => $popup
 															]);
 	}
 	
@@ -58,9 +64,11 @@ class MainController extends Controller
 		// 원래 삭제는 POST로 해야하나, 기존에 GET으로 되어 있어서 바꾸기 힘들어 이렇게 해놓음
 		if($view_name == 'front.page.sponsorzone.activity_del')
 			return $this->cancelService();
-		
-		if($view_name == null) // view_name이 null이면(인증필요) 리다이렉트
+
+		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
+			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
+		}
 		
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
@@ -110,8 +118,10 @@ class MainController extends Controller
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
-		if($view_name == null) // view_name이 null이면(인증필요) 리다이렉트
+		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
+			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
+		}
 		
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
@@ -160,8 +170,10 @@ class MainController extends Controller
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
-		if($view_name == null) // view_name이 null이면(인증필요) 리다이렉트
+		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
+			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
+		}
 		
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
@@ -209,8 +221,10 @@ class MainController extends Controller
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
-		if($view_name == null) // view_name이 null이면(인증필요) 리다이렉트
+		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
+			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
+		}
 		
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
@@ -258,8 +272,10 @@ class MainController extends Controller
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
-		if($view_name == null) // view_name이 null이면(인증필요) 리다이렉트
+		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
+			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
+		}
 		
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
@@ -344,8 +360,10 @@ class MainController extends Controller
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 		
-		if($view_name == null) // view_name이 null이면(인증필요) 리다이렉트
+		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
+			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
+		}
 		
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
@@ -567,7 +585,7 @@ class MainController extends Controller
 		$option->seq = isset($_GET['seq']) ? $_GET['seq'] : null;
 		
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
+
 		$search_sponsor_exec = array(
 										'front.page.sponsorzone.community.board_sponsor'
 									);
@@ -595,6 +613,17 @@ class MainController extends Controller
 		$board_company_edit = array( // 좋은 디자인은 아니다
 									'front.page.sponsorzone.community.board_company_edit'
 									);
+		$board_reply = array( // 좋은 디자인은 아니다
+									'front.page.sponsorzone.community.board_sponsor_view',
+									'front.page.sponsorzone.community.board_company_view',
+									'front.page.mypage.activity_mypage.community_view'
+									);
+		$board_sponsor_del = array( // 좋은 디자인은 아니다
+									'front.page.sponsorzone.community.board_sponsor_del'
+									);
+		$board_company_del = array( // 좋은 디자인은 아니다
+									'front.page.sponsorzone.community.board_company_del'
+									);
 		$service_apply = array( // 좋은 디자인은 아니다
 									'front.page.sponsorzone.activity_write',
 									);
@@ -609,6 +638,9 @@ class MainController extends Controller
 									);
 		$support_reserve = array( // 좋은 디자인은 아니다
 											'front.page.clovergarden.home_writeresv'
+											);
+		$change_clover = array(
+											'front.page.mypage.change_clover_edit'
 											);
 		$modify_personal = array( // 좋은 디자인은 아니다
 											'front.page.mypage.modify_personal_edit'
@@ -665,47 +697,83 @@ class MainController extends Controller
 			}
 		}
 		
+		foreach ($board_reply as $fe) {
+			if($fe == $view_name) {
+				return $this->replyPost();
+			}
+		}
+		
+		foreach ($board_sponsor_del as $fe) {
+			if($fe == $view_name) {
+				return $this->delSponsorPost();
+			}
+		}
+		
+		foreach ($board_company_del as $fe) {
+			if($fe == $view_name) {
+				return $this->delCompanyPost();
+			}
+		}
+		
+		// 봉사 신청
 		foreach ($service_apply as $fe) {
 			if($fe == $view_name) {
 				return $this->applyService();
 			}
 		}
 		
+		// 응원 댓글
 		foreach ($cheer_write as $fe) {
 			if($fe == $view_name) {
 				return $this->writeCheer();
 			}
 		}
 		
+		// 일시 후원
 		foreach ($support_temp as $fe) {
 			if($fe == $view_name) {
+				Flash::success('일시후원이 신청되었습니다.');
 				return $this->showTempSupportResult();
 			}
 		}
 		
+		// 일시 후원 (포인트)
 		foreach ($support_temp_point as $fe) {
 			if($fe == $view_name) {
+				Flash::success('일시후원이 신청되었습니다.');
 				return $this->showTempSupportResultPoint();
 			}
 		}
 		
+		// 정기 후원
 		foreach ($support_reserve as $fe) {
 			if($fe == $view_name) {
 				return $this->execReserveSupport();
 			}
 		}
 		
+		// 후원 기관 변경
+		foreach ($change_clover as $fe) {
+			if($fe == $view_name) {
+				return $this->changeClover();
+			}
+		}
+		
+		// 개인 정보 수정
 		foreach ($modify_personal as $fe) {
 			if($fe == $view_name) {
 				return $this->modifyPersonal();
 			}
 		}
 		
+		// 회원가입
 		foreach ($signup as $fe) {
 			if($fe == $view_name) {
 				return $this->userSignUp();
 			}
 		}
+		
+		return 'error';
 	}
 	
 	/*
@@ -856,6 +924,7 @@ class MainController extends Controller
 		$data->banknum = $nClovermlist->banknum;
 		$data->bankdate = $nClovermlist->bankdate;
 		
+		Flash::success('정기후원이 신청되었습니다.');
 	  return $this->showReserveSupportResult($data);
 	}
 	
@@ -1091,6 +1160,7 @@ class MainController extends Controller
     $json_return = json_encode($arr_json);
     // echo '@@||@@'.urldecode($json_return); 무얼 위한 기능인지 모르겠다. AJAX였어서 그런 듯.
     
+    Flash::success('메일이 발송되었습니다.');
     return redirect()->route('home');
   }
   
@@ -1128,6 +1198,7 @@ class MainController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 		
+		Flash::success(SUCCESS_WRITE);
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 1));
   }
   
@@ -1165,6 +1236,7 @@ class MainController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 		
+		Flash::success(SUCCESS_EDIT);
 		return redirect()->route('sponsorzone', array('cate' => 0,
 																									'dep01' => 1,
 																									'dep02' => 1,
@@ -1206,13 +1278,103 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-
+		
+		Flash::success(SUCCESS_EDIT);
 		return redirect()->route('sponsorzone', array('cate' => 0,
 																									'dep01' => 1,
 																									'dep02' => 2,
 																									'type' => 'view',
 																									'seq' => $seq
 																									));
+  }
+  
+  private function replyPost() {
+		$Conn = new \DBClass();
+		$rmode = isset($_POST['rmode']) ? $_POST['rmode'] : '';
+		
+		$cate = $_POST['cate'];
+		$dep01 = $_POST['dep01'];
+		$dep02 = $_POST['dep02'];
+		$seq = $_POST['seq'];
+		
+		if($rmode == "replyi"){
+			$sql = "
+			insert into new_tb_reply set
+				idx='',
+				signdate='".time()."',
+				wip='".$_POST['wip']."',
+				wid='".$_POST['wid']."',
+				wname='".$_POST['wname']."',
+				comment='".$_POST['comment']."',
+				cate='".$cate."',
+				dep01='".$dep01."',
+				dep02='".$dep02."',
+				seq='".$seq."'
+			";
+			
+			mysql_query($sql);
+			
+			Flash::success('댓글이 등록되었습니다.');
+			if($cate != 6) {
+				return redirect()->route('sponsorzone', array('cate' => '0', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
+			} else {
+				return redirect()->route('mypage', array('cate' => '6', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
+			}
+		} else if ($rmode == "replym") {
+			$sql = "update new_tb_reply set comment='".$_POST['comment']."' where idx='".$_POST['ridx']."'";
+			mysql_query($sql);
+			
+			Flash::success('댓글이 수정되었습니다.');
+			if($cate != 6) {
+				return redirect()->route('sponsorzone', array('cate' => '0', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
+			} else {
+				return redirect()->route('mypage', array('cate' => '6', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
+			}
+		} else if ($rmode == "replyd") {
+			$sql = "delete from new_tb_reply where idx='".$_POST['ridx']."'";
+			mysql_query($sql);
+			
+			Flash::success('댓글이 삭제되었습니다.');
+			if($cate != 6) {
+				return redirect()->route('sponsorzone', array('cate' => '0', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
+			} else {
+				return redirect()->route('mypage', array('cate' => '6', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
+			}
+		}
+
+		$Conn->DisConnect();
+  }
+  
+  private function delSponsorPost() {
+  	$seq = isset($_GET['seq']) ? $_GET['seq'] : 0;
+  	
+  	// 삭제자가 관리자 혹은 작성자임을 확인
+  	$post = DB::table('new_tb_free')->where('seq', '=', $seq);
+  	$writer = $post->select('writer')->get();
+  	$writer = explode(',', $writer[0]->writer);
+  	
+  	if($writer[1] != Auth::user()->user_id) {
+  		Flash::error(NO_PATH);
+  		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 1));
+  	}
+  	
+  	// 삭제
+  	$post->delete();
+  
+  	Flash::success(SUCCESS_DELETE);
+		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 1));
+  }
+  
+  private function delCompanyPost() {
+  	$seq = isset($_GET['seq']) ? $_GET['seq'] : 0;
+  	
+  	$post = DB::table('new_tb_schedule')->where('seq', '=', $seq);
+  	
+  	// 삭제
+  	$post->delete();
+  
+  	Flash::success(SUCCESS_DELETE);
+		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 2));
   }
   
   private function applyService() {
@@ -1249,6 +1411,7 @@ class MainController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 		
+		Flash::success('신청 완료되었습니다.');
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 2));
   }
   
@@ -1271,6 +1434,7 @@ class MainController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 
+		Flash::success('신청 취소되었습니다.');
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 2));
   }
   
@@ -1308,8 +1472,69 @@ class MainController extends Controller
 		
 		//http://52.79.83.28/clovergarden?cate=1&dep01=0&dep02=0&type=view&seq=16#tabs-4
 		$seq = isset($_POST['seq']) ? $_POST['seq'] : 0;
+		
+		Flash::success(SUCCESS_WRITE);
 		return redirect()->to(route('clovergarden').'?cate=1&dep01=0&dep02=0&type=view&seq='.$seq.'#tabs-4');
 		//return redirect()->route('clovergarden', array('cate' => 1, 'dep01' => 0, 'dep02' => 0, 'type' => 'view', 'seq' => $seq, '\#tab-4' => ''));
+  }
+  
+  private function changeClover() {
+  	$cseq = isset($_POST['cseq']) ? $_POST['cseq'] : '';
+  	
+  	$nMember = new \MemberClass(); 
+  	
+  	$Conn = new \DBClass();
+  	
+  	$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, '*', "where user_id ='" . Auth::user()->user_id . "'", null, null);
+    if(count($nMember->read_result) != 0){
+        $nMember->VarList($nMember->read_result);
+    }else{
+        $Conn->DisConnect();
+        JsAlert(ERR_LOGIN, 1, $list_link);
+    }
+  	
+		if($cseq != ""){
+			$sql = "update new_tb_member set clover_seq='" . $cseq . "', update_ck='Y' where user_id='" . Auth::user()->user_id . "'";
+			mysql_query($sql);
+			
+			Flash::success('변경 요청이 접수되었습니다.');
+			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+		}
+
+		$cseq2 = isset($_POST['cseq2']) ? $_POST['cseq2'] : '';
+		
+		$ck_price = null;
+		if($cseq2 != ""){
+			for($i=1; $i<count($cseq2); $i++){
+				$ck_price += $_POST['select_money'][$i];
+				if($i == 1){
+					$seq_clover_ex = $cseq2[$i]."[@@]".$_POST['select_money'][$i];
+				} else {
+					$seq_clover_ex .= "[@@@]" . $cseq2[$i] . "[@@]".$_POST['select_money'][$i];
+				}
+				$arr_count_v[$i] = $cseq2[$i];
+			}
+			
+			if($_POST['sum_price_ck'] != $ck_price){
+				Flash::error('변경금액을 확인해주세요!');
+				return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+			}
+			
+			$arr_count = count($arr_count_v);
+
+			$uniq_count = count(array_unique($arr_count_v));
+
+			if($arr_count != $uniq_count) {
+				Flash::error('중복된 값이 있습니다!');
+				return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+			}
+
+			$sql = "update new_tb_member set clover_seq='".$seq_clover_ex."', clover_seq_adm='".$nMember->clover_seq."[@@@@]".$seq_clover_ex."', clover_seq_adm_type='".time()."', update_ck='Y' where user_id='" . Auth::user()->user_id . "'";
+			mysql_query($sql);
+
+			Flash::success('변경 요청이 접수되었습니다.');
+			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+		}
   }
   
   private function modifyPersonal() {
@@ -1335,7 +1560,7 @@ class MainController extends Controller
 
 		$file_name = explode('@',$nMember->user_id);
 
-		if(isset($_POST['user_pw'])){
+		if(!empty($_POST['user_pw'])){
 			$nMember->user_pw = Hash::make(strtolower($_POST['user_pw']));
 		} else {
 			$nMember->user_pw =  $nMember->user_pw;
@@ -1421,6 +1646,7 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		
+		Flash::success(SUCCESS_EDIT);
 		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 5, 'dep02' => 0));
   }
   
@@ -1486,6 +1712,7 @@ class MainController extends Controller
 			$id = DB::table('new_tb_member')->where('user_id', $nMember->user_id)->value('id');
 			Auth::loginUsingId($id);
 			
+			Flash::success(SUCCESS_MEMBER_JOIN);
 			return redirect()->route('home');
 		}
   }

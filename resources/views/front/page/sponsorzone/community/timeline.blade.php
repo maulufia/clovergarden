@@ -81,7 +81,15 @@ $Conn->DisConnect();
 		<div id="tabs" class="tab">
 			<ul>
 				<li class="menu on"><a href="#tabs-1">최근 타임라인</a></li>
-				<li class="menu last"><a href="#tabs-2"><?php if($group_name){ ?>{{ $group_name }}<?php }else{ ?>소속 그룹<?php } ?></a></li>
+				<li class="menu last">
+					<a href="#tabs-2">
+						<?php if($group_name){ ?>
+							{{ $group_name }}
+						<?php } else { ?>
+							소속 그룹
+						<?php } ?>
+					</a>
+				</li>
 			</ul>
 
 			<div id="tabs-1" class="tabCont">
@@ -104,7 +112,7 @@ $Conn->DisConnect();
 
 
 
-			<ul id="newsticker3" style="line-height:200%;border:1px solid #fff;">
+			<ul id="newsticke3" style="line-height:200%;border:1px solid #fff;">
 			<ul>
 				<?php
 					if(count($nClovercomment->page_result) > 0){
@@ -135,24 +143,29 @@ $Conn->DisConnect();
 					<table>
 						<caption>게시판 목록</caption>
 						<colgroup>
-							<col class="colWidth180">
-							<col class="colWidth110">
+							<col width="150px">
+							<col width="auto">
 							<col class="colWidth380">
-							<col class="colWidth105">
+							<col width="auto">
 						</colgroup>
 						<tr	>
 							<th scope="row">
-								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}">
-								<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
+								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}" class="mr10 xm_left" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden; display:inline-block;">
+								<img src="/imgs/up_file/member/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10" style="width: 51px; height: 51px;"> 
 								</a>
 								<div class="name">
 									<a href="{{ route('userinfo') }}?cate=8&user_id=<?=$nMember->user_id?>">
-									<?php if($group_name != ""){ ?>{{ $group_name }}<br><?php }?>{{ $board_name[0] }}님
+									@if($group_name != "")
+										{{ $group_name }}<br>
+									@else
+										개인회원<br>
+									@endif
+										{{ $board_name[0] }}님
 									</a>
 								</div>
 								
 							</th>
-							<td class="normal"><a href="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment->clover_seq }}">{{ ${$nClovercomment->clover_seq} }}</a></td>
+							<td class="normal" style="min-width: 135px;"><a href="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment->clover_seq }}">{{ ${$nClovercomment->clover_seq} }}</a></td>
 							<td class="subject">{{ $nClovercomment->subject }}</td>
 							<td class="date">{{ date('Y-m-d',strtotime($nClovercomment->reg_date)) }}</td>
 						</tr>	
@@ -175,10 +188,10 @@ $Conn->DisConnect();
 				<table>
 					<caption>게시판 목록</caption>
 					<colgroup>
-						<col class="colWidth180">
-						<col class="colWidth110">
+						<col width="150px">
+						<col width="auto">
 						<col class="colWidth380">
-						<col class="colWidth105">
+						<col width="auto">
 					</colgroup>
 					<?php
 						if(count($nClovercomment2->page_result) > 0){
@@ -207,8 +220,8 @@ $Conn->DisConnect();
 					?>
 					<tr>
 						<th scope="row">
-							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}">
-							<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
+							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}" class="mr10 xm_left" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden; display:inline-block;">
+							<img src="/imgs/up_file/member/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
 							</a>
 							<div class="name">
 								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}">
@@ -216,7 +229,7 @@ $Conn->DisConnect();
 								</a>
 							</div>
 						</th>
-						<td class="normal"><a href="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment2->clover_seq }}">{{ ${$nClovercomment2->clover_seq} }}</a></td>
+						<td class="normal" style="min-width: 135px;"><a href="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment2->clover_seq }}">{{ ${$nClovercomment2->clover_seq} }}</a></td>
 						<td class="subject">{{ $nClovercomment2->subject }}</td>
 						<td class="date">{{ date('Y-m-d',strtotime($nClovercomment2->reg_date)) }}</td>
 					</tr>

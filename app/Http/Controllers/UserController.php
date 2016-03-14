@@ -4,6 +4,7 @@ namespace clovergarden\Http\Controllers;
 
 use Input, DB, Auth, Route, Redirect, Hash;
 use Socialite;
+use Flash;
 
 class UserController extends Controller
 {
@@ -38,7 +39,7 @@ class UserController extends Controller
 	
 	public function snsLoginCallbackFacebook() {
 		$user = Socialite::driver('facebook')->user(); // get data from user (sns)
-		
+
 		$user_name = $user->getName();
 		$user_email = $user->getEmail();
 
@@ -46,11 +47,13 @@ class UserController extends Controller
 		$user_select = DB::table('new_tb_member')->select('id', 'social_type')->where('user_id', '=', $user_email)->get();
 		if($user_select) {
 			if(is_null($user_select[0]->social_type)) {
-				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 일반회원으로 로그인해 주시길 바랍니다.');
+				Flash::warning('이미 가입되어 있는 아이디입니다. 일반회원으로 로그인해 주시길 바랍니다.');
+				return redirect()->route('login');
 			}
 			
 			if($user_select[0]->social_type == 'n') {
-				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 네이버 로그인을 이용해 주시길 바랍니다.');
+				Flash::warning('이미 가입되어 있는 아이디입니다. 네이버 로그인을 이용해 주시길 바랍니다.');
+				return redirect()->route('login');
 			}
 			
 			Auth::loginUsingId($user_select[0]->id);
@@ -62,7 +65,8 @@ class UserController extends Controller
 			Auth::loginUsingId($id);
 		}
 
-		return redirect()->route('home');
+		Flash::success('정상적으로 로그인되었습니다.');
+		return redirect()->intended('/');
 	}
 	
 	public function snsLoginCallbackNaver() {
@@ -74,11 +78,13 @@ class UserController extends Controller
 		$user_select = DB::table('new_tb_member')->select('id', 'social_type')->where('user_id', '=', $user_email)->get();
 		if($user_select) {
 			if(is_null($user_select[0]->social_type)) {
-				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 일반회원으로 로그인해 주시길 바랍니다.');
+				Flash::warning('이미 가입되어 있는 아이디입니다. 일반회원으로 로그인해 주시길 바랍니다.');
+				return redirect()->route('login');
 			}
 			
 			if($user_select[0]->social_type == 'f') {
-				return redirect()->route('login')->with('flash_notification.message', '이미 가입되어 있는 아이디입니다. 페이스북 로그인을 이용해 주시길 바랍니다.');
+				Flash::warning('이미 가입되어 있는 아이디입니다. 페이스북 로그인을 이용해 주시길 바랍니다.');
+				return redirect()->route('login');
 			}
 			
 			Auth::loginUsingId($user_select[0]->id);
@@ -90,7 +96,8 @@ class UserController extends Controller
 			Auth::loginUsingId($id);
 		}
 
-		return redirect()->route('home');
+		Flash::success('정상적으로 로그인되었습니다.');
+		return redirect()->intended('/');
 	}
 	
 	public function snsLoginCallbackKakao() {
@@ -134,21 +141,25 @@ class UserController extends Controller
 		  if (Auth::attempt($user)) {
 		  	if(Auth::user()->user_state < 0) {
 		  		Auth::logout();
-		  		return Redirect::route('home')->with('flash_notification.message', '회원탈퇴된 회원입니다.');
+		  		Flash::error('회원탈퇴된 회원입니다.');
+		  		return Redirect::route('home');
 		  	}
 		  	
 		  	if(Auth::user()->user_state == 4) {
 		  		if(Auth::user()->login_ck != 'y') {
 		  			Auth::logout();
-		  			return Redirect::route('home')->with('flash_notification.message', '승인 전인 기업회원입니다.');
+		  			Flash::error('승인 전인 기업회원입니다.');
+		  			return Redirect::route('home');
 		  		}
 		  	}
 		  	
-		  	return Redirect::intended('/')->with('flash_notification.message', '정상적으로 로그인되었습니다.');
+		  	Flash::success('정상적으로 로그인되었습니다.');
+		  	return Redirect::intended('/');
 	      //return Redirect::to('home')
 	          //->with('flash_notice', 'You are successfully logged in.');
 		  } else {
-		  	return Redirect::intended('/login')->with('flash_notification.message', '비밀번호 또는 아이디가 정확하지 않습니다.');
+		  	Flash::error('비밀번호 또는 아이디가 정확하지 않습니다.');
+		  	return Redirect::intended('/login');
 		  }
 		  
 		  // authentication failure! lets go back to the login page
@@ -196,6 +207,27 @@ class UserController extends Controller
 		$user_name = $user_data->user_name;
 		$user_cell = $user_data->user_cell;
 		
+	  $nMember = new \MemberClass();     //회원
+
+		//======================== DB Module Start ============================
+		$Conn = new \DBClass();
+
+		$nMember->where = "where user_name = '".$user_name."' and user_cell = '".$user_cell."'";
+
+		$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, '*', $nMember->where, null, null);
+
+	    if(count($nMember->read_result) != 0){
+	        $nMember->VarList($nMember->read_result);
+	    }else{
+	        $Conn->DisConnect();
+	        
+	        Flash::error('입력하신 이름(실명), 연락처와 일치하는 회원 정보가 없습니다.');
+	        return redirect()->route('login', array('cate' => 5, 'dep01' => 1));
+	    }
+
+		$Conn->DisConnect();
+		//======================== DB Module End ===============================
+		
 		return view('front.page.login.show_id', ['cate' => $sub_cate,
 																						 'sub_cate' => $sub_cate,
 																						 'cate_file' => $cate_file,
@@ -208,8 +240,7 @@ class UserController extends Controller
 																						 'cate_01_count' => $cate_01_count,
 																						 'cate_01_type' => $cate_01_type,
 																						 'cate_02_result' => $cate_02_result,
-																						 'user_name' => $user_name,
-																						 'user_cell' => $user_cell
+																						 'nMember' => $nMember
 																						 ]);
   }
   
@@ -229,28 +260,35 @@ class UserController extends Controller
 
 		$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, '*', $nMember->where, null, null);
 
-		$subject = "클로버가든 비밀번호 찾기 메일입니다.";
+		if($nMember->read_result) {
+			$subject = "클로버가든 비밀번호 찾기 메일입니다.";
+			$rand_num = rand(10000,99999);
+			$user_pw    = RequestAll(md5(strtolower($rand_num)));
+			$content = "회원님의 임시비밀번호는 <B>".$rand_num."</B>입니다. 로그인 후 수정해 주시기 바랍니다.";
 
-		$rand_num = rand(10000,99999);
-		$user_pw    = RequestAll(md5(strtolower($rand_num)));
-		$content = "회원님의 임시비밀번호는 <B>".$rand_num."</B>입니다. 로그인 후 수정해 주시기 바랍니다.";
 
+	    $Conn->StartTrans();
+	    
+	    //$mail = sendMail("클로버가든", "master@clovergarden.co.kr", $user_name, $user_id, $subject, $content, $isDebug=0);
+	    $mail = \MailHelper::sendMail("클로버가든", "master@clovergarden.co.kr", $user_name, $user_id, $subject, $content, $isDebug=0);
 
-    $Conn->StartTrans();
-    
-    //$mail = sendMail("클로버가든", "master@clovergarden.co.kr", $user_name, $user_id, $subject, $content, $isDebug=0);
-    $mail = \MailHelper::sendMail("클로버가든", "master@clovergarden.co.kr", $user_name, $user_id, $subject, $content, $isDebug=0);
+	    if($mail){
+				$sql = "update new_tb_member set password='" . $user_pw . "' where user_id='".$user_id."'";
+				mysql_query($sql);
+				
+        Flash::success('메일 전송되었습니다.');
+				return redirect()->route('login', array('cate' => 5, 'dep01' => 2));
+	    } else {
+        Flash::error('메일 전송 실패');
+				return redirect()->route('login', array('cate' => 5, 'dep01' => 2));
+	    }
 
-    if($mail){
-		$sql = "update new_tb_member set password='" . $user_pw . "' where user_id='".$user_id."'";
-		mysql_query($sql);
-        UrlReDirect("메일 전송 되었습니다.", $list_link);
-    } else {
-        JsAlert("메일 전송 실패", 1, $list_link);
-    }
-
-		$Conn->DisConnect();
-		//======================== DB Module End ===============================
+			$Conn->DisConnect();
+			//======================== DB Module End ===============================
+		} else {
+			Flash::error('입력하신 이메일(아이디), 이름(실명), 연락처와 일치하는 회원 정보가 없습니다.');
+			return redirect()->route('login', array('cate' => 5, 'dep01' => 2));
+		}
   }
   
   public function checkMember() {
@@ -303,13 +341,18 @@ class UserController extends Controller
   }
   
   public function userdrop() {
+  	// 탈퇴 시도하려는 회원과 동일회원인지 비교
+  	if(Auth::user()->id != $_GET['mseq']) {
+  		Flash::error('잘못된 접근입니다.');
+  		return redirect()->route('home');
+  	}
+  	
   	// 회원 탈퇴 보안에 문제가 많음. 1.탈퇴하려는 회원과 현재 회원이 같음을 비교해야 함.
   	$nMember = new \MemberClass(); //회원
 
 		//======================== DB Module Start ============================
 		$Conn = new \DBClass();
 
-	  $mseq = $_GET['mseq'];
 	  $nMember->where = "where user_id ='" . Auth::user()->user_id . "'";
 	  
 		$sql = "update ".$nMember->table_name." set user_state='-1' ".$nMember->where;
@@ -319,6 +362,7 @@ class UserController extends Controller
 		//======================== DB Module End ===============================
 		
 		// 로그아웃
+		Flash::success('회원탈퇴가 완료 되었습니다.');
 		return redirect()->route('logout');
   }
 

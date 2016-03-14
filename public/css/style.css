@@ -106,6 +106,7 @@ caption,legend {display: none;}
 #global-wrap {
 	width:100%; 
 	margin: 0 auto;
+	position: relative;
 }
 
 .popup {width:100%; margin: 0 auto; padding: 83px 0; height: 100%; background:#DFDFDF;}
@@ -475,10 +476,10 @@ section.cont .article_last_box {margin-right: 0}
 .box4 .title span{float:left; display:inline-block; width:71px; height:36px; line-height:36px; color: #fff;}
 /*.box4 .title span{float:left; display:inline-block; background: #82AF4C; width:71px; height:36px; line-height:36px; color: #fff;}*/
 
-.box5 {float:left; margin-top:30px; margin-right:27px; width:175px; height:200px; text-align:center; font-weight:bold; border:1px solid #ccc; overflow:hidden; position:relative;}
+.box5 {text-align:center; font-weight:bold; border:1px solid #ccc; overflow:hidden; position:relative;}
 .box5_last {margin-right: 0}
-.box5 .img {width:173px; height:168px; line-height:168px}
-.box5 .title {height:32px; line-height:32px; background:#eee}
+.box5 .img {line-height:140px}
+.box5 .title {line-height:26px; background:#eee}
 
 .box6 {float:left; margin-right:23px; }
 .box6 .img {width:175px; height:176px; line-height: 176px; margin-bottom: 15px; text-align:center; font-weight:bold; border:1px solid #ccc; overflow:hidden}
@@ -670,7 +671,7 @@ h3.banner_title2 {padding-top:5px; margin:70px 0 10px 32px;}
 	padding-left: 10px;
 	width: 277px;
 }
-.login #loginForm {width:650px; margin:160px auto 0; overflow: hidden;}
+.login #loginForm {display: table; margin:160px auto 0; overflow: hidden;}
 .login .desc {margin-top:20px; font-weight: bold; color: #FD4F00; text-align: center;}
 
 /* Webkit */
@@ -857,4 +858,101 @@ background: #fff;
 	position:absolute;
 	left:81%;
 	top:155px;
+}
+
+/*********************/
+/*********************/
+/* YJM custom styles */
+/*********************/
+/*********************/
+
+#popup-blackscreen {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.5;
+	z-index: 9999;
+}
+#popup-wrapper {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	z-index: 9999;
+}
+#popup {
+	position: relative;
+	background: #FFF;
+	width: 500px;
+	/* left: 50%; */
+	margin: 100px auto;
+	z-index: 10000;
+	padding: 5px;
+	border-radius: 5px;
+}
+#popup .close {
+	border: 0;
+	background: transparent;
+	position: relative;
+	float: right;
+	font-size: 17px;
+	top: -3px;
+	right: 0;
+}
+
+.box5-wrapper {
+	float: left;
+  margin-top: 30px;
+  width: 20%;
+	box-sizing: border-box;
+	padding: 0 13px;
+}
+
+div.alert {
+  width: 1000px;
+  margin: 10px auto;
+  position: relative;
+  padding: 8px;
+  padding-left: 20px;
+  border-radius: 7px;
+  color: #FFF;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+div.alert .close {
+	border: 0;
+  background: transparent;
+  position: relative;
+  float: right;
+  font-size: 17px;
+  top: -3px;
+  right: 0;
+}
+
+div.alert-info {
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
+
+div.alert-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+div.alert-warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+
+div.alert-danger {
+	background-color: #f2dede;
+	border-color: #ebccd1;
+	color: #a94442;
 }

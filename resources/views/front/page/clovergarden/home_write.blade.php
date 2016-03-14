@@ -233,6 +233,18 @@ function Check_Common(form){
 		alert("상점URL을 입력하십시오.");
 		return false;
 	}
+	else if(form.OrdNm.value == ""){
+		alert("성함을 입력하십시오.");
+		return false;
+	}
+	else if(form.OrdPhone.value == ""){
+		alert("휴대폰번호를 입력하십시오.");
+		return false;
+	}
+	else if(form.OrdAddr.value == "" || form.addr1.value == ""){
+		alert("주소를 입력하십시오.");
+		return false;
+	}
 	return true;
 }
 
@@ -343,9 +355,9 @@ function point_form(form){
 					<td>
 						<div class="radioForm">
 							<input type="radio" name="Job" id="banking" value="onlyiche" checked onclick="mon(1)">
-							<label for="banking" class="mr20">인터넷뱅킹</label>
-							<input type="radio" name="Job" id="card" value="onlycard" onclick="mon(2)">
-							<label for="card" class="mr20">신용카드</label>
+							<label for="banking" class="mr20">신용카드 & 계좌이체 & 무통장입금</label>
+							<!--<input type="radio" name="Job" id="card" value="onlycard" onclick="mon(2)">
+							<label for="card" class="mr20">신용카드</label>-->
 							<input type="radio" name="Job" id="point" value="point" onclick="mon(3)">
 							<label for="point" class="mr20">포인트</label>
 						</div>
@@ -446,6 +458,7 @@ function point_form(form){
 			<input type=hidden name=DlvAddr value="">
 			<input type=hidden name=Remark value="">
 			<input type=hidden name=CardSelect value="">
+			<input type=hidden name=MallPage value="/agspay/AGS_VirAcctResult">
 			<!--<tr >
 				<th scope="row" class="first xm_tleft pl30">포인트 사용</th>
 				<td><input type="text" name="supporting_agency" style="width:100px"> /11,000pt 
@@ -487,7 +500,7 @@ function point_form(form){
 			</tr>
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">성명</th>
-				<td><input type="text" name="OrdNm" style="width:312px" value="{{ $login_name }}"></td>
+				<td><input type="text" name="OrdNm" style="width:312px" value="{{ Auth::user()->user_name }}"></td>
 			</tr>
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">휴대폰번호</th>
@@ -500,9 +513,9 @@ function point_form(form){
 							$login_cell2 = substr($login_cell, 3, -4);
 							$login_cell3 = substr($login_cell, -4);
 						?>
-						<input type="text" name="OrdPhone" class="w97 mr10 onlyNumber" value="{{ $login_cell1 }}"> 
-						<input type="text" name="OrdPhone2" class="w97 mr10 onlyNumber" value="{{ $login_cell2 }}"> 
-						<input type="text" name="OrdPhone3" class="w97 onlyNumber" value="{{ $login_cell3 }}"> 
+						<input type="text" name="OrdPhone" class="w97 mr10 onlyNumber" value="{{ $login_cell }}"> 
+						<!-- <input type="text" name="OrdPhone2" class="w97 mr10 onlyNumber" value="{{ $login_cell2 }}"> 
+						<input type="text" name="OrdPhone3" class="w97 onlyNumber" value="{{ $login_cell3 }}">  -->
 					</div>
 					<div class="xm_left ml10 mt5 checkbox">
 						<input type="checkbox" id="sms" name="sms" checked="checked"><label for="sms" class="fs14 t_bold">SMS수신</label>
@@ -512,8 +525,8 @@ function point_form(form){
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">우편번호</th>
 				<td>
-					<input type="text" name="OrdAddr" id="postcode1" class="w97 onlyNumber"> <strong class="fs14 c_light_gray_3">-</strong> 
-					<input type="text" name="OrdAddr2" id="postcode2" class="w97 onlyNumber"> 
+					<input type="text" name="OrdAddr" id="postcode1" class="w97 onlyNumber" value="{{ Auth::user()->post1 }}"> <strong class="fs14 c_light_gray_3">-</strong> 
+					<input type="text" name="OrdAddr2" id="postcode2" class="w97 onlyNumber" value="{{ Auth::user()->post2 }}"> 
 					<a href="#" class="ml10 green_btn" style="width:100px" onclick="sample6_execDaumPostcode()" >우편번호 찾기</a>
 				</td>
 			</tr>
@@ -521,13 +534,16 @@ function point_form(form){
 
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">주소</th>
-				<td><input type="text" name="addr1" style="width:240px;" id="address"> <input type="text" name="addr2" class="ml10" style="width:240px;" id="address2"></td>
+				<td><input type="text" name="addr1" style="width:240px;" id="address" value="{{ Auth::user()->addr1 }}"> <input type="text" name="addr2" class="ml10" style="width:240px;" id="address2" value="{{ Auth::user()->addr2 }}"></td>
 			</tr>
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">이메일주소</th>
 				<td>
-					<div class="xm_left"><input type="text" name="UserEmail" class="w130" value="{{ $login_email[0] }}"> <strong class="fs14 c_light_gray_3">@</strong> <input type="text" name="UserEmail2" class="w130" disabled="disabled" value="{{ $login_email[1] }}"> </div>
-					<div class="xm_left styled-select" style="margin-top:2px; margin-left:10px">
+					<?php
+						$login_email = explode('@', Auth::user()->user_id);
+					?>
+					<div class="xm_left"><input type="text" name="UserEmail" class="w130" value="{{ Auth::user()->user_id }}">&nbsp; <!--<strong class="fs14 c_light_gray_3">@</strong> <input type="text" name="UserEmail2" class="w130" disabled="disabled" value="{{ $login_email[1] }}"> </div> -->
+					<!--<div class="xm_left styled-select" style="margin-top:2px; margin-left:10px">
 					   <select id="selectEmail">
 						  <option value="">메일선택</option>
 						  <option value="nate.com">nate.com</option>
@@ -536,7 +552,7 @@ function point_form(form){
 						  <option value="gmail.com">gmail.com</option>
 						  <option value="direct">직접입력</option>
 					   </select>
-					</div>
+					</div>-->
 					<div class="xm_right mt5 mr30 checkbox">
 						<input type="checkbox" id="email" name="email" checked="checked"><label for="email" class="fs14 t_bold">e-mail 수신</label>
 					</div>

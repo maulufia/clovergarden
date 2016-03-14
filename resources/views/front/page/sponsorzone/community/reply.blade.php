@@ -1,57 +1,16 @@
-
-	<?php
+<?php
 	$Conn = new DBClass();
-	$rmode = isset($_GET['rmode']) ? $_GET['rmode'] : '';
-	if($rmode == "replyi"){
-		$sql = "
-		insert into new_tb_reply set
-			idx='',
-			signdate='".time()."',
-			wip='".$_GET['wip']."',
-			wid='".$_GET['wid']."',
-			wname='".$_GET['wname']."',
-			comment='".$_GET['comment']."',
-			cate='".$_GET['cate']."',
-			dep01='".$_GET['dep01']."',
-			dep02='".$_GET['dep02']."',
-			seq='".$_GET['seq']."'
-		";
-		mysql_query($sql);
-		echo "
-		<script>
-		alert('댓글이 등록되었습니다.');
-		window.location = '" . CateHelper::getCateName($_GET['cate']) . "?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
-		</script>
-		";
-	} else if ($rmode == "replym") {
-		$sql = "update new_tb_reply set comment='".$_GET['comment']."' where idx='".$_GET['ridx']."'";
-		mysql_query($sql);
-		echo "
-		<script>
-		alert('댓글이 수정되었습니다.');
-		window.location = '" . CateHelper::getCateName($_GET['cate']) . "?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
-		</script>
-		";
-	} else if ($rmode == "replyd") {
-		$sql = "delete from new_tb_reply where idx='".$_GET['ridx']."'";
-		mysql_query($sql);
-		echo "
-		<script>
-		alert('댓글이 삭제되었습니다.');
-		window.location = '" . CateHelper::getCateName($_GET['cate']) . "?cate=".$_GET['cate']."&dep01=".$_GET['dep01']."&dep02=".$_GET['dep02']."&type=view&seq=".$_GET['seq']."';
-		</script>
-		";
-	}
+
 	$nReply = new ReplyClass(); //
+
 	$nReply->page_result = $Conn->AllList
 	(	
-		$nReply->table_name, $nReply, "*", "where cate='".$_GET['cate']."' and dep01='".$_GET['dep01']."' and dep02='".$_GET['dep02']."' and seq='".$_GET['seq']."' order by idx desc", null, null
+		$nReply->table_name, $nReply, "*", "where seq='".$_GET['seq']."' order by idx desc", null, null
 	);
 
 	$Conn->DisConnect();
-	?>
-	<form method="get" action="" name="reply_form"> <!-- PHP_SELF -->
-		
+?>
+<form method="POST" action="" name="reply_form"> <!-- PHP_SELF -->
 
 		<input type="hidden" name="rmode" value="">
 		<input type="hidden" name="type" value="view">
@@ -63,38 +22,41 @@
 		<input type="hidden" name="wid" value="{{ Auth::check() ? Auth::user()->user_id : '' }}">
 		<input type="hidden" name="wname" value="{{ $login_name }}">
 		<input type="hidden" name="ridx" value="">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		
 		<?php
 			$gmode = isset($_GET['gmode']) ? $_GET['gmode'] : '';
 			$comment = isset($_GET['comment']) ? $_GET['comment'] : '';
 			if($gmode == "mod"){
 		?>		 
-		<table cellpadding=0 cellspacing=0 border=0 width=100% align=center>
-		<tr height=100>
-			<td width=15% style="border:1px solid #e8e8e8;" align=center bgcolor="92c154"><font color="ffffff"><strong>내용</strong></font></td>
-			<td style="border:1px solid #e8e8e8;" align=center>
-			<?php
-			$_GET['cv'] = str_replace("<BR>","\r\n",$_GET['cv']);
-			?>
-			<textarea name="comment" style="width:98%; height:90px">{{ $_GET['cv'] }}</textarea>
-			</td>
-		</tr>
-		<tr height=40>
-			<td align=center colspan="2"><a href="javascript:reply_func('replym','{{ $_GET['idx'] }}');" class="green_btn">댓글수정</a></td>
-		</tr>
-		</table>
+			<table cellpadding=0 cellspacing=0 border=0 width=100% align=center>
+			<tr height=100>
+				<td width=15% style="border:1px solid #e8e8e8;" align=center bgcolor="92c154"><font color="ffffff"><strong>내용</strong></font></td>
+				<td style="border:1px solid #e8e8e8;" align=center>
+				<?php
+				$_GET['cv'] = str_replace("<BR>","\r\n",$_GET['cv']);
+				?>
+				<textarea name="comment" style="width:98%; height:90px">{{ $_GET['cv'] }}</textarea>
+				</td>
+			</tr>
+			<tr height=40>
+				<td align=center colspan="2"><a href="javascript:reply_func('replym','{{ $_GET['idx'] }}');" class="green_btn">댓글수정</a></td>
+			</tr>
+			</table>
 		<?php } else { ?>
-		<table cellpadding=0 cellspacing=0 border=0 width=100% align=center>
-		<tr height=100>
-			<td width=15% style="border:1px solid #e8e8e8;" align=center bgcolor="92c154"><font color="ffffff"><strong>내용</strong></font></td>
-			<td style="border:1px solid #e8e8e8;" align=center>
-			<textarea name="comment" style="width:98%; height:90px">{{ $comment }}</textarea>
-			</td>
-		</tr>
-		<tr height=40>
-			<td align=center colspan="2"><a href="javascript:reply_func('replyi','');" class="orange_btn">댓글등록</a></td>
-		</tr>
-		</table>
+			@if(Auth::check())
+				<table cellpadding=0 cellspacing=0 border=0 width=100% align=center>
+				<tr height=100>
+					<td width=15% style="border:1px solid #e8e8e8;" align=center bgcolor="92c154"><font color="ffffff"><strong>내용</strong></font></td>
+					<td style="border:1px solid #e8e8e8;" align=center>
+					<textarea name="comment" style="width:98%; height:90px">{!! $comment !!}</textarea>
+					</td>
+				</tr>
+				<tr height=40>
+					<td align=center colspan="2"><a href="javascript:reply_func('replyi','');" class="orange_btn">댓글등록</a></td>
+				</tr>
+				</table>
+			@endif
 		<?php } ?>
 		<br>
 
@@ -158,17 +120,14 @@
 		</tr>
 		<tr>
 			<td align=left style="line-height:100%; padding-top:15px;">
-			{{ $r_comment }}
+			{!! $r_comment !!}
 			</td>
 		</tr>
 		<tr height=40>
 			<td align=right colspan="2">
-			<?php if($nReply->wid == Auth::check() ? Auth::user()->user_id : ''){ ?>
+			<?php if(Auth::check() && $nReply->wid == Auth::user()->user_id){ ?>
 				<a href="{{ CateHelper::getCateName($_GET['cate']) }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type={{ $_GET['type'] }}&seq={{ $_GET['seq'] }}&cv={{ $r_comment }}&gmode=mod&idx={{ $nReply->idx }}" class="green_btn">댓글수정</a>
 				<a href="javascript:reply_func('replyd','{{ $nReply->idx }}');" class="orange_btn">댓글삭제</a>
-			<?php } else { ?>
-				<a href="javascript:alert('자신이 작성한 댓글만 수정할 수 있습니다.');" class="green_btn">댓글수정</a>
-				<a href="javascript:alert('자신이 작성한 댓글만 삭제할 수 있습니다.');" class="orange_btn">댓글삭제</a>
 			<?php } ?>
 			
 			</td>

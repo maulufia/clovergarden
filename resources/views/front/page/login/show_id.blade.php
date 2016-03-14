@@ -2,28 +2,6 @@
 
 @section('login')
 <?php
-  $nMember = new MemberClass();     //회원
-
-	//======================== DB Module Start ============================
-	$Conn = new DBClass();
-
-	$nMember->where = "where user_name = '".$user_name."' and user_cell = '".$user_cell."'";
-
-	$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, '*', $nMember->where, null, null);
-
-    if(count($nMember->read_result) != 0){
-        $nMember->VarList($nMember->read_result);
-    }else{
-        $Conn->DisConnect();
-        JsAlert(ERR_FINDID, 1, route('login', array('cate' => 5, 'dep01' => 1)) );
-    }
-
-	$Conn->DisConnect();
-	//======================== DB Module End ===============================
-
-?>
-
-<?php
 	$explode_email = explode("@",$nMember->user_id);
 
 	$email_id = strlen($explode_email[0]);

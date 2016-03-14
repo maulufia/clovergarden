@@ -83,6 +83,9 @@
   $I2_BOLD = isset($I2_BOLD) ? $I2_BOLD : null;
   $I3_BOLD = isset($I3_BOLD) ? $I3_BOLD : null;
   $I4_BOLD = isset($I4_BOLD) ? $I4_BOLD : null;
+  
+  // 설정
+  $J1 = isset($J1) ? $J1 : null;
 ?>
 
 <div id="left_area">
@@ -158,6 +161,11 @@
         <li{{ $I4 }}><span{{ $I3_BOLD }}><a href="{{ route('admin/page', array('item' => 'information_private')) }}">이용안내-개인</a></span></li>
         <li{{ $I2 }}><span{{ $I2_BOLD }}><a href="{{ route('admin/page', array('item' => 'information_company')) }}">이용안내-기업</a></span></li>
         <li{{ $I3 }}><span{{ $I3_BOLD }}><a href="{{ route('admin/page', array('item' => 'apply_support')) }}">이용안내-후원금신청</a></span></li>
+      <?php
+        break;
+        case "J":
+      ?>
+        <li{{ $J1 }}><span{{ $J1_BOLD }}><a href="{{ route('admin/setting', array('item' => 'popup')) }}">팝업 관리</a></span></li>
       <?php
         break;
         }

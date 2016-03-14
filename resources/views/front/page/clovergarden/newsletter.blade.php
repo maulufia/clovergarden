@@ -70,16 +70,18 @@ $Conn->DisConnect();
 					$nClovernews->VarList($nClovernews->page_result, $i,  array('comment'));
 
 		?>
-		<div class="box5 <?php if($i%4==3) echo "box5_last"; ?>">
-			<div class="img">
-				<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">
-					<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
-			</a>
-			</div>
-			<div class="title">
-				<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank"><img src="/imgs/pdf.jpg"></a>
-			<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php }else{ ?><img src="/imgs/dot2.jpg"><?php } ?>
-			<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">{{ $nClovernews->subject }}</a>
+		<div class="box5-wrapper">
+			<div class="box5">
+				<div class="img">
+					<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">
+						<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
+				</a>
+				</div>
+				<div class="title">
+					<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank"><img src="/imgs/pdf.jpg"></a>
+				<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php }else{ ?><img src="/imgs/dot2.jpg"><?php } ?>
+				<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank" style="display: block;">{{ $nClovernews->subject }}</a>
+				</div>
 			</div>
 		</div>
 		<?php

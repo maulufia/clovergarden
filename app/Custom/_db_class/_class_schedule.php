@@ -14,6 +14,7 @@
 		var $content;           //답변
         var $hit;               //조회수
         var $reg_date;          //등록일
+        var $is_on;
 
         //-- join column start --//
         var $comment_cnt;       //댓글수(서브쿼리)
@@ -79,6 +80,7 @@
 			$pResultValue[$pCnt]->hit    = stripcslashes($pResult['hit']);
 			$pResultValue[$pCnt]->reg_date    = stripcslashes($pResult['reg_date']);
 			$pResultValue[$pCnt]->clover_seq    = stripcslashes($pResult['clover_seq']);
+            $pResultValue[$pCnt]->is_on = isset($pResult['is_on']) ? $pResult['is_on'] : null;
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {
                     switch($pJoin[$i])
@@ -109,6 +111,7 @@
 			$this->hit    = $pResult[$pCnt]->hit;
 			$this->reg_date    = $pResult[$pCnt]->reg_date;
 			$this->clover_seq    = $pResult[$pCnt]->clover_seq;
+            $this->is_on = $pResult[$pCnt]->is_on;
 			
             if(count($pJoin)){
                 for($i=0, $cnt=count($pJoin); $i < $cnt; $i++) {

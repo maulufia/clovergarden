@@ -145,12 +145,10 @@
         "where clover_seq ='".$nClover->code."' and start like '%".$view_search_date."%' group by group_name order by seq asc", null, null
     );
 
-
 $Conn->DisConnect();
 //======================== DB Module End ===============================
 	$search_val = ReXssChk($search_val)
 ?>
-
 <section class="wrap">
 	<header>
 		<h2 class="ti">클로버가든 목록</h2>
@@ -221,9 +219,7 @@ $Conn->DisConnect();
 				<div class="xm_clr"></div>
 
 				<div class="mt30 h200">
-				<?php
-					echo $nClover->content;
-				?>
+					{!! $nClover->content !!}
 				</div>
 				<div class="mt30 h200" style="text-align:center;">
 				
@@ -359,43 +355,46 @@ $Conn->DisConnect();
 							</div>
 
 							<ul id="scrollerFrame1">
-
-
-		<?php
-			if(count($nClovermlist_group->page_result) > 0){
-				$row_no = $nClovermlist_group->total_record - ($nClovermlist_group->page_view * ($page_no - 1));
-				for($i=0, $cnt_list=count($nClovermlist_group->page_result); $i < $cnt_list; $i++) {
-					$nClovermlist_group->VarList($nClovermlist_group->page_result, $i,  array('comment'));
-					if($nClovermlist_group->group_name){
-
-						if($_GET['select_month'] != ''){
-							$_GET['select_month'] = (int)$_GET['select_month'];
-						} else {
-							$_GET['select_month'] = '';
-						}
-		?>
-									<li>
-
-					<div class="banner_wrap">
-
-						<div class="banner5" <?php if($_GET['gname'] == $nClovermlist_group->group_name){?>style='background:#f7f7f7;'<?php } ?>>
-							<br>
-							<a href="{{ route('clovergarden') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}&gname={{ $nClovermlist_group->group_name }}&select_year={{ $_GET['select_year'] }}&select_month={{ $_GET['select_month'] }}">{{ $nClovermlist_group->group_name }}</a>
-						</div>
+						<?php
+							// 자기가 속한 그룹을 앞으로 빼내기
+							$my_group = Auth::check() ? Auth::user()->group_name : null;
+							foreach($nClovermlist_group->page_result as $key => $pr) {
+								if($pr->group_name == $my_group) {
+									$my_group_splice = array_splice($nClovermlist_group->page_result, $key, 1);
+									array_unshift($nClovermlist_group->page_result, $my_group_splice[0]);
+								}
+							}			
 						
-					</div>
-						
-									</li>
-		<?php
-					$row_no = $row_no - 1;
-					}
-				}
-			}else{
-		?>
-				{{ NO_DATA }}
-		<?php
-			}
-		?>
+							if(count($nClovermlist_group->page_result) > 0){
+								$row_no = $nClovermlist_group->total_record - ($nClovermlist_group->page_view * ($page_no - 1));
+								for($i=0, $cnt_list=count($nClovermlist_group->page_result); $i < $cnt_list; $i++) {
+									$nClovermlist_group->VarList($nClovermlist_group->page_result, $i,  array('comment'));
+									if($nClovermlist_group->group_name){
+
+										if($_GET['select_month'] != ''){
+											$_GET['select_month'] = (int)$_GET['select_month'];
+										} else {
+											$_GET['select_month'] = '';
+										}
+						?>
+								<li>
+									<div class="banner_wrap">
+										<div class="banner5" <?php if($_GET['gname'] == $nClovermlist_group->group_name){?>style='background:#f7f7f7;'<?php } ?>>
+											<br>
+											<a href="{{ route('clovergarden') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}&gname={{ $nClovermlist_group->group_name }}&select_year={{ $_GET['select_year'] }}&select_month={{ $_GET['select_month'] }}">{{ $nClovermlist_group->group_name }}</a>
+										</div>				
+									</div>	
+								</li>
+								<?php
+											$row_no = $row_no - 1;
+											}
+										}
+									}else{
+								?>
+										{{ NO_DATA }}
+								<?php
+									}
+								?>
 							</ul>
 						</div>
 					</div>
@@ -450,7 +449,7 @@ $Conn->DisConnect();
 						<div class="banner4">
 						{{ $nClovermlist->group_name }}<br>
 						<?php if($nClovermlist->day) $img_v = "clover_ing"; else $img_v = "clover_set"; ?>
-						<img src="/imgs/{{ $img_v }}.jpg" />
+						<img src="/imgs/up_file/member/{{ $img_v }}.jpg" />
 						<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nClovermlist->id }}">{{ $nClovermlist->name }}님</a></div>
 						
 					</div>
@@ -542,24 +541,25 @@ $Conn->DisConnect();
 							$nClovernews->VarList($nClovernews->page_result, $i,  array('comment'));
 
 				?>
-				<div class="box5 <?php if($i%4==3) echo "box5_last"; ?>">
-					<div class="img">
-						<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">
-						<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
-					</a>
+				<div class="box5-wrapper">
+					<div class="box5">
+						<div class="img">
+							<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">
+							<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
+						</a>
+						</div>
+						<div class="title">
+							<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank"><img src="/imgs/pdf.jpg"></a>
+							<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php } else { ?><img src="/imgs/dot2.jpg"><?php } ?>
+						@if(!empty($nClovernews->file_edit[2]))
+							<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank" style="display: block;">
+						@endif	
+							{{ $nClovernews->subject }}
+							</a>
+						</div>
 					</div>
-					<div class="title">
-						<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank"><img src="/imgs/pdf.jpg"></a>
-			<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php } else { ?><img src="/imgs/dot2.jpg"><?php } ?>
-<?php
-				if(FileExists('/imgs/up_file/clover/'.$nClovernews->file_edit[2])){
-			?>
-				<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">
-			<?php
-				}
-			?>			
-			{{ $nClovernews->subject }}</a></div>
 				</div>
+				
 				<?php
 						}
 					} else {
@@ -606,12 +606,17 @@ $Conn->DisConnect();
 					?>
 					<tr>
 						<th scope="row">
-							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}">
-							<img src="/imgs/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> <!-- /imgs/up_file/member/{{ $board_image[0] }}.jpg 로 대체해야 함-->
+							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}" class="mr10 xm_left" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden;  display:inline-block;">
+							<img src="/imgs/up_file/member/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10" style="width: 51px; height: 51px;">
 							</a>
 							<div class="name">
 								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}">
-								{{ $nClovercomment->group_name }}<br>{{ $board_name[0] }}님
+									@if(!empty($nClovercomment->group_name))
+									{{ $nClovercomment->group_name }}
+									@else
+										개인회원
+									@endif
+										<br>{{ $board_name[0] }}님
 								</a>
 							</div>
 						</th>

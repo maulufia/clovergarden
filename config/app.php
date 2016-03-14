@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => 'http://www.clovergarden.co.kr',
+    'url' => 'http://clovergarden.co.kr',
 
     /*
     |--------------------------------------------------------------------------

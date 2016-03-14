@@ -80,11 +80,19 @@
 								$nBanner->url = str_replace("http://","",$nBanner->url);
 					?>
 						<li>
-							<a href="http://{{ $nBanner->url }}" target="_blank">					
-								<?php
-										echo "<img src='/imgs/up_file/Banner/".$nBanner->file_edit[1]."' border='0' style='width: 100px;'>";
-								?>
-							</a>
+							@if(!empty($nBanner->url))
+								<a href="http://{{ $nBanner->url }}" target="_blank">					
+									<?php
+											echo "<img src='/imgs/up_file/Banner/".$nBanner->file_edit[1]."' border='0' style='width: 100px;'>";
+									?>
+								</a>
+							@else
+								<a href="#!">					
+									<?php
+											echo "<img src='/imgs/up_file/Banner/".$nBanner->file_edit[1]."' border='0' style='width: 100px;'>";
+									?>
+								</a>
+							@endif
 						</li>
 
 					<?php

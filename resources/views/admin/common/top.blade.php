@@ -78,6 +78,7 @@ function moneyEdit()
   		<li<?php if($key_large == 'E'){ echo " class='on'"; } ?>><a href="{{ route('admin/customer', array('item' => 'news')) }}">고객센터</a></li>
   		<li<?php if($key_large == 'G'){ echo " class='on'"; } ?>><a href="{{ route('admin/stat', array('item' => 'stat_day')) }}">통계관리</a></li>
   		<li<?php if($key_large == 'I'){ echo " class='on'"; } ?>><a href="{{ route('admin/page', array('item' => 'intro')) }}">페이지관리</a></li>
+  		<li<?php if($key_large == 'J'){ echo " class='on'"; } ?>><a href="{{ route('admin/setting', array('item' => 'popup')) }}">설정</a></li>
   		<?php } ?>
   	</ul>
   </div>

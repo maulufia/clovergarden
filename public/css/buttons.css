@@ -305,10 +305,6 @@
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3E6097', endColorstr='#3E6097');
 	background-color:#3E6097;
 }
-.orange_big_btn2.green {
-	background: #1EB501;
-	box-shadow: 0px 2px 0px 0px #135606;
-}
 
 .green_btn {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #95c161), color-stop(1, #95c161) );
@@ -388,4 +384,49 @@ div.upload input {
     opacity: 0 !important;
     overflow: hidden !important;
     cursor: pointer;
+}
+
+/*********************/
+/*********************/
+/* YJM custom styles */
+/*********************/
+/*********************/
+
+.big_btn2 {
+	-webkit-border-top-left-radius:5px;
+	-moz-border-radius-topleft:5px;
+	border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	-moz-border-radius-topright:5px;
+	border-top-right-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	-moz-border-radius-bottomright:5px;
+	border-bottom-right-radius:5px;
+	-webkit-border-bottom-left-radius:5px;
+	-moz-border-radius-bottomleft:5px;
+	border-bottom-left-radius:5px;
+	text-indent:0;
+	display:inline-block;
+	color:#ffffff;
+	font-family: 'Nanum Gothic',나눔고딕,NanumGothic;
+	font-size:18px;
+	font-weight:bold;
+	height:83px;
+	line-height:83px;
+	width:110px;
+	text-decoration:none;
+	text-align:center;
+}
+
+.big_btn2.resize {
+  width: 141px;
+  height: 60px;
+  padding: 30px 0 25px;
+  line-height: 150%;
+  margin-right: 15px;
+}
+
+.big_btn2.green {
+	background: #1EB501;
+	box-shadow: 0px 2px 0px 0px #135606;
 }

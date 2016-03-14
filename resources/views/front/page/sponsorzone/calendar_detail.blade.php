@@ -114,7 +114,7 @@ function cut_str($str, $len, $suffix="…")
 			<?php
 				$nSchedule->content = str_replace("&nbsp;","",$nSchedule->content);
 			?>
-			{{ conv_subject($nSchedule->content, 353, '…') }}
+			{!! conv_subject($nSchedule->content, 353, '…') !!}
 			<p style="position:relative;left:400px;float:right;text-align:right;padding:5px; font-weight:bold; color:#000; background:#e8e8e8;display:none;">
 
 			</p>
@@ -164,60 +164,121 @@ function cut_str($str, $len, $suffix="…")
 		@else
 			<img src='/imgs/no-image.jpg' alt='no image' width='170'>
 		@endif
-		<?php if($checkable >= 0 || $nSchedule->people<=count($nSchedulepeo->page_result)){ ?>
-		<a href="#" class="gray_big_btn mt10" style="display:block">마감 되었습니다</a>
-		<?php if($nSchedulepeo->total_record > 0){ ?>
-			<a href="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'schedule_seq' => $nSchedule->seq ,'type' => 'del')) }}" class="orange_big_btn mt10" style="display:block;position:relative;top:-4px;">취소하기</a>
+		
+		@if($nSchedule->is_on == 'a') <!-- is_on이 auto일 때 -->
+			@if($checkable >= 0 || $nSchedule->people<=count($nSchedulepeo->page_result))
+			<a href="#" class="gray_big_btn mt10" style="display:block">마감 되었습니다</a>
+				@if($nSchedulepeo->total_record > 0)
+					<a href="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'schedule_seq' => $nSchedule->seq ,'type' => 'del')) }}" class="orange_big_btn mt10" style="display:block;position:relative;top:-4px;">취소하기</a>
 
-		<script type="text/javascript">
-		(function($) {
-			$(function() {
-				$( "#modsave" ).click(function() {
+				<script type="text/javascript">
+				(function($) {
+					$(function() {
+						$( "#modsave" ).click(function() {
 
-					$('.pop_mod').show();
-					
+							$('.pop_mod').show();
+							
+
+						});
+
+
+					});
+				})(jQuery);
+				</script>
+
+				@endif
+			@else
+			<form method="post" id="wrtForm" action="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'type' => 'write')) }}" style="display:inline;"  enctype="multipart/form-data">
+				{{ UserHelper::SubmitHidden() }}
+					@if($nSchedulepeo->total_record > 0)
+					<a href="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'schedule_seq' => $nSchedule->seq, 'type' => 'del')) }}" class="orange_big_btn mt10" style="display:block">취소하기</a>
+					<!-- <a href="#" class="orange_big_btn mt10" id="modsave" style="display:block">수정하기</a>	 -->	
+					@else
+						<a href="#" class="orange_big_btn mt10" id="save" style="display:block">신청하기</a>		
+					@endif
+			</form>
+				
+			<script type="text/javascript">
+			(function($) {
+				$(function() {
+					// 글쓰기
+					$( "#save" ).click(function() {
+
+						$('.pop').show();
+						
+
+					});
+
+					$( "#modsave" ).click(function() {
+
+						$('.pop_mod').show();
+						
+
+					});
+
 
 				});
+			})(jQuery);
+			</script>
+			@endif
+			
+		@elseif($nSchedule->is_on == 'y') <!-- is_on이 yes일 때 -->
+			<form method="post" id="wrtForm" action="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'type' => 'write')) }}" style="display:inline;"  enctype="multipart/form-data">
+				{{ UserHelper::SubmitHidden() }}
+					@if($nSchedulepeo->total_record > 0)
+					<a href="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'schedule_seq' => $nSchedule->seq, 'type' => 'del')) }}" class="orange_big_btn mt10" style="display:block">취소하기</a>
+					<!-- <a href="#" class="orange_big_btn mt10" id="modsave" style="display:block">수정하기</a>	 -->	
+					@else
+						<a href="#" class="orange_big_btn mt10" id="save" style="display:block">신청하기</a>		
+					@endif
+			</form>
+				
+			<script type="text/javascript">
+			(function($) {
+				$(function() {
+					// 글쓰기
+					$( "#save" ).click(function() {
 
+						$('.pop').show();
+						
 
-			});
-		})(jQuery);
-		</script>
+					});
 
-		<?php } ?>
-		<?php } else { ?>
-		<form method="post" id="wrtForm" action="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'type' => 'write')) }}" style="display:inline;"  enctype="multipart/form-data">
-		{{ UserHelper::SubmitHidden() }}
-		<?php if($nSchedulepeo->total_record > 0){ ?>
-		<a href="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'schedule_seq' => $nSchedule->seq, 'type' => 'del')) }}" class="orange_big_btn mt10" style="display:block">취소하기</a>
-		<!-- <a href="#" class="orange_big_btn mt10" id="modsave" style="display:block">수정하기</a>	 -->	
-		<?php } else { ?>
-		<a href="#" class="orange_big_btn mt10" id="save" style="display:block">신청하기</a>		
-		<?php } ?>
-		</form>
-		<script type="text/javascript">
-		(function($) {
-			$(function() {
-				// 글쓰기
-				$( "#save" ).click(function() {
+					$( "#modsave" ).click(function() {
 
-					$('.pop').show();
-					
+						$('.pop_mod').show();
+						
+
+					});
+
 
 				});
+			})(jQuery);
+			</script>
+			
+		@else <!-- is_on이 no일 때 -->
+			<a href="#" class="gray_big_btn mt10" style="display:block">마감 되었습니다</a>
+				@if($nSchedulepeo->total_record > 0)
+					<a href="{{ route('sponsorzone' ,array('cate' => 0, 'dep01' => 2, 'schedule_seq' => $nSchedule->seq ,'type' => 'del')) }}" class="orange_big_btn mt10" style="display:block;position:relative;top:-4px;">취소하기</a>
 
-				$( "#modsave" ).click(function() {
+				<script type="text/javascript">
+				(function($) {
+					$(function() {
+						$( "#modsave" ).click(function() {
 
-					$('.pop_mod').show();
-					
+							$('.pop_mod').show();
+							
 
-				});
+						});
 
 
-			});
-		})(jQuery);
-		</script>
-		<?php } ?>
+					});
+				})(jQuery);
+				</script>
+
+				@endif
+		@endif
+		
 	</div>
 	<style>
 		.pop * {  font-family: 'Nanum Gothic',나눔고딕,NanumGothic; margin:0;  letter-spacing: -1px; }

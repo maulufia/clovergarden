@@ -97,7 +97,7 @@ class agspay40
    		*/
 		$this->writeLogArray($this->REQUEST);
 
-
+		
 		//취소요청
 		if($this->REQUEST["Type"] == "Cancel")
 		{
@@ -157,7 +157,7 @@ class agspay40
 		{
 			$this->ERRMSG .= "인증여부 입력여부 확인요망 <br>";		//인증여부
 		}
-
+		
 		if( strlen($this->ERRMSG) == 0 ){
 			
 			/* Make Tid */
@@ -168,7 +168,7 @@ class agspay40
 			}else{
 				$this->log->WriteLog( INFO, "Make NetCancelID OK" );
 			}
-
+			
 			/* Make Pay Msg */
 			if( ($MakeMsgResult = $this->MakeMsg()) != true){
 				$this->log->WriteLog( FATAL, "Make Pay Msg Fail" );
@@ -181,7 +181,7 @@ class agspay40
 				$this->log->WriteLog( INFO, "Make Pay Msg OK" );
 			}
 
-
+			
 
 			/* Send & Recv Msg */				
 			if( ($ParseResult = $this->SendRecvMsg()) != true){
@@ -224,14 +224,14 @@ class agspay40
 			}else{
 				$this->log->WriteLog( INFO, "Msg Parsing OK" );
 			}
-
+			
 		}
 		else
 		{
 			$this->RESULT["rSuccYn"] = "n";
 			$this->RESULT["rResMsg"] = $this->ERRMSG;
 		}
-
+		
 		/*
 			결과값 로그기록						
    		*/
@@ -242,7 +242,7 @@ class agspay40
 
 		//log 객체 닫기
 		$this->log->CloseLog( $this->GetResult("rResMsg") );
-
+		
 		return true;
 
 	}	//startPay() End
@@ -257,7 +257,7 @@ class agspay40
 		$this->log->CloseLog( $this->GetResult("rResMsg") );
 		
 		/** 소켓 close **/
-		if($this->fp != false ){
+		if($this->fp != false && is_resource($this->fp)){
 			fclose( $this->fp );
 		}
 
@@ -581,7 +581,7 @@ class agspay40
 				* 
 				****************************************************************************/
 
-				$this->ENCTYPE = R;
+				$this->ENCTYPE = 'R';
 				
 				/****************************************************************************
 				* 

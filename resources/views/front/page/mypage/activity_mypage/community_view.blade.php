@@ -51,7 +51,7 @@
 
 	<article class="brd_view_cont">
 		<h2 class="ti">내용</h2>
-		{{ $nFree->content }}
+		{!! $nFree->content !!}
 	</article>
 
 

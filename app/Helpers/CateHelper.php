@@ -132,6 +132,7 @@ class CateHelper {
 		// 인증이 필요한 페이지 체크
 		if(!Auth::check()) {
 			$view_need_auth = array(
+                        'front.page.sponsorzone.community.board_sponsor_write',
 												'front.page.sponsorzone.activity',
 												'front.page.clovergarden.home_write',
 												'front.page.clovergarden.home_writeresv'
@@ -142,7 +143,7 @@ class CateHelper {
 				}
 			}
 		}
-		
+
 		return $view_name;
 	}
 	
@@ -257,17 +258,20 @@ class CateHelper {
 	    case 'E' :
         $title_txt = '고객센터';
         break;
-			case 'F' :
+		case 'F' :
         $title_txt = '팝업관리';
         break;
-			case 'H' :
+		case 'H' :
         $title_txt = '봉사스케쥴';
         break;
-			case 'G' :
+		case 'G' :
         $title_txt = '통계';
         break;
-			case 'I' :
+		case 'I' :
         $title_txt = '페이지관리';
+        break;
+        case 'J' :
+        $title_txt = '설정';
         break;
     }
 
@@ -377,18 +381,22 @@ class CateHelper {
 	      $content_txt = '방문통계-월별';
 	      break;
       //---------------------------------------
-      case 'I1' :
+    case 'I1' :
         $content_txt = '페이지관리 - 회사소개';
         break;
-    	case 'I2' :
+	case 'I2' :
         $content_txt = '페이지관리 - 이용안내(기업)';
         break;
-    	case 'I3' :
+    case 'I3' :
         $content_txt = '페이지관리 - 이용안내(후원금신청)';
         break;
-      case 'I4' :
+    case 'I4' :
         $content_txt = '페이지관리 - 이용안내(개인)';
-        break;	
+        break;
+    //---------------------------------------
+    case 'J1' :
+        $content_txt = '설정 - 팝업 관리';
+        break; 
 		}
 		    
     $result = new StdClass();

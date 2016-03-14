@@ -210,7 +210,7 @@ function emailUpdate()
 			$cloverFavoreModel = new CloverFavoreModel();
 			$favoreList = $cloverFavoreModel->getFavoreList();
 		?>
-		@if(!is_null($favoreList->name))
+		@if(!is_null($favoreList->name) && $favoreList->order_adm_ck == 'y')
 			<p style="font-size:15px; font-weight:bold;">
 				<font color="66b050">{{ $favoreList->name }}</font>님의 마지막 후원은 <font color="ed6c0a">{{ $favoreList->clover_name}}</font> 입니다. 				
 			</p>

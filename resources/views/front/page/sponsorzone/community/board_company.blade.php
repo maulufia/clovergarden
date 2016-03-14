@@ -63,7 +63,14 @@ $Conn->DisConnect();
 			<tr>
 				<td class="no">{{ $row_no }}</td>
 				<td class="subject"><a href="{{ $view_link }}&seq={{ $nFree->seq }}">{{ $nFree->subject }}</a></td>
-				<td class="writer">{{ $board_name[0] }}</td>
+				<td class="writer">
+					<?php
+						$clover = DB::table('new_tb_clover')->where('code', '=', $nFree->clover_seq)->get();
+						if(isset($clover[0])) {
+							echo $clover[0]->subject;
+						}
+					?>
+				</td>
 				<td class="date">{{ date('Y-m-d',strtotime($nFree->reg_date)) }}</td>
 			</tr>
 			<?php

@@ -25,12 +25,17 @@ class AuthenticateAdmin
                     return redirect()->guest('admin');
             }
         }
+        
+        if (Auth::check()) {
+            if(Auth::user()->user_state != 1 && Auth::user()->user_state != 10) {
+                return redirect()->route('home');
+            }
+        }
 
         if (Auth::check() && Route::currentRouteName() == 'admin/login') { // 로그인 되어 있는 경우 로그인 페이지로 들어오면 다시 홈으로 내보냄
             if(Auth::user()->user_state == 1 || Auth::user()->user_state == 10) {
                 return redirect()->route('admin/main');
             } else { // 관리자가 아닌 유저가 로그인 한 경우
-                
             }
         }
         

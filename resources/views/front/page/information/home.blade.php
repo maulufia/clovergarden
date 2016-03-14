@@ -26,7 +26,7 @@ $Conn->DisConnect();
 	<?php if(Auth::check()){ ?>
 		<a href="#" id="pop_view" class="orange_big_btn">그룹생성 하러가기</a>
 	<?php } else { ?>
-		<a href="javascript:alert('로그인 후 이용해주세요!');" class="orange_big_btn">그룹생성 하러가기</a>
+		<a href="{{ route('login', array('flash' => 'need_login')) }}" class="orange_big_btn">그룹생성 하러가기</a>
 	<?php } ?>
 	</div>
 

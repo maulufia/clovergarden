@@ -12,31 +12,28 @@
 	$nClovernews = new ClovernewsClass(); //
 	$nClover = new CloverClass(); //
 
-//======================== DB Module Start ============================
-$Conn = new DBClass();
-	$nClovermlist_login->page_result = $Conn->AllList
-	(	
-		$nClovermlist_login->table_name, $nClovermlist_login, "*", "where id='".$_GET['user_id']."' group by clover_seq order by reg_date desc", null, null
-	);
+	//======================== DB Module Start ============================
+	$Conn = new DBClass();
+		$nClovermlist_login->page_result = $Conn->AllList
+		(	
+			$nClovermlist_login->table_name, $nClovermlist_login, "*", "where id='".$_GET['user_id']."' group by clover_seq order by reg_date desc", null, null
+		);
 
-	$nMember->where = "where user_id = '".$_GET['user_id']."'";
+		$nMember->where = "where user_id = '".$_GET['user_id']."'";
 
-	$nMember->read_result = $Conn->AllList
-	(
-		$nMember->table_name, $nMember, "*", $nMember->where, null, null
-	);
+		$nMember->read_result = $Conn->AllList
+		(
+			$nMember->table_name, $nMember, "*", $nMember->where, null, null
+		);
 
-	if(count($nMember->read_result) != 0){
-		$nMember->VarList($nMember->read_result, 0, null);
-	}else{
-		$Conn->DisConnect();
-		//JsAlert(NO_DATA, 1, $list_link);
-	}
-$Conn->DisConnect();
-
-
-
-//======================== DB Module End ===============================
+		if(count($nMember->read_result) != 0){
+			$nMember->VarList($nMember->read_result, 0, null);
+		}else{
+			$Conn->DisConnect();
+			//JsAlert(NO_DATA, 1, $list_link);
+		}
+	$Conn->DisConnect();
+	//======================== DB Module End ===============================
 ?>
 
 
@@ -44,13 +41,13 @@ $Conn->DisConnect();
 <section class="wrap">
 	<h2 class="ti">회원상세정보</h2>
 		<div class="mem_info">
-			<img src="/imgs/up_file/member/{{ $nMember->file_edit[1] }}" onerror="this.src='/imgs/S57Profile.png'" alt="" class="xm_left mr30">
+			<img src="/imgs/up_file/member/{{ $nMember->file_edit[1] }}" onerror="this.src='/imgs/S57Profile.png'" alt="" class="xm_left mr30" style="width: 110px; height: 113px;">
 			<table>
 		 	<caption>회원상세정보</caption>
 			<colgroup>
-                <col class="colWidth105">
-                <col>
-            </colgroup>
+        <col class="colWidth105">
+        <col>
+    	</colgroup>
 			<tr>
 				<th scope="row" class="c_orange xm_tleft">
 					이름

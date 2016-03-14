@@ -11,7 +11,7 @@
 			<a href="javascript:FaceBookLogin();" class="ml10 orange_big_btn2 resize blue">
 				페이스북<br>가입하기
 			</a>
-			<a href="/login/naver" class="ml10 orange_big_btn2 resize green">
+			<a href="/login/naver" class="ml10 big_btn2 resize green">
 				네이버<br>가입하기
 			</a>
 			<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">

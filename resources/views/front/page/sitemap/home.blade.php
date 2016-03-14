@@ -71,11 +71,12 @@
 			<li>
 				<ul>
 					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 0)) }}">회원쪽지 보내기</a></li>
-					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 1)) }}">포인트조회</a></li>
-					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 2)) }}">나의활동</a></li>
-					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 3)) }}">공제센터</a></li>
-					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 4)) }}">개인정보수정</a></li>
-					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 5)) }}">결제정보수정</a></li>
+					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 1)) }}">쪽지보관함</a></li>
+					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 2)) }}">포인트조회</a></li>
+					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 3)) }}">나의활동</a></li>
+					<!--<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 3)) }}">공제센터</a></li>-->
+					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 5)) }}">개인정보수정</a></li>
+					<li><a href="{{ route('mypage', array('cate' => 6, 'dep01' => 6)) }}">결제정보수정</a></li>
 				</ul>
 			</li>
 		</ul>

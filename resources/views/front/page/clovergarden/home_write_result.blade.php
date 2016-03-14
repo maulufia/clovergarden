@@ -13,11 +13,11 @@
 *
 **********************************************************************************************/
 
-// 인코딩 다시 변환
+// 인코딩 다시 변환 // 미리 인코딩해서 보내주는 방식으로 변경
+/*
 foreach($_POST as $key => $row) {
 	$_POST[$key] = iconv("EUC-KR", "UTF-8", $row);
-}
-
+} */
 
 //공통사용
 $AuthTy 		= isset($_POST["AuthTy"]) ? $_POST["AuthTy"] : null;				//결제형태
@@ -79,56 +79,31 @@ $rAGS_HASHDATA	= md5($rStoreId . $rOrdNo . (int)$rAmt);
 
 if($AGS_HASHDATA == $rAGS_HASHDATA){
 	$errResMsg   = "";
-}else{
+} else {
 	$errResMsg   = "결재금액 변조 발생. 확인 바람";
 }
-
 ?>
 
-<?php if($rSuccYn == "y"){
+<?php
+if($rSuccYn == "y"){
 	$code = explode('_',$rOrdNo);
 
-    $nClovermlist = new ClovermlistClass(); //후원기관
+  $nClovermlist = new ClovermlistClass(); //후원기관
+  
+  $order_adm_ck = 'y';
+  if($AuthTy == 'virtual') {
+  	$order_adm_ck = 'n';
+  }
 
-    $nClovermlist->clover_seq = $code[2];
-		$nClovermlist->name        = $rOrdNm;
-		$nClovermlist->id        = Auth::user()->user_id;
-    $nClovermlist->price = $rAmt;
-    $nClovermlist->type = 1;
-
-    $arr_field = array
-    (
-        'order_num','clover_seq', 'name', 'id', 'price'
-    );
-
-    $arr_value = array
-    (
-        $rOrdNo, $nClovermlist->clover_seq, $nClovermlist->name, $nClovermlist->id,  $nClovermlist->price
-    );
-
-//======================== DB Module Clovert ============================
-$Conn = new DBClass();
-
-	if($nClovermlist->price%1000 != 0){
-		JsAlert("천원 단위로만 후원이 가능합니다.", 0);
-		exit;
-	}
-
-	$sql = "update new_tb_member set update_ck='Y' where user_id='" . Auth::user()->user_id . "'";
-	mysql_query($sql);
-
-
-    $Conn->StartTrans();
-    $out_put = $Conn->insertDB($nClovermlist->table_name, $arr_field, $arr_value);
-    if($out_put){
-        $Conn->CommitTrans();
-    }else{
-        $Conn->RollbackTrans();
-        $Conn->disConnect();
-    }
-
-$Conn->disConnect();
-}?>
+  DB::table('new_tb_clover_mlist')->insert(['order_num' => $rOrdNo,
+  																					'otype' => $AuthTy,
+  																					'clover_seq' => $code[2],
+  																					'name' => $rOrdNm,
+  																					'id' => Auth::user()->user_id,
+  																					'price' => $rAmt,
+  																					'order_adm_ck' => $order_adm_ck ]);
+}
+?>
 <section class="wrap">
 	<h2 class="ti">후원내역 신청확인/후원금 납입방법/후원금 결제확인</h2>
 
@@ -175,7 +150,6 @@ $Conn->disConnect();
 					<div class="xm_left radioForm h200">
 						<div class="mr20">
 						<?php
-
 						if($AuthTy == "card")
 						{
 							if($SubTy == "isp")
@@ -277,6 +251,26 @@ $Conn->disConnect();
 					<th scope="row" class="first xm_tleft pl30">입금계좌소유주</th>
 					<td class="mr10">
 						{{ $ICHE_OUTBANKMASTER }}
+					</td>
+				</tr>
+			<?php				
+				}
+			?>					
+		
+		<?php
+				if($AuthTy == "virtual" ) {
+			?>
+			
+				<tr>
+					<th scope="row" class="first xm_tleft pl30">은행명</th>
+					<td>
+						<div class="xm_left styled-select" style="margin-top:2px; margin-left:0">
+						   {{ $VIRTUAL_CENTERCD }}{{ getCenter_cd($VIRTUAL_CENTERCD) }}
+						</div>	
+					</td>
+					<th scope="row" class="first xm_tleft pl30">입금계좌</th>
+					<td class="mr10">
+						{{ $rVirNo }}
 					</td>
 				</tr>
 			<?php				

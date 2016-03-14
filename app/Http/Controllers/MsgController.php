@@ -3,9 +3,14 @@
 namespace clovergarden\Http\Controllers;
 
 use Auth, Redirect;
+use Flash;
 
 class MsgController extends Controller
 {
+	
+	public function __construct() {
+		include(app_path().'/Custom/_common/_global.php');
+	}
 	
 	/*
   |--------------------------------------------------------------------------
@@ -71,6 +76,7 @@ class MsgController extends Controller
 
 		$Conn->disConnect();
 		
+		Flash::success(SUCCESS_WRITE);
 		return redirect()->route('mypage');
   }
   
@@ -118,7 +124,8 @@ class MsgController extends Controller
 		
 		$Conn->DisConnect();
 		  
-  	return redirect()->route('information')->with('flash_notification.message', '정상적으로 등록되었습니다.');
+		Flash::success(SUCCESS_WRITE);
+  	return redirect()->route('information');
   }
 	
 }

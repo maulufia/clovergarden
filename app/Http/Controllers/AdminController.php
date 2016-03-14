@@ -3,6 +3,8 @@
 namespace clovergarden\Http\Controllers;
 
 use Auth, Redirect, Hash;
+use DB;
+use Flash;
 
 class AdminController extends Controller
 {
@@ -223,6 +225,30 @@ class AdminController extends Controller
 														]);
 	}
 	
+	public function showSetting() {
+		$item = isset($_GET['item']) ? $_GET['item'] : 'popup';
+		
+		// 팝업 (현재는 메인에만 적용됨)
+		$configModel = new \ConfigModel;
+		$popup_status = $configModel->getConfig('popup')->content;
+		
+		// Other Options for board
+		$option = new \StdClass();
+		$option->list_link = route('admin/setting', array('item' => $item));
+		$option->view_link = $option->list_link.'&type=view';
+		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
+		
+		$view_name = 'admin.page.setting.' . $item;
+		if(!is_null($option->type)) {
+			$view_name .=  '_' . $option->type;
+		}
+
+		return view($view_name, ['list_link' => $option->list_link,
+															'view_link' => $option->view_link,
+															'popup_status' => $popup_status
+														]);
+	}
+	
 	public function writeQna() {
     $nOnetoone = new \OnetooneClass(); //1:1문의
 
@@ -259,6 +285,7 @@ class AdminController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 		
+		Flash::success(SUCCESS_WRITE);
 		return redirect()->route('customer');
 	}
 	
@@ -357,6 +384,8 @@ class AdminController extends Controller
 		if($option->item == 'home') {
 			if($option->type == 'edit')
 				return $this->editService();
+			if($option->type == 'edit_status')
+				return $this->editServiceStatus();
 			if($option->type == 'write')
 				return $this->writeService();
 			if($option->type == 'del')
@@ -567,27 +596,10 @@ class AdminController extends Controller
   
   public function delMemberAdmin() { // 문제 있음
     $nClover   = new \CloverClass(); 
+    
+    DB::table('new_tb_member')->where('id', '=', $_POST['seq'])->delete();
 
-		//======================== DB Module Clovert ============================
-		$Conn = new \DBClass();
-		$_POST['s_email'] = str_replace(",","','",$_POST['s_email']);
-    $Conn->StartTrans();
-    $out_put = $Conn->DeleteDB('new_tb_member', "where user_id in ('".$_POST['s_email']."')");
-    $out_put = $Conn->DeleteDB('new_tb_clover_mlist', "where id in ('".$_POST['s_email']."')");
-    $out_put = $Conn->DeleteDB('new_tb_message', "where send_id in ('".$_POST['s_email']."')");
-    $out_put = $Conn->DeleteDB('new_tb_point', "where userid in ('".$_POST['s_email']."')");
-
-    if($out_put){
-        $Conn->CommitTrans();
-    } else {
-        $Conn->RollbackTrans();
-        $Conn->disConnect();
-    }
-
-		$Conn->disConnect();
-		//======================== DB Module End ===============================
-
-		return redirect()->route('admin/member', array('item' => 'list_normal'));
+		return redirect()->route('admin/member', array('item' => 'list_admin'));
   }
   
   public function editMemberNormal() {
@@ -1491,6 +1503,17 @@ class AdminController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 
+		return redirect()->route('admin/service', array('item' => 'home', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
+	}
+	
+	private function editServiceStatus() {
+		$seq = $_POST['seq'];
+    $row_no = $_POST['row_no'];
+    
+    $is_on = $_POST['is_on'];
+    
+    DB::table('new_tb_schedule')->where('seq', '=', $seq)->update(['is_on' => $is_on]);
+    
 		return redirect()->route('admin/service', array('item' => 'home', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
 	
