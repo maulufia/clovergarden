@@ -15,59 +15,60 @@
 	//======================== DB Module Freet ============================
 	$Conn = new DBClass();
 
-		$nMember->where = "where user_state > 1";
-		$nMember->total_record = $Conn->PageListCount
-		(
-			$nMember->table_name, $nMember->where, $search_key, $search_val
-		);
+	$nMember->where = "where user_state > 1";
+	$nMember->total_record = $Conn->PageListCount
+	(
+		$nMember->table_name, $nMember->where, $search_key, $search_val
+	);
 
-		$nClover->total_record = $Conn->PageListCount
-		(
-			$nClover->table_name, $nClover->where, $search_key, $search_val
-		);
+	$nClover->total_record = $Conn->PageListCount
+	(
+		$nClover->table_name, $nClover->where, $search_key, $search_val
+	);
 
-		$nFree->page_result = $Conn->AllList
-		(	
-			$nFree->table_name, $nFree, "*", "where 1 order by seq desc limit 5", null, null
-		);
+	$nFree->page_result = $Conn->AllList
+	(	
+		$nFree->table_name, $nFree, "*", "where 1 order by seq desc limit 5", null, null
+	);
 
-		$nFree_g->page_result = $Conn->AllList
-		(	
-			$nFree_g->table_name, $nFree_g, "*", "where group_name='".$group_name."' order by seq desc limit 5", null, null
-		);
-
-
-
-		$nClovercomment->page_result = $Conn->AllList
-		(	
-			$nClovercomment->table_name, $nClovercomment, "*", "where 1 order by seq desc limit 5", null, null
-		);
+	$nFree_g->page_result = $Conn->AllList
+	(	
+		$nFree_g->table_name, $nFree_g, "*", "where group_name='".$group_name."' order by seq desc limit 5", null, null
+	);
 
 
-		$nClovercomment_g->page_result = $Conn->AllList
-		(	
-			$nClovercomment_g->table_name, $nClovercomment_g, "*", "where group_name='".$group_name."' order by seq desc limit 5", null, null
-		);
+
+	$nClovercomment->page_result = $Conn->AllList
+	(	
+		$nClovercomment->table_name, $nClovercomment, "*", "where 1 order by seq desc limit 5", null, null
+	);
 
 
-		$nMoney->read_result = $Conn->AllList($nMoney->table_name, $nMoney, "*", "where seq ='1'", $nMoney->sub_sql, null);
+	$nClovercomment_g->page_result = $Conn->AllList
+	(	
+		$nClovercomment_g->table_name, $nClovercomment_g, "*", "where group_name='".$group_name."' order by seq desc limit 5", null, null
+	);
 
-		if(count($nMoney->read_result) != 0){
-			$nMoney->VarList($nMoney->read_result, 0, array('comment'));
-		}
+	$nMoney->read_result = $Conn->AllList($nMoney->table_name, $nMoney, "*", "where seq ='1'", $nMoney->sub_sql, null);
 
-		$login_id = isset(Auth::user()->user_id) ? Auth::user()->user_id : null;
-		$nClovermlist_login->read_result = $Conn->AllList($nClovermlist_login->table_name, $nClovermlist_login, "*, sum(price) price", "where id ='$login_id'", $nClovermlist_login->sub_sql, null);
+	if(count($nMoney->read_result) != 0){
+		$nMoney->VarList($nMoney->read_result, 0, array('comment'));
+	}
 
-		if(count($nClovermlist_login->read_result) != 0){
-			$nClovermlist_login->VarList($nClovermlist_login->read_result, 0, array('comment'));
-		}
+	$login_id = isset(Auth::user()->user_id) ? Auth::user()->user_id : null;
+	$nClovermlist_login->read_result = $Conn->AllList($nClovermlist_login->table_name, $nClovermlist_login, "*, sum(price) price", "where id ='$login_id'", $nClovermlist_login->sub_sql, null);
 
-		$nClovermlist_login->where = "where id='" . $login_id . "' group by id";
-		$nClovermlist_login->total_record = $Conn->PageListCount
-		(
-			$nClovermlist_login->table_name, $nClovermlist_login->where, $search_key, $search_val
-		);
+	if(count($nClovermlist_login->read_result) != 0){
+		$nClovermlist_login->VarList($nClovermlist_login->read_result, 0, array('comment'));
+	}
+
+	$nClovermlist_login->where = "where id='" . $login_id . "' group by id";
+	$nClovermlist_login->total_record = $Conn->PageListCount
+	(
+		$nClovermlist_login->table_name, $nClovermlist_login->where, $search_key, $search_val
+	);
+	
+	$nClovermlist_login->total_record = DB::table('new_tb_clover_mlist')->where('id', '=', $login_id)->distinct()->count('clover_seq');
 
 	$Conn->DisConnect();
 	//======================== DB Module End ===============================
@@ -84,7 +85,7 @@
 		<span>{{ number_format($nMoney->month) }} 원</span>
 	</article>
 	<article class="article_box">
-		<h3>누적 후원기관 수</h3>	    			
+		<h3>누적 후원기관 수</h3>
 		<span>{{ number_format($nClover->total_record) }} 개</span>
 	</article>
 	<article class="article_box article_box_last">
@@ -106,7 +107,7 @@ if(Auth::check()){
 		<span>{{ number_format($nClovermlist_login->price) }} 원</span>
 	</article>
 	<article class="article_box">
-		<h3>누적 후원기관 수</h3>	    			
+		<h3>누적 후원기관 수</h3>
 		<span>{{ number_format($nClovermlist_login->total_record) }} 개</span>
 	</article>
 	<article class="article_box article_box_bg article_box_last">

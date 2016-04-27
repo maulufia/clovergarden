@@ -18,7 +18,8 @@
 	(
 		$nFree->table_name, $nFree->where, $search_key, $search_val
 	);
-
+	
+	$nFree->page_view = 9999; // 무한대 (페이지네이션 없는 기간만 임시)
 	$nFree->page_result = $Conn->PageList
 	(	
 		$nFree->table_name, $nFree, $nFree->where, $search_key, $search_val, 'order by reg_date desc', $nFree->sub_sql, $page_no, $nFree->page_view, null
@@ -34,6 +35,7 @@
 		$nClovercomment->table_name, $nClovercomment->where, $search_key, $search_val
 	);
 
+	$nClovercomment->page_view = 9999; // 무한대 (페이지네이션 없는 기간만 임시)
 	$nClovercomment->page_result = $Conn->PageList
 	(	
 		$nClovercomment->table_name, $nClovercomment, $nClovercomment->where, $search_key, $search_val, 'order by reg_date desc', $nClovercomment->sub_sql, $page_no, $nClovercomment->page_view, null
@@ -51,6 +53,7 @@
 		$nSchedulepeo->total_record = 0;
 	}
 
+	$nSchedulepeo->page_view = 9999; // 무한대 (페이지네이션 없는 기간만 임시)
 	$nSchedulepeo->page_result = $Conn->PageList
 	(	
 		$nSchedulepeo->table_name, $nSchedulepeo, $nSchedulepeo->where, $search_key, $search_val, 'group by writer, schedule_seq order by reg_date desc', $nSchedulepeo->sub_sql, $page_no, $nSchedulepeo->page_view, null
@@ -166,7 +169,8 @@ $Conn->DisConnect();
 
 				<div class="paging">
 					<?php
-						if($nFree->total_record != 0){
+						// if($nFree->total_record != 0){
+						if(false){ // 페이지네이션 삭제
 							$nPage = new PageOut();
 							$nPage->CustomPageList($nFree->total_record, $page_no, $nFree->page_view, $nFree->page_set, $nFree->page_where, 'pageNumber','');
 						}
@@ -217,7 +221,8 @@ $Conn->DisConnect();
 
 				<div class="paging">
 					<?php
-						if($nClovercomment->total_record != 0){
+						// if($nClovercomment->total_record != 0){
+						if(false){ // 페이지네이션 삭제
 							$nPage = new PageOut();
 							$nPage->CustomPageList($nClovercomment->total_record, $page_no, $nClovercomment->page_view, $nClovercomment->page_set, $nClovercomment->page_where, 'pageNumber','');
 						}
@@ -287,12 +292,17 @@ $Conn->DisConnect();
 
 				<div class="paging">
 					<?php
-						if($nSchedulepeo->total_record != 0){
+						//if($nSchedulepeo->total_record != 0){
+						if(false){ // 페이지네이션 삭제
 							$nPage = new PageOut();
 							$nPage->CustomPageList($nSchedulepeo->total_record, $page_no, $nSchedulepeo->page_view, $nSchedulepeo->page_set, $nSchedulepeo->page_where, 'pageNumber','');
 						}
 					?>
 				</div>
+				<form name="form_submit" method="post" action="{{ route('mypage') }}?cate=6&dep01=1&dep02=0#tabs-1!" style="display:inline">
+					{{ UserHelper::SubmitHidden() }}
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+				</form>
 			</div>
 		</div>
 	</article>
@@ -322,10 +332,17 @@ function getUrlParameter(sParam)
         //tabs
         $( "#tabs" ).tabs();
 
-		$('#tabs .menu').click(function(){
-			$('#tabs .menu').removeClass("on");
-			$(this).addClass('on');
-		});
+				$('#tabs .menu').click(function(){
+					// jQuery tabs메소드 문제인지 URL이 변경되지 않아 강제로 변경 적용
+					window.location.href = $(this).children('a').attr('href') + '!';
+					
+					$('#tabs .menu').removeClass("on");
+					$(this).addClass('on');
+					
+					// 클릭한 탭에 따라서 ACTION URL을 변경해줌
+					var tabUrl = '/mypage?cate=6&dep01=1&dep02=0#' + $(this).attr('aria-controls') + '!';
+					$('form[name=form_submit').attr('action', tabUrl);
+				});
 
 
         $( ".tabCont" ).hide();
@@ -348,12 +365,17 @@ function getUrlParameter(sParam)
 
 $(document).ready(function() {
 
-	var hash = getUrlParameter('tabs');
+	var hash = window.location.hash.substr(1); // by YJM
+	hash = hash.replace(/\!/g, '');
 
-	if (hash==null)
+	if (hash == null || hash == '')
 	{
 		hash = "tabs-1";
 	}
+	
+	// 초기 로딩 시 form action설정
+	var tabUrl = '/mypage?cate=6&dep01=1&dep02=0#' + hash + '!';
+	$('form[name=form_submit').attr('action', tabUrl);
 
 	$( "#"+hash ).show();
 	$('#tabs .menu.'+hash).addClass('on');

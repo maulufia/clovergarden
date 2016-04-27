@@ -80,6 +80,7 @@ Route::group(['middleware' => ['web']], function () {
 	
 	# COMPANION
 	Route::get('/companion', 'MainController@showCompanion')->name('companion');
+	Route::post('/companion', 'MainController@postMethodControl');
 	
 	# INFORMATION
 	Route::get('/information', 'MainController@showInformation')->name('information');

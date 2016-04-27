@@ -87,6 +87,7 @@
 			} else {
 	            $sql = 'select count(*) as counts from '.$pTableName.' '.$pWhere;
 			}
+            
 			//echo $sql;
             if(!$pConnect) $pConnect = $this->obj_db_conn;
             $sqlQuery = @mysql_query($sql, $pConnect);

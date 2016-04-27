@@ -380,8 +380,17 @@ $Conn->DisConnect();
 								<li>
 									<div class="banner_wrap">
 										<div class="banner5" <?php if($_GET['gname'] == $nClovermlist_group->group_name){?>style='background:#f7f7f7;'<?php } ?>>
-											<br>
-											<a href="{{ route('clovergarden') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}&gname={{ $nClovermlist_group->group_name }}&select_year={{ $_GET['select_year'] }}&select_month={{ $_GET['select_month'] }}">{{ $nClovermlist_group->group_name }}</a>
+											<a href="{{ route('clovergarden') }}?cate={{ $_GET['cate'] }}&dep01={{ $_GET['dep01'] }}&dep02={{ $_GET['dep02'] }}&type=view&seq={{ $_GET['seq'] }}&gname={{ $nClovermlist_group->group_name }}&select_year={{ $_GET['select_year'] }}&select_month={{ $_GET['select_month'] }}">
+												<?php
+													// 그룹 이름을 후원기관에서 찾아 존재하면 이미지로 대체
+													$group_image = DB::table('new_tb_scompany')->select('file_edit1')->where('content', '=', $nClovermlist_group->group_name)->get();
+												?>
+												@if($group_image)
+													<img src="/imgs/up_file/scompany/{{ $group_image[0]->file_edit1 }}" style="height: 100%" />
+												@else
+													<br>{{ $nClovermlist_group->group_name }}
+												@endif
+											</a>
 										</div>				
 									</div>	
 								</li>
@@ -449,7 +458,7 @@ $Conn->DisConnect();
 						<div class="banner4">
 						{{ $nClovermlist->group_name }}<br>
 						<?php if($nClovermlist->day) $img_v = "clover_ing"; else $img_v = "clover_set"; ?>
-						<img src="/imgs/up_file/member/{{ $img_v }}.jpg" />
+						<img src="/imgs/{{ $img_v }}.jpg" />
 						<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nClovermlist->id }}">{{ $nClovermlist->name }}님</a></div>
 						
 					</div>
@@ -601,13 +610,15 @@ $Conn->DisConnect();
 							for($i=0, $cnt_list=count($nClovercomment->page_result); $i < $cnt_list; $i++) {
 								$nClovercomment->VarList($nClovercomment->page_result, $i,  array('comment'));
 								$board_name = explode(',',$nClovercomment->writer);
-								$board_image = explode('@',$board_name[1]);
 								$ex_writer = explode(",",$nClovercomment->writer);
+								
+								$board_image = DB::table('new_tb_member')->select('file_edit1')->where('user_id', '=', $board_name[1])->get();
+								$board_image = $board_image[0]->file_edit1;
 					?>
 					<tr>
 						<th scope="row">
 							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}" class="mr10 xm_left" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden;  display:inline-block;">
-							<img src="/imgs/up_file/member/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10" style="width: 51px; height: 51px;">
+							<img src="/imgs/up_file/member/{{ $board_image }}" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10" style="width: 51px; height: 51px;">
 							</a>
 							<div class="name">
 								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $ex_writer[1] }}">
@@ -646,8 +657,9 @@ $Conn->DisConnect();
 					}
 				?>
 				</div>
-				<form name="form_submit" method="post" action="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $nClovercomment->seq }}#tabs-4" style="display:inline">
+				<form name="form_submit" method="post" action="{{ route('clovergarden') }}?cate=1&dep01=0&dep02=0&type=view&seq={{ $seq }}#tabs-4" style="display:inline">
 					{{ UserHelper::SubmitHidden() }}
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				</form>
 			</div>
 		</div>

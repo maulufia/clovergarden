@@ -22,6 +22,7 @@
     
       $configModel = new \ConfigModel;
       $popup = $configModel->setConfig('popup', $_POST['popup_status']);
+      $popup_link = $configModel->setConfig('popup_link', $_POST['popup_link']);
 
      if(is_uploaded_file($_FILES['popup']['tmp_name'])) {
           /*
@@ -86,14 +87,12 @@
 
 
 
-$nAdm->page_result = $Conn->AllList
-(	
-	$nAdm->table_name, $nAdm, "*", "where t_name='popup' order by idx desc limit 1", null, null
-);
+  $nAdm->page_result = $Conn->AllList
+  (	
+  	$nAdm->table_name, $nAdm, "*", "where t_name='popup' order by idx desc limit 1", null, null
+  );
 
-
-
-$Conn->DisConnect();
+  $Conn->DisConnect();
 ?>
 </head>
 <body>
@@ -117,6 +116,9 @@ $Conn->DisConnect();
 			<input type="hidden" name="u_mode" value="update">
       <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 			<table cellpadding=0 cellspacing=0 border=0 width=100% align=center>
+        <tr>
+          <td><strong>팝업등록 및 수정</strong></td>
+        </tr>
         <tr height=30>
           <td>
             <strong>상태</strong>
@@ -124,13 +126,16 @@ $Conn->DisConnect();
             <input type="radio" name="popup_status" value="n" {{ $popup_status =='n' ? 'checked' : '' }}> off
           </td>
         </tr>
-			<tr>
-				<td><strong>팝업등록 및 수정</strong></td>
-			</tr>
-			<tr height=30><td><input type="file" name="popup" value="" size="60"></td></tr>
-			<tr>
-				<td align=center><input type="submit" value="저장하기" style="border:1px solid #e8e8e8; padding:5px;background:#3952a8; font-weight:bold; color:#fff;"></td>
-			</tr>
+        <tr height=30>
+          <td>
+            <strong>링크</strong>
+            <input type="text" name="popup_link" value="{{ $popup_link }}" style="width: 500px;">
+          </td>
+        </tr>
+  			<tr height=30><td><input type="file" name="popup" value="" size="60"></td></tr>
+  			<tr>
+  				<td align=center><input type="submit" value="저장하기" style="border:1px solid #e8e8e8; padding:5px;background:#3952a8; font-weight:bold; color:#fff;"></td>
+  			</tr>
 			</table>
 			</form>
 

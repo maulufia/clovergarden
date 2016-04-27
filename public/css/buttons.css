@@ -296,15 +296,6 @@
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFCC00', endColorstr='#FFCC00');
 	background-color:#FFCC00;
 }
-.orange_big_btn2.blue {
-	-moz-box-shadow: 0px 2px 0px 0px #324D79;
-	-webkit-box-shadow: 0px 2px 0px 0px #324D79;
-	box-shadow: 0px 2px 0px 0px #324D79;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3E6097), color-stop(1, #3E6097) );
-	background:-moz-linear-gradient( center top, #3E6097 5%, #3E6097 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3E6097', endColorstr='#3E6097');
-	background-color:#3E6097;
-}
 
 .green_btn {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #95c161), color-stop(1, #95c161) );
@@ -411,11 +402,10 @@ div.upload input {
 	font-family: 'Nanum Gothic',나눔고딕,NanumGothic;
 	font-size:18px;
 	font-weight:bold;
-	height:83px;
-	line-height:83px;
-	width:110px;
 	text-decoration:none;
 	text-align:center;
+	width: 110px;
+  padding: 17px 0px;
 }
 
 .big_btn2.resize {
@@ -429,4 +419,9 @@ div.upload input {
 .big_btn2.green {
 	background: #1EB501;
 	box-shadow: 0px 2px 0px 0px #135606;
+}
+
+.big_btn2.blue {
+	background: #3E6097;
+	box-shadow: 0px 2px 0px 0px #07124E;
 }

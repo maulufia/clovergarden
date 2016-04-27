@@ -231,6 +231,7 @@ class AdminController extends Controller
 		// 팝업 (현재는 메인에만 적용됨)
 		$configModel = new \ConfigModel;
 		$popup_status = $configModel->getConfig('popup')->content;
+		$popup_link = $configModel->getConfig('popup_link')->content;
 		
 		// Other Options for board
 		$option = new \StdClass();
@@ -245,7 +246,8 @@ class AdminController extends Controller
 
 		return view($view_name, ['list_link' => $option->list_link,
 															'view_link' => $option->view_link,
-															'popup_status' => $popup_status
+															'popup_status' => $popup_status,
+															'popup_link' => $popup_link
 														]);
 	}
 	
@@ -285,6 +287,18 @@ class AdminController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 		
+		// Send Email to Master
+		$subject = "[알림] 1:1문의가 접수되었습니다.";
+		$content = "<html>
+									<head>
+									</head>
+									<body>
+										<p><b>발신자: </b>{$nOnetoone->name} {$nOnetoone->email}</p><p>
+										<p><b>내용: </b>{$nOnetoone->content}</p>
+									</body>
+									</html>";
+		$mail = \MailHelper::sendMail(EMAIL_MASTER, $subject, $content);
+
 		Flash::success(SUCCESS_WRITE);
 		return redirect()->route('customer');
 	}
@@ -754,19 +768,19 @@ class AdminController extends Controller
 		//======================== DB Module Clovert ============================
 		$Conn = new \DBClass();
 
-			$Conn->InsertMultiDB2($nMember->table_name, $arr_field1, $arr_value1);
+		$Conn->InsertMultiDB2($nMember->table_name, $arr_field1, $arr_value1);
 
-			$Conn->StartTrans();
+		$Conn->StartTrans();
 
 
-			$out_put = $Conn->InsertMultiDB($nClovermlist->table_name, $arr_field, $arr_value);
-			if($out_put){			
-				$Conn->CommitTrans();
-			}else{
-				$Conn->RollbackTrans();
-				$Conn->disConnect();
-				JsAlert(ERR_DATABASE, 1, route('admin/member', array('item' => 'list_normal')));
-			}
+		$out_put = $Conn->InsertMultiDB($nClovermlist->table_name, $arr_field, $arr_value);
+		if($out_put){			
+			$Conn->CommitTrans();
+		}else{
+			$Conn->RollbackTrans();
+			$Conn->disConnect();
+			JsAlert(ERR_DATABASE, 1, route('admin/member', array('item' => 'list_normal')));
+		}
 
 
 		$Conn->disConnect();
@@ -1153,15 +1167,15 @@ class AdminController extends Controller
 		//======================== DB Module Clovernewst ============================
 		$Conn = new \DBClass();
 
-		    $Conn->StartTrans();
-		    $out_put = $Conn->insertDB($nClovernews->table_name, $arr_field, $arr_value);
-		    if($out_put){
-		        $Conn->CommitTrans();
-		    }else{
-		        $Conn->RollbackTrans();
-		        $Conn->disConnect();
-		        JsAlert(ERR_DATABASE, 1, $list_link);
-		    }
+    $Conn->StartTrans();
+    $out_put = $Conn->insertDB($nClovernews->table_name, $arr_field, $arr_value);
+    if($out_put){
+        $Conn->CommitTrans();
+    }else{
+        $Conn->RollbackTrans();
+        $Conn->disConnect();
+        JsAlert(ERR_DATABASE, 1, $list_link);
+    }
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
@@ -2423,6 +2437,7 @@ class AdminController extends Controller
 
     $Conn->StartTrans();
     $out_put = $Conn->insertDB($nNotice->table_name, $arr_field, $arr_value);
+
     if($out_put){
         $Conn->CommitTrans();
     }else{

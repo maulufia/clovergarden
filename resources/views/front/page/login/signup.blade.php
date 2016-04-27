@@ -8,7 +8,7 @@
 	<div class="login">
 		<div class="btns">
 			<a href="{{ route('login', array('cate' => 5, 'dep01' => 4)) }}" class="ml10 orange_big_btn2 resize">일반 회원<br>가입하기</a>
-			<a href="javascript:FaceBookLogin();" class="ml10 orange_big_btn2 resize blue">
+			<a href="javascript:FaceBookLogin();" class="ml10 big_btn2 resize blue">
 				페이스북<br>가입하기
 			</a>
 			<a href="/login/naver" class="ml10 big_btn2 resize green">

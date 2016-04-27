@@ -43,9 +43,9 @@ $Conn->DisConnect();
 	    				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 	    				<input type="hidden" name="dep01" value="3" />
 	    				<input type="hidden" name="type" value="write" />
-					    <input type="radio" name="agree" id="agree1" value="Y" checked>
+					    <input type="radio" name="agree" id="agree1" value="Y">
 					    <label for="agree1" class="mr20">동의</label>
-					    <input type="radio" name="agree" id="agree2" value="N">
+					    <input type="radio" name="agree" id="agree2" value="N" checked>
 					    <label for="agree2">동의하지 않음</label>
 					    <div class="box2">
 				    		<a href="#" id="join" class="orange_big_btn">가입하기</a>

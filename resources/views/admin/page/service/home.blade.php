@@ -22,7 +22,7 @@
   $Conn = new DBClass();
 
 	if(Auth::user()->user_state < 7){
-		$nSchedule->where = "where clover_seq='".$group_name."'";
+		$nSchedule->where = "where clover_seq='" . Auth::user()->clover_seq . "'";
 	}
 
   $nSchedule->total_record = $Conn->PageListCount

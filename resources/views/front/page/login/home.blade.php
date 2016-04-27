@@ -14,9 +14,12 @@
 			</div>
 			<div id="loginForm_col2" style="float: left;">
 				<input type="submit" value="LOGIN" id="login" class="ml10 orange_big_btn2" style="float: left; border:none;">
-				<a href="#" onclick="javascript:FaceBookLogin();"  scope="public_profile,email" class="ml10 orange_big_btn2 blue" style="float: left;">
-					페이스북<br>로그인
-				</a>
+			</div>
+			
+			<div class="line-normal"></div>
+			
+			<div id="loginForm-social">
+				<a href="#" onclick="javascript:FaceBookLogin();"  scope="public_profile,email" class="ml10 big_btn2 blue">페이스북<br>로그인</a>
 				<a href="#" onclick="javascript:NaverLogin();" class="ml10 big_btn2" style="background: #1EB501; box-shadow: 0px 2px 0px 0px #135606">
 					네이버<br>로그인
 				</a>

@@ -32,6 +32,7 @@
     (
         $nClovernews->table_name, $nClovernews, $nClovernews->where, $search_key, $search_val, 'order by seq desc', $nClovernews->sub_sql, $page_no, $nClovernews->admin_page_view, array('comment')
     );
+
 	$nClover->page_result = $Conn->AllList
 	(	
 		$nClover->table_name, $nClover, "*", "where 1 order by seq desc", null, null
@@ -63,7 +64,7 @@
                         alert("삭제 항목을 한개이상 체크해주세요.");
                         return;
                     }
-                    f.action = "<?php echo $delete_link; ?>";
+                    f.action = "{!! $delete_link !!}";
                     f.submit();
                 }else{
                     return;

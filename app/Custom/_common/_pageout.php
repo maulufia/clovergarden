@@ -64,12 +64,15 @@
          *------------------------------------------------------------------------------------------------------*/
         function PageOutSet($pTotalRecord, $pPage, $pPageView, $pPageSet, $pPageWhere)
         {
+            
             $this->start_page = ((int)(($pPage - 1) / $pPageSet) * $pPageSet) + 1;
             $this->end_pages_number = $this->start_page + $pPageSet - 1;
             $this->last_page = (int)(($pTotalRecord + $pPageView - 1) / $pPageView);
             if($this->end_pages_number >= $this->last_page) $this->end_pages_number = $this->last_page;
             if($this->start_page != 1) $this->pre_page = $this->start_page - $pPageWhere;
             if(($this->start_page + $pPageWhere) <= $this->last_page) $this->next_page = $this->start_page + $pPageWhere;
+            if($pPage > $this->start_page) $this->pre_page = $pPage - 1;
+            if($pPage < $this->end_pages_number) $this->next_page = $pPage + 1;
         }
 
         /*------------------------------------------------------------------------------------------------------*
@@ -104,6 +107,8 @@
 		function CustomPageList($pTotalRecord, $pPage=1, $pPageView=10, $pPageSet=10, $pPageWhere, $pScript, $pNum=0)
         {
             if($pNum == "" || $pNum == null) $pNum = 0;
+            
+            $pPageSet = (int)($pTotalRecord / $pPageView) + 1;
 
             $this->PageOutSet($pTotalRecord, $pPage, $pPageView, $pPageSet, $pPageWhere);
 
@@ -126,14 +131,14 @@
                     echo "<a href=".Chr(34)."javascript:".$pScript."('".$this->pages_number."');".Chr(34).">".$this->pages_number."</a>".Chr(10);
                 }
             }
-
+            
             if($this->next_page != 0){
                 echo "<a href=".Chr(34)."javascript:".$pScript."('".$this->next_page."');".Chr(34)." class='nor'>다음 &gt;</a>".Chr(10);
             }else{
                 echo "<a href='javascript:alert(\"마지막페이지 입니다.\")'; class='nor'>다음 &gt;</a>";
             }
 
-			if($this->last_page){
+			if($this->last_page == $pPage){
 				echo "<a href='javascript:alert(\"마지막페이지 입니다.\")'; class='nor'>마지막 &gt;&gt;</a>";				
 			}else{
 				echo "<a href=".Chr(34)."javascript:".$pScript."('".$this->last_page."');".Chr(34)." class='nor'>마지막 &gt;&gt;</a>";

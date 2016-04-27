@@ -172,10 +172,10 @@ function emailUpdate()
 				$nClover_banner->VarList($nClover_banner->page_result, $i, null);
 		?>
 		<li style="position:relative;">
-			<a href="{{ route('clovergarden', ['seq' => $nClover_banner->clover_id] ) }}&cate=1&dep01=0&dep02=0&type=view">
+			<a href="{{ $nClover_banner->group_name }}">
 			<img src='/imgs/up_file/clover/{{ $nClover_banner->file_edit[1] }}' style="width:789px; height:223px">                  
 			<img src="/imgs/go_btn.gif" style="width:129px; height:32px; position:absolute; bottom:10px; right:20px;"></a>
-			<p class="main_banner_link"><a href="{{ route('clovergarden', ['seq' => $nClover_banner->clover_id] ) }}&cate=1&dep01=0&dep02=0&type=view" class="mt5 orange_big_btn resize_91_702">참여하기</a></p>			
+			<p class="main_banner_link"><a href="{{ $nClover_banner->news }}" class="mt5 orange_big_btn resize_91_702">후원하기</a></p>			
 			
 		</li>
 		<?php }}?>

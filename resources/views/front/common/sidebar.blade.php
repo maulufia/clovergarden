@@ -174,8 +174,6 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 				//JsAlert(NO_DATA, 1, $list_link);
 			}
 
-
-
 			$nPoint->where = " where userid='".$login_id."'";
 			$nPoint->page_view = 10;
 
@@ -210,6 +208,12 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 
 		$Conn->DisConnect();
 		//======================== DB Module End ===============================
+		
+		//======================== YJM DB Module Start ===============================
+		
+		$service_total = DB::table('new_tb_schedulepeo')->where('writer', '=', Auth::user()->user_id)->count();
+		
+		//========================= YJM DB Module End ================================
 		?>
 
 		<aside>
@@ -218,7 +222,7 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 			{{ $login_name }}<?php if($login_state==2){ ?><img src="/imgs/grade2.jpg" style="margin-left:3px;"><?php }else if($login_state==4){ ?><img src="/imgs/grade4.jpg" style="margin-left:3px;"><?php } ?></div>
 			<div class="xm_clr"></div>
 			<div class="aside_box mt10">
-				<h3><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=0">나의 활동정보</a></h3>
+				<h3><a href="{{ route('mypage') }}?cate=6&dep01=0&dep02=0">나의 활동정보</a></h3>
 				<ul>
 	<?php
 	if(count($nPoint_sum->page_result) > 0){
@@ -227,17 +231,17 @@ if($_POST[type] != ""){ $_GET[type] = $_POST[type];} */
 
 		$use_point = $nPoint_sum->inpoint - $nPoint_sum->outpoint;
 	?>
-					<li><a href="{{ route('mypage') }}?cate=6&dep01=2&dep02=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
-					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=0&tabs=tabs-2">나의 후원금액 {{ number_format($nClovermlist_login->price) }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=1&dep02=1">나의 후원금액 {{ number_format($nClovermlist_login->price) }}원</a></li>
 	<?php
 		}
 	} else {
 	?>
-					<li><a href="{{ route('mypage') }}?cate=6&dep01=2&dep02=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
-					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=1">나의 후원금액 {{ (int)$nClovermlist_login->price }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=0">가용 후원포인트 {{ number_format($use_point) }}원</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=1&dep02=1">나의 후원금액 {{ (int)$nClovermlist_login->price }}원</a></li>
 	<?php } ?>
-					<li><a href="{{ route('mypage') }}?cate=6&dep01=3&dep02=1">후원활동 횟수 {{ number_format($nClovermlist_login->total_record) }}</a></li>
-					<li><a href="{{ route('mypage') }}?cate=6&dep01=1&dep02=1">쪽지 {{ $nMessage->total_record }}</a></li>
+					<li><a href="{{ route('mypage') }}?cate=6&dep01=1&dep02=0#tabs-3!">봉사활동 참여 수 {{ number_format($service_total) }}</a></li>
+					<!--<li><a href="{{ route('mypage') }}?cate=6&dep01=1&dep02=1">쪽지 {{ $nMessage->total_record }}</a></li>-->
 				</ul>
 			</div>
 			

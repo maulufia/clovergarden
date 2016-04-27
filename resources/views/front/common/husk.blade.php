@@ -60,17 +60,18 @@
     <?php
       $popup_img = DB::table('new_tb_adm_tup')->where('t_name', '=', 'popup')->get();
       $popup_img = $popup_img[0]->t_text;
+      
+      $configModel = new ConfigModel();
+      $popup_link = $configModel->getConfig('popup_link')->content;
     ?>
   
     <!-- POPUP -->
-    <div id="popup-blackscreen"></div>
-    <div id="popup-wrapper">
-        <div id="popup">
-            <div class="popup-content"><!-- 내용 --><img src="/imgs/page/{{ $popup_img }}" width="100%" /></div>
-            <div class="popup-footer">
-                <input type="checkbox" id="popup_checkbox"> 오늘 하루동안 이 창을 열지 않음
-                <button type="button" class="close" onclick="closePopup();">×</button>
-            </div>
+    <!--<div id="popup-blackscreen"></div>--> <!-- 블랙스크린 필요할 시 주석 해제-->
+    <div id="popup">
+        <div class="popup-content"><a href="{{ $popup_link }}" target="_blank"><img src="/imgs/page/{{ $popup_img }}" width="100%" /></a></div>
+        <div class="popup-footer">
+            <input type="checkbox" id="popup_checkbox"> 오늘 하루동안 이 창을 열지 않음
+            <button type="button" class="close" onclick="closePopup();">×</button>
         </div>
     </div>
     
@@ -84,8 +85,8 @@
         });
         
         function showPopup(object) {
-            $('#popup-blackscreen').show();
-            $('#popup-wrapper').show();
+            // $('#popup-blackscreen').show();
+            $('#popup').show();
         }
         
         function closePopup(object) {
@@ -93,8 +94,8 @@
                 setCookieAt00('clovergarden_popup', 'done', 1);
             }
             
-            $('#popup-blackscreen').hide();
-            $('#popup-wrapper').hide();
+            // $('#popup-blackscreen').hide();
+            $('#popup').hide();
         }
         
         // 쿠키 가져오기  

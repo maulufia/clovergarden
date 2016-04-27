@@ -11,7 +11,10 @@ class ConfigModel extends Model
 	public function getConfig($name) {
 		$result = DB::table('cg_config')->where('name', '=', $name)->get();
 		
-		return $result[0];
+		if($result)
+			return $result[0];
+		else
+			return 'NO DATA';
 	}
 	
 	public function setConfig($name, $content) {

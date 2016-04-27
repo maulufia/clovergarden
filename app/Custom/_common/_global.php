@@ -51,6 +51,8 @@
     define('DEFAULT_ROOT', $documentRoot);
     define('DEFAULT_URL',  'default.php');
     define('MAIN_URL',     'index.php');
+    
+    define('EMAIL_MASTER', 'manager@clovergarden.co.kr'); // 마스터 이메일. 1:1문의와 그룹생성 문의 메일이 전송될 메일 주소.
 
     define('NO_LOGIN',            '로그인 정보가 없습니다.');
 	define('OK_LOGIN',            '로그인 회원은 접근할 수 없습니다.');
@@ -143,5 +145,5 @@
      * 권한,페이지 분류 include
      *------------------------------------------------------------------------------------------------------*/
     // require_once(DEFAULT_ROOT.'/new_admin/include/pagekey.php');         //페이지 key value
-    // require_once(DEFAULT_ROOT.'/update.php');         //페이지 key value // 임시로 삭제, 이상한 파일임
+    require_once(DEFAULT_ROOT.'/_common/_update.php');         //페이지 key value
 ?>

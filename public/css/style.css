@@ -326,7 +326,7 @@ section.cont .article_last_box {margin-right: 0}
 .brd_list a.btn {display:inline-block; width:65px; height:15px; line-height:15px; font-weight:bold; color:#AEAEAE; padding-top:3px; border: 1px solid #E0E3DC}
 
 .brd_tab_list {margin-top:50px;}
-.brd_tab_list table {width: 94%; margin:0 auto; border-spacing: 0; border-collapse: collapse;}
+.brd_tab_list table {margin:0 auto; border-spacing: 0; border-collapse: collapse; clear: both;}
 .brd_tab_list table tr {border-bottom:1px dashed #ccc; height: 82px; line-height: 160%}
 .brd_tab_list table tr th div.name {line-height:160%; margin-top:10px; text-align:left; font-weight:normal}
 
@@ -875,6 +875,7 @@ background: #fff;
 	opacity: 0.5;
 	z-index: 9999;
 }
+/* 쓰지 않음.
 #popup-wrapper {
 	display: none;
 	position: absolute;
@@ -882,21 +883,28 @@ background: #fff;
 	height: 100%;
 	background: transparent;
 	z-index: 9999;
-}
+} */
 #popup {
-	position: relative;
-	background: #FFF;
-	width: 500px;
-	/* left: 50%; */
-	margin: 100px auto;
-	z-index: 10000;
-	padding: 5px;
-	border-radius: 5px;
+	display: none;
+	position: absolute;
+  background: #FFF;
+  width: 500px;
+  left: 50%;
+  margin: 100px 0 0 -250px;
+  z-index: 10000;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ADACAC;
 }
+#popup .popup-footer {
+	position: relative;
+	margin-top: 5px;
+}
+
 #popup .close {
 	border: 0;
 	background: transparent;
-	position: relative;
+	position: absolute;
 	float: right;
 	font-size: 17px;
 	top: -3px;
@@ -955,4 +963,23 @@ div.alert-danger {
 	background-color: #f2dede;
 	border-color: #ebccd1;
 	color: #a94442;
+}
+
+#loginForm-social {
+	clear: both;
+	text-align: center;
+	padding-top: 25px;
+  padding-bottom: 2px;
+}
+
+.line-normal {
+	width: 100%;
+	border-bottom: 1px solid rgba(158, 158, 158, 0.25);
+	height: 1px;
+	clear: both;
+	padding-top: 25px;
+}
+
+.fa-minus-square:before {
+	content: '' !important;
 }

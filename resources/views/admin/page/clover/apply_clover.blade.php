@@ -188,7 +188,7 @@ if($group == ""){
                         {{ number_format($nClover->comment_cnt) }}
                     </td>
 					<td>{{ number_format($nClover->clover) }}</td>
-					<td>{{ round(($nClover->comment_cnt/$total_cnt)*100,2) }}%</td>
+					<td>{{ $total_cnt != 0 ? round(($nClover->comment_cnt/$total_cnt)*100,2) : round(($nClover->comment_cnt)*100,2) }}%</td>
                     <td><a href="#" onclick="javascript:pop('{{ $nClover->code }}','{{ $group }}');">자세히</a></td>                    
                 </tr>
 <?php

@@ -66,7 +66,7 @@ function moneyEdit()
   		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="{{ route('admin/clover', array('item' => 'list_clover')) }}">후원기관관리</a></li>
   		<li<?php if($key_large == 'H'){ echo " class='on'"; } ?>><a href="{{ route('admin/service', array('item' => 'home')) }}">봉사스케쥴관리</a></li>
   		<?php } else { ?>
-  		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="{{ route('admin/clover', array('item' => 'list_clover')) }}">후원기관관리</a></li>
+  		<li<?php if($key_large == 'C'){ echo " class='on'"; } ?>><a href="{{ route('admin/clover', array('item' => 'news')) }}">후원기관관리</a></li>
   		<li<?php if($key_large == 'H'){ echo " class='on'"; } ?>><a href="{{ route('admin/service', array('item' => 'home')) }}">봉사스케쥴관리</a></li>
   		<?php } ?>
   		

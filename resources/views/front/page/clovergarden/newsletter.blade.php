@@ -10,7 +10,6 @@
 //======================== DB Module Clovernewst ============================
 	$Conn = new DBClass();
 
-
 	$nClovernews->total_record = $Conn->PageListCount
 	(
 		$nClovernews->table_name, $nClovernews->where, $search_key, $search_val

@@ -44,7 +44,7 @@
 		var f = document.frm;
 
 		$.blockUI();
-		f.action = "<?php echo $write_link; ?>";
+		f.action = "{!! $write_link !!}";
 		f.submit();
 	}
 </script>

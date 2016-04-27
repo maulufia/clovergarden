@@ -87,8 +87,6 @@ $Conn->DisConnect();
 		</table>
 	</article>
 
-
-
 	<div class="paging">
 		<?php
 			if($nFree->total_record != 0){

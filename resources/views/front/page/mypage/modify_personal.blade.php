@@ -34,7 +34,7 @@
 			<div class="edit">
 				<div class="mt20">
 					<div>					    
-						<a href="{{ route('mypage', array('cate' => 6, 'dep01' => 5, 'dep02' => 0, 'type' => 'edit')) }}" id="edit" class="ml10 mt_3 orange_big_btn">개인정보수정</a>
+						<a href="{{ route('mypage', array('cate' => 6, 'dep01' => 3, 'dep02' => 0, 'type' => 'edit')) }}" id="edit" class="ml10 mt_3 orange_big_btn">개인정보수정</a>
 					</div>
 				</form>
 				<div class="xm_clr"></div>

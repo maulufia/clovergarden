@@ -59,7 +59,7 @@
 							<font color="000000">정기후원의 후원대상기관을 자유롭게 변경할 수 있습니다.</font><BR>
 							* 25일 이후의 변경신청은 익월부터 적용됩니다.
 							</p>
-	    			<form method="get" name="editForm" id="editForm" action="{{ route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0, 'type' => 'edit')) }}">
+	    			<form method="get" name="editForm" id="editForm" action="{{ route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0, 'type' => 'edit')) }}">
 						<input type="hidden" name="cate" value="{{ $_GET['cate'] }}">
 						<input type="hidden" name="dep01" value="{{ $_GET['dep01'] }}">
 						<input type="hidden" name="dep02" value="{{ isset($_GET['dep02']) ? $_GET['dep02'] : 0 }}">
@@ -83,10 +83,10 @@
 									$cloverModel = new CloverModel();
 									$clover_name_v = $cloverModel->getCloverList();
 
-									if(count($ex_date_or_type) > 1){
+									if(count($ex_date_or_type) > 1){ // 후원변경 신청. 관리자의 승인이 된 경우
 										if($ex_date_or_type[1] == 'ok')
 											$ex_seq_clover = explode("[@@@]",$nMember->clover_seq);
-									} else {
+									} else { // 후원변경 신청. 관리자의 승인이 안된 경우
 										$ex_clover_seq_adm = explode("[@@@@]",$nMember->clover_seq_adm);
 										$ex_seq_clover = explode("[@@@]",$ex_clover_seq_adm[0]);
 									}
@@ -94,28 +94,27 @@
 
 								<?php
 									$ex_date_or_type_result = isset($ex_date_or_type[1]) ? $ex_date_or_type[1] : null;
-									if($nMember->clover_seq != '' && $ex_date_or_type_result == 'ok') {
-								?>
-								<?php
-									$sum_price_v = 0;
-									for($j=0; $j<count($ex_seq_clover); $j++){
-									$v_ex = explode("[@@]",$ex_seq_clover[$j]);
-								?>
-								<tr height=50>
-									<?php if($v_ex[1] < 1){ ?>
-									<td align="center" colspan=2 class="fa-minus-square">후원내역이 없습니다.</td>
-									<?php } else { ?>
-									<td width="300" align="right" style="color:#000;font-size:20px;font-weight:bold;">
-										{{ $clover_name_v[$v_ex[0]] }}
-									</td>
-									<td align="left" class="fa-minus-square">{{ number_format($v_ex[1]) }}원<input type="hidden" name="select_money_1" value="{{ $v_ex[1] }}" style="width:100px; height:40px; margin-top:5px;" align="middle" ></td>
-									<?php } ?>
-								</tr>
-<?php
-	$sum_price_v += $v_ex[1];
-}?>
+									if($nMember->clover_seq != '' && !empty($ex_seq_clover[0])) { // 후원변경 신청을 한 경우 (승인 결과는 무관). $ex_seq_clover[0]가 비어있는 지 살펴보는 이유는 첫 후원변경 시 값이 들어오지 않기 때문. 디자인 에러임. 멋져!
+										$sum_price_v = 0;
+										for($j=0; $j<count($ex_seq_clover); $j++){
+											$v_ex = explode("[@@]",$ex_seq_clover[$j]);
+									?>
+									<tr height=50>
+										<?php if($v_ex[1] < 1){ ?>
+										<td align="center" colspan=2 class="fa-minus-square">후원내역이 없습니다.</td>
+										<?php } else { ?>
+										<td width="300" align="right" style="color:#000;font-size:20px;font-weight:bold;">
+											{{ $clover_name_v[$v_ex[0]] }}
+										</td>
+										<td align="left" class="fa-minus-square">{{ number_format($v_ex[1]) }}원<input type="hidden" name="select_money_1" value="{{ $v_ex[1] }}" style="width:100px; height:40px; margin-top:5px;" align="middle" ></td>
+										<?php } ?>
+									</tr>
+									
+									<?php
+										$sum_price_v += $v_ex[1];
+									}?>
 
-<?php } else { ?>
+								<?php } else { // 후원변경 신청을 처음에 한 경우 혹은 변경신청을 처음에 안했던 경우 ?>
 
 			<?php
 			$price_sum = 0;
@@ -153,7 +152,7 @@
 				</form>
 <br><br>
 	    	
-	    	<form method="POST" name="editForm2" id="editForm2" action="{{ route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0, 'type' => 'edit')) }}">
+	    	<form method="POST" name="editForm2" id="editForm2" action="{{ route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0, 'type' => 'edit')) }}">
 					<input type="hidden" name="cate" value="{{ $_GET['cate'] }}">
 					<input type="hidden" name="dep01" value="{{ $_GET['dep01'] }}">
 					<input type="hidden" name="dep02" value="{{ isset($_GET['dep02']) ? $_GET['dep02'] : 0 }}">

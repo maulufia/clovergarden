@@ -27,6 +27,7 @@
 		$nClovercomment->table_name, $nClovercomment->where, $search_key, $search_val
 	);
 
+	$nClovercomment->where = 'where reg_date between adddate(now(), -9999) and now()'; // -9999일(무한대) 내 댓글로 설정
 	$nClovercomment->page_result = $Conn->PageList
 	(	
 		$nClovercomment->table_name, $nClovercomment, $nClovercomment->where, $search_key, $search_val, 'order by reg_date desc', $nClovercomment->sub_sql, $page_no, $nClovercomment->page_view, null
@@ -37,14 +38,14 @@
 	}
 
 	$group_name = Auth::check() ? Auth::user()->group_name : null; // TEMP
-	$nClovercomment2->where = "where group_name='" . $group_name . "' and group_name != ''";
+	$nClovercomment2->where = "where group_name='" . $group_name . "' and group_name != '' and reg_date between adddate(now(), -9999) and now()"; // -9999일(무한대) 내 댓글로 설정
 	$nClover2->page_result = $Conn->AllList($nClover2->table_name, $nClover2, "*", $nClover2->where, null, null);
 
 	$nClovercomment2->total_record = $Conn->PageListCount
 	(
 		$nClovercomment2->table_name, $nClovercomment2->where, $search_key, $search_val
 	);
-
+	
 	$nClovercomment2->page_result = $Conn->PageList
 	(	
 		$nClovercomment2->table_name, $nClovercomment2, $nClovercomment2->where, $search_key, $search_val, 'order by reg_date desc', $nClovercomment2->sub_sql, $page_no, $nClovercomment2->page_view, null
@@ -56,8 +57,8 @@
 
 
 
-$Conn->DisConnect();
-//======================== DB Module End ===============================
+	$Conn->DisConnect();
+	//======================== DB Module End ===============================
 	$search_val = ReXssChk($search_val)
 
 ?>
@@ -101,7 +102,7 @@ $Conn->DisConnect();
 			//#############세번째 샘플
 					$('#newsticker3').Vnewsticker({
 						speed: 500,         //스크롤 스피드
-						pause: 3000,        //잠시 대기 시간
+						pause: 2000,        //잠시 대기 시간
 						mousePause: true,   //마우스 오버시 일시정지(true=일시정지)
 						showItems: 7,       //스크롤 목록 갯수 지정(1=한줄만 보임)
 						direction : "up"    //up=위로스크롤, 공란=아래로 스크롤
@@ -112,8 +113,8 @@ $Conn->DisConnect();
 
 
 
-			<ul id="newsticke3" style="line-height:200%;border:1px solid #fff;">
-			<ul>
+			<ul id="newsticker3" style="line-height:200%;border:1px solid #fff;">
+			<ul style="width: 100%;">
 				<?php
 					if(count($nClovercomment->page_result) > 0){
 						$row_no = $nClovercomment->total_record - ($nClovercomment->page_view * ($page_no - 1));
@@ -122,22 +123,24 @@ $Conn->DisConnect();
 							$board_name = explode(',',$nClovercomment->writer);
 
 							$Conn = new DBClass();
-								$nMember->where = "where user_id ='".$board_name[1]."'";
-								$nMember->read_result = $Conn->AllList
-								(
-									$nMember->table_name, $nMember, "*", $nMember->where, null, null
-								);
-							
-								if(count($nMember->read_result) != 0){
-									$nMember->VarList($nMember->read_result, 0, null);
+						
+							$nMember->where = "where user_id ='".$board_name[1]."'";
+							$nMember->read_result = $Conn->AllList
+							(
+								$nMember->table_name, $nMember, "*", $nMember->where, null, null
+							);
 
-									$group_name = $nMember->group_name;
-								}	
+							if(count($nMember->read_result) != 0){
+								$nMember->VarList($nMember->read_result, 0, null);
+
+								$group_name = $nMember->group_name;
+							}	
+								
 							$Conn->DisConnect();
 
-
-							$board_image = explode('@',$board_name[1]);
-
+							$board_image = DB::table('new_tb_member')->select('file_edit1')->where('user_id', '=', $board_name[1])->get();
+							$board_image = $board_image[0]->file_edit1;
+							//$board_image = explode('@',$board_name[1]);
 				?>
 				<li>
 					<table>
@@ -151,7 +154,7 @@ $Conn->DisConnect();
 						<tr	>
 							<th scope="row">
 								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}" class="mr10 xm_left" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden; display:inline-block;">
-								<img src="/imgs/up_file/member/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10" style="width: 51px; height: 51px;"> 
+								<img src="/imgs/up_file/member/{{ $board_image }}" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10" style="width: 51px; height: 51px;"> 
 								</a>
 								<div class="name">
 									<a href="{{ route('userinfo') }}?cate=8&user_id=<?=$nMember->user_id?>">
@@ -181,7 +184,7 @@ $Conn->DisConnect();
 					}
 				?>
 			</ul>
-			<ul>
+			<ul style="width: 100%;">
 			</div>
 		<?php if(Auth::check()){ ?>
 			<div id="tabs-2" class="tabCont">
@@ -201,27 +204,29 @@ $Conn->DisConnect();
 								$board_name = explode(',',$nClovercomment2->writer);
 
 								$Conn = new DBClass();
-									$nMember->where = "where user_id ='".$board_name[1]."'";
-									$nMember->read_result = $Conn->AllList
-									(
-										$nMember->table_name, $nMember, "*", $nMember->where, null, null
-									);
 								
-									if(count($nMember->read_result) != 0){
-										$nMember->VarList($nMember->read_result, 0, null);
+								$nMember->where = "where user_id ='".$board_name[1]."'";
+								$nMember->read_result = $Conn->AllList
+								(
+									$nMember->table_name, $nMember, "*", $nMember->where, null, null
+								);
+							
+								if(count($nMember->read_result) != 0){
+									$nMember->VarList($nMember->read_result, 0, null);
 
-										$group_name = $nMember->group_name;
-									}	
+									$group_name = $nMember->group_name;
+								}	
+								
 								$Conn->DisConnect();
 
-
-								$board_image = explode('@',$board_name[1]);
+								$board_image = DB::table('new_tb_member')->select('file_edit1')->where('user_id', '=', $board_name[1])->get();
+								$board_image = $board_image[0]->file_edit1;
 
 					?>
 					<tr>
 						<th scope="row">
 							<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}" class="mr10 xm_left" style="border-radius:50%; height:51px; width:51px; border:1px solid #dbdbdb; overflow:hidden; display:inline-block;">
-							<img src="/imgs/up_file/member/{{ $board_image[0] }}.jpg" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10"> 
+							<img src="/imgs/up_file/member/{{ $board_image }}" onerror="this.src='/imgs/photo05.png'" class="xm_left mr10" style="width: 51px; height: 51px;"> 
 							</a>
 							<div class="name">
 								<a href="{{ route('userinfo') }}?cate=8&user_id={{ $nMember->user_id }}">
@@ -241,7 +246,7 @@ $Conn->DisConnect();
 						}else{
 					?>
 							<tr>
-								<td colspan="4" style="height:200px; text-align:center;">기업회원만 이용가능합니다.</td>
+								<td colspan="4" style="height:200px; text-align:center; min-width: 730px;">기업회원만 이용가능합니다.</td>
 							</tr>
 					<?php
 						}
@@ -251,19 +256,21 @@ $Conn->DisConnect();
 				<div class="paging">
 				</div>
 			</div>
-<?php } else { ?>
-			<table>
-				<caption>게시판 목록</caption>
-				<colgroup>
-					<col class="colWidth180">
-					<col class="colWidth110">
-					<col class="colWidth380">
-					<col class="colWidth105">
-				</colgroup>
-						<tr>
-							<td colspan="4" style="height:200px; text-align:center;">기업회원만 이용가능합니다.</td>
-						</tr>
-			</table>
+<?php } else { // 로그인하지 않았을 때 ?>
+			<div id="tabs-2" class="tabCont">
+				<table>
+					<caption>게시판 목록</caption>
+					<colgroup>
+						<col class="colWidth180">
+						<col class="colWidth110">
+						<col class="colWidth380">
+						<col class="colWidth105">
+					</colgroup>
+							<tr>
+								<td colspan="4" style="height:200px; text-align:center;">기업회원만 이용가능합니다.</td>
+							</tr>
+				</table>
+			</div>
 <?php } ?>
 
 		</div>

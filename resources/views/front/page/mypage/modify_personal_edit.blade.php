@@ -50,7 +50,7 @@ function openDaumPostcode() {
 	</header>
 	<article class="join">
 		<h2 class="ti">회원정보</h2>
-		<form method="post" id="joinForm" name="joinForm" action="{{ route('mypage', array('cate' => 6, 'dep01' => 5, 'dep02' => 0, 'type' => 'edit')) }}" style="display:inline;"  enctype="multipart/form-data">
+		<form method="post" id="joinForm" name="joinForm" action="{{ route('mypage', array('cate' => 6, 'dep01' => 3, 'dep02' => 0, 'type' => 'edit')) }}" style="display:inline;"  enctype="multipart/form-data">
 		<div class="join_wrap">
 			<table>
 				<caption>회원가입</caption>
@@ -152,7 +152,7 @@ function openDaumPostcode() {
 		<input type="hidden" name="file_byte1" value="{{ $nMember->file_byte[1] }}"/>
 		<div class="box2">
 		<a href="#" id="save" class="orange_big_btn">수정</a> 
-		<a href="javascript:if(confirm('회원 탈퇴입니다. 정기 후원 해지는 클로버가든 대표전화로 해지하셔야 합니다.')){ window.location='{{ route('userdrop', array('cate' => 6, 'dep01' => 5, 'dep02' => 0, 'type' => 'edit', 'mseq' => $nMember->seq)) }}'; }" class="gray_big_btn2">회원탈퇴</a>
+		<a href="javascript:if(confirm('회원 탈퇴입니다. 정기 후원 해지는 클로버가든 대표전화로 해지하셔야 합니다.')){ window.location='{{ route('userdrop', array('cate' => 6, 'dep01' => 3, 'dep02' => 0, 'type' => 'edit', 'mseq' => $nMember->seq)) }}'; }" class="gray_big_btn2">회원탈퇴</a>
 		</div>
 		</form>
 	</article>

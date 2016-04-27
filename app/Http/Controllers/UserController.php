@@ -261,16 +261,16 @@ class UserController extends Controller
 		$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, '*', $nMember->where, null, null);
 
 		if($nMember->read_result) {
-			$subject = "클로버가든 비밀번호 찾기 메일입니다.";
+			$subject = "[클로버가든] 비밀번호 찾기 메일입니다.";
 			$rand_num = rand(10000,99999);
 			$user_pw    = RequestAll(md5(strtolower($rand_num)));
-			$content = "회원님의 임시비밀번호는 <B>".$rand_num."</B>입니다. 로그인 후 수정해 주시기 바랍니다.";
+			$content = "<html><head></head><body>회원님의 임시비밀번호는 <B>".$rand_num."</B>입니다. 로그인 후 수정해 주시기 바랍니다.</body></html>";
 
 
 	    $Conn->StartTrans();
 	    
 	    //$mail = sendMail("클로버가든", "master@clovergarden.co.kr", $user_name, $user_id, $subject, $content, $isDebug=0);
-	    $mail = \MailHelper::sendMail("클로버가든", "master@clovergarden.co.kr", $user_name, $user_id, $subject, $content, $isDebug=0);
+	    $mail = \MailHelper::sendMail($user_id, $subject, $content);
 
 	    if($mail){
 				$sql = "update new_tb_member set password='" . $user_pw . "' where user_id='".$user_id."'";
@@ -317,9 +317,9 @@ class UserController extends Controller
     	// 이 구문이 왜 필요한지 개발한 사람은 아는 걸까?
     } elseif( !($this->isMD5Password($checkPw, $nMember->user_pw) || $this->isBcryptPassword($checkPw, $nMember->user_pw)) ){
       // 비밀번호가 MD5, Bcrypt 둘 다 틀릴 경우
-  		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 5, 'dep02' => 0));
+  		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 2, 'dep02' => 0));
     } else {
-			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 5, 'dep02' => 0, 'type' => 'edit'));  
+			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 2, 'dep02' => 0, 'type' => 'edit'));  
     }
 
   }

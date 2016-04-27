@@ -124,9 +124,9 @@ window.onload =function(){
                 </tr>
 
 				<?php
-				if($login_state < 7){
-					$clover_id = $group_name;
-				}
+    				if($login_state < 7){
+    					$clover_id = Auth::user()->clover_seq;
+    				}
 				?>
 				<tr>
                     <th>후원기관코드</th>

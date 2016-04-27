@@ -93,7 +93,7 @@ $Conn->DisConnect();
                                 $checkable = dateDiff(date("Y-m-d"), $nSchedule->start_date2);
                             ?>
                             <input type="radio" name="is_on" {{ $nSchedule->is_on == 'n' ? 'checked' : '' }} onclick="javascript:form.submit();" value="n"> 마감&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="is_on" {{ $nSchedule->is_on == 'y' ? 'checked' : '' }} onclick="javascript:form.submit();" value="y"> 진행 중&nbsp;&nbsp;&nbsp;
+                            <!--<input type="radio" name="is_on" {{ $nSchedule->is_on == 'y' ? 'checked' : '' }} onclick="javascript:form.submit();" value="y"> 진행 중&nbsp;&nbsp;&nbsp;-->
                             <input type="radio" name="is_on" {{ $nSchedule->is_on == 'a' ? 'checked' : '' }} onclick="javascript:form.submit();" value="a"> 자동
                             <span style="font-size: 11px; font-style: italic;">* 클릭 시 마감-진행을 수동으로 조절할 수 있습니다. 자동으로 선택된 경우 날짜에 맞춰 마감이 됩니다.</span>
                         </form>

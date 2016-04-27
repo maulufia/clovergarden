@@ -590,7 +590,12 @@ class MainController extends Controller
 										'front.page.sponsorzone.community.board_sponsor'
 									);
 		$search_clover_exec = array(
-										'front.page.clovergarden.newsletter'
+										'front.page.clovergarden.newsletter',
+										'front.page.clovergarden.home_view'
+									);
+		$search_companion_exec = array(
+										'front.page.companion.home',
+										'front.page.companion.deans'
 									);
 		$search_customer_exec = array(
 										'front.page.customer.home',
@@ -599,7 +604,10 @@ class MainController extends Controller
 		$search_mypage_exec = array(
 										'front.page.mypage.messagebox.messagebox_send',
 										'front.page.mypage.messagebox.messagebox_get',
-										'front.page.mypage.point'
+										'front.page.mypage.point',
+										'front.page.mypage.activity_mypage.community',
+										'front.page.mypage.activity_mypage.history',
+										'front.page.mypage.activity_mypage.mailbox'
 									);
 		$board_sponsor_write = array( // 좋은 디자인은 아니다
 									'front.page.sponsorzone.community.board_sponsor_write'
@@ -658,6 +666,12 @@ class MainController extends Controller
 		foreach ($search_clover_exec as $fe) {
 			if($fe == $view_name) {
 				return $this->showCloverGarden();
+			}
+		}
+		
+		foreach ($search_companion_exec as $fe) {
+			if($fe == $view_name) {
+				return $this->showCompanion();
 			}
 		}
 		
@@ -1498,7 +1512,7 @@ class MainController extends Controller
 			mysql_query($sql);
 			
 			Flash::success('변경 요청이 접수되었습니다.');
-			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0));
 		}
 
 		$cseq2 = isset($_POST['cseq2']) ? $_POST['cseq2'] : '';
@@ -1517,7 +1531,7 @@ class MainController extends Controller
 			
 			if($_POST['sum_price_ck'] != $ck_price){
 				Flash::error('변경금액을 확인해주세요!');
-				return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+				return redirect()->route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0));
 			}
 			
 			$arr_count = count($arr_count_v);
@@ -1526,14 +1540,14 @@ class MainController extends Controller
 
 			if($arr_count != $uniq_count) {
 				Flash::error('중복된 값이 있습니다!');
-				return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+				return redirect()->route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0));
 			}
 
 			$sql = "update new_tb_member set clover_seq='".$seq_clover_ex."', clover_seq_adm='".$nMember->clover_seq."[@@@@]".$seq_clover_ex."', clover_seq_adm_type='".time()."', update_ck='Y' where user_id='" . Auth::user()->user_id . "'";
 			mysql_query($sql);
 
 			Flash::success('변경 요청이 접수되었습니다.');
-			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 6, 'dep02' => 0));
+			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0));
 		}
   }
   
@@ -1647,7 +1661,7 @@ class MainController extends Controller
 		$Conn->disConnect();
 		
 		Flash::success(SUCCESS_EDIT);
-		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 5, 'dep02' => 0));
+		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 3, 'dep02' => 0));
   }
   
   private function userSignUp() {

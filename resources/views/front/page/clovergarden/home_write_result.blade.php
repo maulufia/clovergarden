@@ -245,7 +245,7 @@ if($rSuccYn == "y"){
 					<th scope="row" class="first xm_tleft pl30">은행명</th>
 					<td>
 						<div class="xm_left styled-select" style="margin-top:2px; margin-left:0">
-						   {{ $ICHE_OUTBANKNAME }}{{ getCenter_cd($ICHE_OUTBANKNAME) }}
+						   {{ getCenter_cd($ICHE_OUTBANKNAME) }}
 						</div>	
 					</td>
 					<th scope="row" class="first xm_tleft pl30">입금계좌소유주</th>
@@ -265,7 +265,7 @@ if($rSuccYn == "y"){
 					<th scope="row" class="first xm_tleft pl30">은행명</th>
 					<td>
 						<div class="xm_left styled-select" style="margin-top:2px; margin-left:0">
-						   {{ $VIRTUAL_CENTERCD }}{{ getCenter_cd($VIRTUAL_CENTERCD) }}
+						   {{ getCenter_cd($VIRTUAL_CENTERCD) }}
 						</div>	
 					</td>
 					<th scope="row" class="first xm_tleft pl30">입금계좌</th>

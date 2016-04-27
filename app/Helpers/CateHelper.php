@@ -78,9 +78,9 @@ class CateHelper {
 														'signup',
 														'signup_before'
 														);
-		$dep01_factory->mypage = array(
-														'sendmessage',
-														'messagebox',
+		$dep01_factory->mypage = array( // 쪽지, 포인트 삭제 1.아래 sub_cate에도 적용해야 함 2.사이트맵에도 적용해야 함 3. 사이드바에도 적용해야함 4.정말 끔찍한 디자인이다
+														//'sendmessage',
+														//'messagebox',
 														'point',
 														'activity_mypage',
 														'',
@@ -202,8 +202,9 @@ class CateHelper {
             $step02 = array('보낸쪽지','받은쪽지');
             $step04 = array('커뮤니티','나눔 히스토리','나눔 메일박스');
 
-            $cate['sub_cate_01'] = array('회원쪽지보내기','쪽지보관함','포인트조회','나의 활동','공제센터','개인정보수정','후원기관변경','관리자모드');
-            $cate['sub_cate_02'] = array('',$step02,'',$step04,'','','');
+            $cate['sub_cate_01'] = array(/**'회원쪽지보내기','쪽지보관함'**/'포인트조회','나의 활동','공제센터','개인정보수정','후원기관변경'/**,'관리자모드'**/);
+            $cate['sub_cate_02'] = array('',$step04,'','','','','','');
+            //$cate['sub_cate_02'] = array('',$step02,'',$step04,'','','');
 
             //$cate['sub_cate_01'] = array('나의활동','포인트조회','회원쪽지보내기','쪽지보관함','개인정보수정','결제정보수정','관리자모드','공제센터');
             //$cate[sub_cate_02] = array($step04,'','',$step04,'','','');

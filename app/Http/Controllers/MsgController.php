@@ -120,6 +120,17 @@ class MsgController extends Controller
 				$Conn->disConnect();
 			}
 			//======================== DB Module End ===============================
+			
+			// Send Email to Master
+			$subject = "[알림] 단체/그룹신청이 접수되었습니다.";
+			$content = "<html>
+										<head>
+										</head>
+										<body>
+											<p><b>내용</b><br>{$S_content}</p>
+										</body>
+										</html>";
+			$mail = \MailHelper::sendMail(EMAIL_MASTER, $subject, $content);
 		}
 		
 		$Conn->DisConnect();

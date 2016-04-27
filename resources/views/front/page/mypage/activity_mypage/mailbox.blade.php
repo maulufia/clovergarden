@@ -30,8 +30,6 @@
 	<article class="brd_tab_list tab195">
 		<h2>후원기관</h2>
 
-
-
 		<?php
 		if(count($nClovermlist_login->page_result) > 0){
 			for($i=0, $cnt_list = count($nClovermlist_login->page_result); $i < $cnt_list; $i++) {
@@ -84,7 +82,7 @@
 			<div class="box5-wrapper">
 				<div class="box5 <?php if($i%4==3) echo "box5_last"; ?>">
 					<div class="img">
-					<a href="javascript:news_popup({{ $nClovernews->seq }});">
+					<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}">
 						<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
 					</a>
 					</div>
@@ -106,7 +104,20 @@
 		} else { ?>
 		회원님의 후원 목록이 존재하지 않습니다.
 		<?php } ?>
+		
+		<div class="xm_clr"></div>
 
+		<div class="paging">
+		<?php
+			if($nClovernews->total_record != 0){
+				$nPage = new PageOut();
+				$nPage->CustomPageList($nClovernews->total_record, $page_no, $nClovernews->page_view, $nClovernews->page_set, $nClovernews->page_where, 'pageNumber','');
+			}
+		?>
+		</div>
+		<form name="form_submit" method="POST" action="{{ $list_link }}" style="display:inline">
+			{{ UserHelper::SubmitHidden() }}
+		</form>
 		
 	</article>
 </section>
