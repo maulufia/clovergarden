@@ -45,6 +45,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \clovergarden\Http\Middleware\Authenticate::class,
+        'auth.api' => \clovergarden\Http\Middleware\AuthenticateToken::class,
         'auth.admin' => \clovergarden\Http\Middleware\AuthenticateAdmin::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \clovergarden\Http\Middleware\RedirectIfAuthenticated::class,

@@ -156,7 +156,12 @@ return [
         clovergarden\Providers\AuthServiceProvider::class,
         clovergarden\Providers\EventServiceProvider::class,
         clovergarden\Providers\RouteServiceProvider::class,
+        
+        /*
+         * Custom Providers
+         */
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Dingo\Api\Provider\LaravelServiceProvider::class,
         
         /*
          * Flash

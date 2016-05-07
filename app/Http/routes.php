@@ -19,6 +19,54 @@ Route::get('/', function () {
 // Route::get('/login', 'MainController@showLogin')->middleware('auth');
 
 
+/*
+|--------------------------------------------------------------------------
+| JSON API Routes
+|--------------------------------------------------------------------------
+|
+| This route is for JSON response API
+| BY JM
+|
+*/
+
+$api = app('Dingo\Api\Routing\Router');
+
+// auth.api middleware should receive 'api_token' parameter
+$api->version('v1', ['middleware' => 'auth.api'], function($api) {
+	$api->post('/user', 'clovergarden\Http\Controllers\ApiController@getUser');
+	$api->post('/user/me', 'clovergarden\Http\Controllers\ApiController@getMyDetail');
+	$api->post('/user/me/support', 'clovergarden\Http\Controllers\ApiController@getSupList');
+});
+
+$api->version('v1', function($api) {
+	// Login
+	$api->post('/user/login', 'clovergarden\Http\Controllers\ApiController@login');
+	
+	// Sign Up
+	$api->post('/user/signup', 'clovergarden\Http\Controllers\ApiController@signup');
+	
+	// Find ID
+	$api->post('/user/findId', 'clovergarden\Http\Controllers\ApiController@findId');
+	
+	// Find PW
+	$api->post('/user/findPw', 'clovergarden\Http\Controllers\ApiController@findPw');
+	
+	// Get List of Companies
+	$api->get('/company/list', 'clovergarden\Http\Controllers\ApiController@getListOfCompany');
+	
+	// Get Company's Detail
+	$api->get('/company/{id}', 'clovergarden\Http\Controllers\ApiController@getCompanyDetail');
+	
+	// Get Notices
+	$api->get('/board/notice', 'clovergarden\Http\Controllers\ApiController@getNotices');
+	
+	// Get FAQs
+	$api->get('/board/faq', 'clovergarden\Http\Controllers\ApiController@getFaqs');
+	
+	// send Auth SMS
+	$api->get('/sms/auth', 'clovergarden\Http\Controllers\ApiController@sendAuthSms');
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -215,5 +263,10 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/agspay/AGS_progress', 'ChargeController@showProgress')->name('agspay/AGS_progress');
 	Route::post('/agspay/AGS_pay_ing', 'ChargeController@showAGSPay')->name('agspay/AGS_pay_ing');
 	Route::any('/agspay/AGS_VirAcctResult', 'ChargeController@showVirAcctResult')->name('agspay/AGS_VirAcctResult');
+	
+	# API DOCS #
+	Route::get('docs', function(){
+		return View::make('docs."api.v1".index');
+	});
 
 });

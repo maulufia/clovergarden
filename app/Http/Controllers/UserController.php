@@ -317,9 +317,9 @@ class UserController extends Controller
     	// 이 구문이 왜 필요한지 개발한 사람은 아는 걸까?
     } elseif( !($this->isMD5Password($checkPw, $nMember->user_pw) || $this->isBcryptPassword($checkPw, $nMember->user_pw)) ){
       // 비밀번호가 MD5, Bcrypt 둘 다 틀릴 경우
-  		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 2, 'dep02' => 0));
+  		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 3, 'dep02' => 0));
     } else {
-			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 2, 'dep02' => 0, 'type' => 'edit'));  
+			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 3, 'dep02' => 0, 'type' => 'edit'));  
     }
 
   }
