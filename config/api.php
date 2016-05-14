@@ -57,7 +57,7 @@ return [
     |
     */
 
-    'prefix' => env('API_PREFIX', 'api/v1'),
+    'prefix' => env('API_PREFIX', 'v1'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +168,6 @@ return [
     */
 
     'auth' => [
-        'basic' => 'Dingo\Api\Auth\Provider\Basic'
     ],
 
     /*

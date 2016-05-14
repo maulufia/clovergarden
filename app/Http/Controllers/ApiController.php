@@ -3,6 +3,7 @@
 namespace clovergarden\Http\Controllers;
 
 use Auth, URL, Hash, DB, Input;
+use DateTime;
 
 class ApiController extends Controller
 {
@@ -94,8 +95,8 @@ class ApiController extends Controller
 	/**
 	 * 아이디 찾기
 	 * @param  $user_name 회원 이름
-	 * @param  $phone 핸드폰 번호
-	 * @return [JSON] 아이디
+	 * @param  $phone 		핸드폰 번호
+	 * @return [JSON] 		아이디
 	 */
 	public function findId()
 	{
@@ -108,6 +109,12 @@ class ApiController extends Controller
 		}
 	}
 	
+	/**
+	 * 비밀번호 찾기
+	 * @param  $user_name 회원 이름
+	 * @param  $phone 		핸드폰 번호
+	 * @return [JSON] 	  sendSms 리턴값
+	 */
 	public function findPw()
 	{
 		$user_id = Input::get('user_id');
@@ -153,6 +160,31 @@ class ApiController extends Controller
 			);
 		
 		return json_encode($user_detail);
+	}
+	
+	/**
+	 * 프로필 사진 업로드
+	 * @param  upload_pic 파일
+	 * @return JSON 성공 시 success
+	 */
+	public function uploadProfilePic()
+	{
+		// Image Upload
+		if (Input::file('upload_pic')->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/member';
+			
+			$fileExt = Input::file('upload_pic')->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '.' . $fileExt;
+			Input::file('upload_pic')->move($destinationPath, $fileName);
+		
+			// Manipulate Database
+			$user = DB::table('new_tb_member')->where('user_id', '=', Auth::user()->user_id)->update(['file_edit1' => "imgs/up_file/member/" . $fileName]);
+
+			
+			return response()->json(['success' => 'upload_success'], 401);
+		}
+		
+		return response()->json(['error' => 'failed_to_upload'], 401);
 	}
 	
 	/**
@@ -230,6 +262,336 @@ class ApiController extends Controller
 		$data = array('auth_code' => $auth_num);
 		
 		return json_encode($data);
+	}
+	
+	/**
+	 * 사용자의 타임라인을 받아온다.
+	 * 후원기관 목록을 얻어오는 것은 나중에 private 메소드로 분리할 것.
+	 * protected-urgency, public-urgency 순. 일반과 보고서는 날짜순으로만 정렬.
+	 * @param int only_report 리포트만 받아온다. (0: false, 1: true)
+	 * @return JSON 게시물 리스트
+	 */
+	public function getTimelineList()
+	{	
+		$clover_seq_adm_type = explode("[@@]", Auth::user()->clover_seq_adm_type);
+		$clover_list = null;
+		$clover_codes = array();
+		
+		if(count($clover_seq_adm_type) > 1){ // 후원변경 신청. 관리자의 승인이 된 경우
+			if($clover_seq_adm_type[1] == 'ok')
+				$clover_list = explode("[@@@]", Auth::user()->clover_seq);
+		} else { // 후원변경 신청. 관리자의 승인이 안된 경우
+			$ex_clover_seq_adm = explode("[@@@@]", Auth::user()->clover_seq_adm);
+			$clover_list = explode("[@@@]", $ex_clover_seq_adm[0]);
+		}
+		
+		// 코드 배열 생성
+		foreach ($clover_list as $cl) {
+			array_push($clover_codes, explode("[@@]", $cl)[0]);
+		}
+		
+		// 후원변경 신청을 하지 않은 경우
+		if (Auth::user()->clover_seq == '' || empty($clover_list[0])) {
+			$clover_list = DB::table('new_tb_clover_mlist')->where('id', '=', Auth::user()->user_id)->select('clover_seq')->get();
+		
+			// 코드 배열 생성
+			$clover_codes = array(); // 예외 대비 초기화
+			foreach ($clover_list as $cl) {
+				array_push($clover_codes, $cl->clover_seq);
+			}
+		}
+		
+		// Protected, 후원 기관인 article 받아오기
+		$articles_protected_urgency = DB::table('cg_board')
+																	->where('limitation', '=', 'protected')
+																	->where(function($query) use ($clover_codes) {
+																		foreach ($clover_codes as $cc) {
+																			$query->orWhere('clover_code', '=', $cc);
+																		}
+																	})
+																	->where('type', '=', 'urgency')->get();
+																	
+		$articles_protected_normal = DB::table('cg_board')
+																	->where('limitation', '=', 'protected')
+																	->where(function($query) use ($clover_codes) {
+																		foreach ($clover_codes as $cc) {
+																			$query->orWhere('clover_code', '=', $cc);
+																		}
+																	})
+																	->where('type', '=', 'normal')->get();															
+		
+		// Public인 article 받아오기
+		$articles_public_urgency = DB::table('cg_board')->where('limitation', '=', 'public')->where('type', '=', 'urgency')->get();
+		$articles_public_normal = DB::table('cg_board')->where('limitation', '=', 'public')->where('type', '=', 'normal')->get();
+		
+		// 보고서 받아오기
+		$articles_report = DB::table('new_tb_clovernews')
+												->where(function($query) use ($clover_codes) {
+													foreach ($clover_codes as $cc) {
+														$query->orWhere('clover_seq', '=', $cc);
+													}
+												})
+												->get();
+												
+		// 일반 게시물, 보고서 소팅
+		$articles_before = array();
+		foreach ($articles_protected_normal as $apu) {
+			array_push($articles_before, $apu);
+		}
+		foreach ($articles_public_normal as $apu) {
+			array_push($articles_before, $apu);
+		}
+		foreach ($articles_report as $ar) {
+			array_push($articles_before, $ar);
+		}
+		
+		usort($articles_before, array("clovergarden\Http\Controllers\ApiController", "sortTimeline"));
+		
+		// 순서를 설정하여 리턴
+		$articles = array();
+		if (Input::get('only_report') ? Input::get('only_report') == 0 : true) {
+			foreach ($articles_protected_urgency as $apu) {
+				array_push($articles, $apu);
+			}
+			foreach ($articles_public_urgency as $apu) {
+				array_push($articles, $apu);
+			}
+			foreach ($articles_before as $ab) {
+				array_push($articles, $ab);
+			}
+		} else { // 보고서만 받아온다.
+			foreach ($articles_report as $ar) {
+				array_push($articles, $ar);
+			}
+		}
+							
+		return json_encode($articles);
+	}
+	
+	/**
+	 * 타임라인 게시물 세부 내용
+	 * API 콜 시 조회수 +1
+	 * @param int board_id 게시물 ID
+	 * @return JSON 게시물 상세
+	 */
+	public function getTimelineDetail()
+	{
+		$board_id = Input::get('board_id');
+		
+		$article = DB::table('cg_board')->where('id', '=', $board_id)->get();	
+		DB::table('cg_board')->where('id', '=', $board_id)->increment('hit');
+		
+		return json_encode($article);
+	}
+	
+	/**
+	 * 타임라인 글쓰기
+	 * @param string type 게시물 타입 (urgency: 긴급 후원, normal: 일반, report: 보고서 // report는 쓰이지 않음)
+	 * @param string text 게시물 텍스트 (제목 아님)
+	 * @param file image 이미지 파일
+	 * @param string limitation 권한 (public: 전체 공개, protected: 후원자만 공개, private: 비공개)
+	 * @return JSON 성공 메시지
+	 */
+	public function writeTimeline()
+	{
+		$clover_code = Auth::user()->user_id;
+		$type = Input::get('type');
+		$text = Input::get('text');
+		$image_path = null;
+		$limitation = Input::get('limitation');
+		
+		// Image Upload
+		if (Input::file('image') && Input::file('image')->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+			
+			$fileExt = Input::file('image')->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_' . mt_rand(0, 99999) . '.' . $fileExt;
+			Input::file('image')->move($destinationPath, $fileName);
+			
+			$image_path = $fileName;
+		}
+		
+		// Manipulate Database
+		$dt = new DateTime;
+		$article = DB::table('cg_board')->insert(
+			['clover_code' => $clover_code,
+			 'type' => $type,
+			 'text' => $text,
+			 'image_path' => $this->BASE_URL . "/imgs/up_file/board/" . $image_path,
+			 'limitation' => $limitation,
+			 'created_at' => $dt->format('y-m-d [H:i:s]'),
+			 'updated_at' => $dt->format('y-m-d [H:i:s]')
+		 ]	
+		);
+		
+		return response()->json(['success' => 'write_success'], 401);
+	}
+	
+	/**
+	 * 타임라인 수정
+	 * @param int board_id ID
+	 * @param string type 게시물 타입 (urgency: 긴급 후원, normal: 일반, report: 보고서 // report는 쓰이지 않음)
+	 * @param string text 게시물 텍스트 (제목 아님)
+	 * @param file image 이미지 파일
+	 * @param string limitation 권한 (public: 전체 공개, protected: 후원자만 공개, private: 비공개)
+	 * @return JSON 성공 메시지
+	 */
+	public function modifyTimeline()
+	{
+		$board_id = Input::get('board_id');
+		$clover_code = Auth::user()->user_id;
+		$type = Input::get('type');
+		$text = Input::get('text');
+		$image_path = null;
+		$limitation = Input::get('limitation');
+		
+		// Image Upload
+		if (Input::file('image') && Input::file('image')->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+			
+			$fileExt = Input::file('image')->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_' . mt_rand(0, 99999) . '.' . $fileExt;
+			Input::file('image')->move($destinationPath, $fileName);
+			
+			$image_path = $fileName;
+		}
+		
+		// Manipulate Database
+		$dt = new DateTime;
+		$article = DB::table('cg_board')->where('id', '=', $board_id)->where('clover_code', '=', $clover_code)->update(
+			['clover_code' => $clover_code,
+			 'type' => $type,
+			 'text' => $text,
+			 'image_path' => $this->BASE_URL . "/imgs/up_file/board/" . $image_path,
+			 'limitation' => $limitation,
+			 'updated_at' => $dt->format('y-m-d [H:i:s]')
+		 ]	
+		);
+		
+		if (!$article) {
+			return response()->json(['error' => 'update_failed'], 401);
+		}
+		
+		return response()->json(['success' => 'update_success'], 401);
+	}
+	
+	/**
+	 * 타임라인 삭제
+	 * @param int board_id ID
+	 * @return JSON 성공 메시지
+	 */
+	public function deleteTimeline()
+	{
+		$board_id = Input::get('board_id');
+		$clover_code = Auth::user()->user_id;
+		
+		$article = DB::table('cg_board')->where('id', '=', $board_id)->where('clover_code', '=', $clover_code)->delete();
+		
+		if (!$article) {
+			return response()->json(['error' => 'delete_failed'], 401);
+		}
+		
+		return response()->json(['success' => 'delete_success'], 401);
+	}
+	
+	/**
+	 * 타임라인 좋아요
+	 * @param int board_id ID
+	 * @return JSON 성공 메시지
+	 */
+	public function likeTimeline()
+	{
+		$board_id = Input::get('board_id');
+		
+		$article = DB::table('cg_board')->where('id', '=', $board_id)->increment('like');
+		
+		return response()->json(['success' => 'like_success'], 401);
+	}
+	
+	/**
+	 * 타임라인 댓글 불러오기
+	 * @param int board_id 게시물 ID
+	 * @return JSON 댓글 리스트 (+ properties)
+	 */
+	public function getTimelineComment()
+	{
+		$board_id = Input::get('board_id');
+		
+		$comments = DB::table('cg_board_comment')->where('board_id', '=', $board_id)->get();
+		
+		return json_encode($comments);
+	}
+	
+	/**
+	 * 타임라인 댓글 글쓰기
+	 * @param int board_id 게시물 ID
+	 * @param string text 게시물 텍스트 (제목 아님)
+	 * @return JSON 성공 메시지
+	 */
+	public function writeTimelineComment()
+	{
+		$board_id = Input::get('board_id');
+		$member_id = Auth::user()->id;
+		$text = Input::get('text');
+		
+		// Manipulate Database
+		$dt = new DateTime;
+		$comment = DB::table('cg_board_comment')->insert(
+			['board_id' => $board_id,
+			 'member_id' => $member_id,
+			 'text' => $text,
+			 'created_at' => $dt->format('y-m-d [H:i:s]'),
+			 'updated_at' => $dt->format('y-m-d [H:i:s]')
+		 ]	
+		);
+		
+		return response()->json(['success' => 'write_comment_success'], 401);
+	}
+	
+	/**
+	 * 타임라인 댓글 수정
+	 * @param int comment_id 댓글 ID
+	 * @param string text 게시물 텍스트 (제목 아님)
+	 * @return JSON 성공 메시지
+	 */
+	public function modifyTimelineComment()
+	{
+		$comment_id = Input::get('comment_id');
+		$text = Input::get('text');
+		
+		// Manipulate Database
+		$dt = new DateTime;
+		$comment = DB::table('cg_board_comment')->where('id', '=', $comment_id)->where('member_id', '=', Auth::user()->id)->update(
+			['text' => $text,
+			 'updated_at' => $dt->format('y-m-d [H:i:s]')
+		 ]	
+		);
+		
+		if (!$comment) {
+			return response()->json(['error' => 'modify_comment_failed'], 401);
+		}
+		
+		return response()->json(['success' => 'modify_comment_success'], 401);
+	}
+	
+	/**
+	 * 타임라인 댓글 삭제
+	 * @param int comment_id 댓글 ID
+	 * @return JSON 성공 메시지
+	 */
+	public function deleteTimelineComment()
+	{
+		$comment_id = Input::get('comment_id');
+		
+		// Manipulate Database
+		$dt = new DateTime;
+		$comment = DB::table('cg_board_comment')->where('id', '=', $comment_id)->where('member_id', '=', Auth::user()->id)->delete();
+
+		if (!$comment) {
+			return response()->json(['error' => 'delete_comment_failed'], 401);
+		}
+		
+		return response()->json(['success' => 'delete_comment_success'], 401);
 	}
 	
 	/**
@@ -323,12 +685,31 @@ class ApiController extends Controller
 	 * @param  [Integer] $phone 	핸드폰 번호
 	 * @return [String]   				하이픈 포함된 핸드폰 번호
 	 */
-	private function formatPhoneNumberForSms($phone) {
+	private function formatPhoneNumberForSms($phone) 
+	{
 		$str_phone1 = substr($phone, 0, 3);
 		$str_phone2 = substr($phone, 3, 4);
 		$str_phone3 = substr($phone, 7, 4);
 		
 		return $str_phone1 . "-" . $str_phone2 . "-" . $str_phone3;
+	}
+	
+	/**
+	 * 일반 게시물 & 보고서 소팅 메소드
+	 * @param  stdClass $a [description]
+	 * @param  stdClass $b [description]
+	 * @return int 1일 때 swap
+	 */
+	private function sortTimeline($a, $b)
+	{
+		$a_sortingkey = isset($a->created_at) ? $a->created_at : $a->reg_date;
+		$b_sortingkey = isset($b->created_at) ? $b->created_at : $b->reg_date;
+		
+		if ($a_sortingkey == $b_sortingkey) {
+			return 0;
+		}
+		
+		return ($a_sortingkey > $b_sortingkey) ? -1 : 1;
 	}
 	
 }

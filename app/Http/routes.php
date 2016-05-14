@@ -32,10 +32,29 @@ Route::get('/', function () {
 $api = app('Dingo\Api\Routing\Router');
 
 // auth.api middleware should receive 'api_token' parameter
+// This route need login
 $api->version('v1', ['middleware' => 'auth.api'], function($api) {
 	$api->post('/user', 'clovergarden\Http\Controllers\ApiController@getUser');
 	$api->post('/user/me', 'clovergarden\Http\Controllers\ApiController@getMyDetail');
 	$api->post('/user/me/support', 'clovergarden\Http\Controllers\ApiController@getSupList');
+	$api->post('/user/profile/upload', 'clovergarden\Http\Controllers\ApiController@uploadProfilePic');
+	
+	$api->post('/timeline/comment/write', 'clovergarden\Http\Controllers\ApiController@writeTimelineComment');
+	$api->post('/timeline/comment/modify', 'clovergarden\Http\Controllers\ApiController@modifyTimelineComment');
+	$api->post('/timeline/comment/delete', 'clovergarden\Http\Controllers\ApiController@deleteTimelineComment');
+	
+	$api->post('/timeline/like', 'clovergarden\Http\Controllers\ApiController@likeTimeline');
+	
+	// Get Timeline List
+	$api->get('/timeline/list', 'clovergarden\Http\Controllers\ApiController@getTimelineList');
+});
+
+// auth.api.charge middleware should receive 'api_token' parameter
+// This route need Charge(clover) login
+$api->version('v1', ['middleware' => 'auth.api.charge'], function($api) {
+	$api->post('/timeline/write', 'clovergarden\Http\Controllers\ApiController@writeTimeline');
+	$api->post('/timeline/modify', 'clovergarden\Http\Controllers\ApiController@modifyTimeline');
+	$api->post('/timeline/delete', 'clovergarden\Http\Controllers\ApiController@deleteTimeline');
 });
 
 $api->version('v1', function($api) {
@@ -63,34 +82,15 @@ $api->version('v1', function($api) {
 	// Get FAQs
 	$api->get('/board/faq', 'clovergarden\Http\Controllers\ApiController@getFaqs');
 	
-	// send Auth SMS
+	// Gend Auth SMS
 	$api->get('/sms/auth', 'clovergarden\Http\Controllers\ApiController@sendAuthSms');
+	
+	// Get Timeline Details
+	$api->get('/timeline/get', 'clovergarden\Http\Controllers\ApiController@getTimelineDetail');
+	
+	// Get Timeline Comments
+	$api->get('/timeline/comment/get', 'clovergarden\Http\Controllers\ApiController@getTimelineComment');
 });
-
-
-/*
-|--------------------------------------------------------------------------
-| DebugBar File
-|--------------------------------------------------------------------------
-|
-| These are DebugBar files. manually connected.
-|
-*/
-
-Route::get('/_debugbar/assets/stylesheets', [
-    'as' => 'debugbar-css',
-    'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@css'
-]);
-
-Route::get('/_debugbar/assets/javascript', [
-    'as' => 'debugbar-js',
-    'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@js'
-]);
-
-Route::get('/_debugbar/open', [
-    'as' => 'debugbar-open',
-    'uses' => '\Barryvdh\Debugbar\Controllers\OpenController@handler'
-]);
 
 /*
 |--------------------------------------------------------------------------
