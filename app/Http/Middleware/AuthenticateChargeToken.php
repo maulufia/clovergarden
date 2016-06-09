@@ -18,27 +18,32 @@ class AuthenticateChargeToken
      */
     public function handle($request, Closure $next, $guard = 'api')
     {
-        if (Auth::guard($guard)->guest()) {
-            if ($request->ajax() || $request->wantsJson()) {
-                return response()->json(['error' => 'Unauthorized'], 401);
-            } else {
-                return response()->json(['error' => 'need_login'], 401);
-            }
-        }
+        $this->passAuthWithToken($request->header('api_token'));
         
-        $this->passAuthWithToken($request->input('api_token'));
+        if (!Auth::user()) {
+            return response()->json(['error' => 'api_token_invalid'], 401);
+        }
         
         return $next($request);
     }
     
     /**
      * Request에서 받아온 Token을 이용하여 Auth클래스 초기화
-     * @param  [String] $token api_token
+     * @param  [String] $token api-token
      * @return [None]
      */
     private function passAuthWithToken($token)
     {
-        $id = DB::table('new_tb_member')->where('api_token', '=', $token)->where('user_state', '=', 6)->select('id')->first()->id;
-        Auth::loginUsingId($id);
+        // token이 null일 경우 api_token 필드가 null인 data를 retrieve하므로 token을 ''로 초기화한다.
+        if (!$token) {
+            $token = '';
+        }
+        
+        $user = DB::table('new_tb_member')->where('api_token', '=', $token)->where('user_state', '=', 6)->select('id')->first();
+        if ($user) {
+            Auth::loginUsingId($user->id);
+        } else {
+            return;
+        }
     }
 }

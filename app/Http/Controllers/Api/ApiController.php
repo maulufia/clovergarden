@@ -1,7 +1,8 @@
 <?php
 
-namespace clovergarden\Http\Controllers;
+namespace clovergarden\Http\Controllers\Api;
 
+use clovergarden\Http\Controllers\Controller;
 use Auth, URL, Hash, DB, Input;
 use DateTime;
 
@@ -24,9 +25,10 @@ class ApiController extends Controller
 	public function login()
 	{
 		// MD5로 로그인 가능한 지 체크
+		$passwd = Input::get('passwd') ? Input::get('passwd') : 'dummypassword'; // 패스워드 초기화를 하지 않으면 Auth::attept()가 user_id로만 로그인 해버림
 	  $user = array(
 	      'user_id' => Input::get('id'),
-	      'password' => Input::get('passwd')
+	      'password' => $passwd
 	  );
 	  
 	  $passwd_md5 = md5(Input::get('passwd'));
@@ -60,12 +62,78 @@ class ApiController extends Controller
 		  	DB::table('new_tb_member')->where('user_id', '=', $user['user_id'])->update(['api_token' => $api_token]);
 		  }
 	  	
-	  	return response()->json(['success' => 'login_success', 'token' => $api_token], 401);
+	  	return response()->json(['success' => 'login_success', 'token' => $api_token]);
 	  } else {
 	  	return response()->json(['error' => 'invalid_credentials'], 401);
 	  }
 	  
 	  return response()->json(['error' => 'invalid_credentials'], 401);
+	}
+	
+	/**
+	 * 네이버 로그인 API
+	 * 네이버 API에서 받은 access_token을 이용하여 클로버가든 로그인 기능을 수행한다.
+	 * 
+	 * @param  token   네이버 access_token
+	 * @return [JSON]  성공시 success 메시지
+	 */
+	public function loginNaver()
+	{
+		$token_access_naver = Input::get('token');
+		// $token_access_naver = "AAAAOKyDNNSmU1Zdu4MdEo3LWNoDuccujo7UU6oqvuCQ4++xo1SraDgFLXwl6GtJEEHfx9re3Gk09+66H4B0UYNq+EI=";
+		$phone = Input::get('phone');
+		
+		// 네이버 ID 받아와 데이터베이스에 존재하는지 확인
+		$response = (new \GuzzleHttp\Client)->get('https://apis.naver.com/nidlogin/nid/getUserProfile.xml', [
+        'headers' => [
+        		'Accept' => '*/*',
+            'Authorization' => 'Bearer ' . $token_access_naver,
+        ],
+    ]);
+    
+    $xmlparser = xml_parser_create();
+    $result_array = array();
+    $xml = simplexml_load_string($response->getBody());
+    
+    $xmlJSON = array();
+    if($xml->result[0]->resultcode == '00'){
+			foreach($xml->response->children() as $response => $k){
+				$xmlJSON['response'][(string)$response] = (string) $k;
+			}
+		} else {
+			return response()->json(['error' => 'failed_to_retrieve_data_from_naver', 'msg' => $xml->result], 401);
+		}
+    
+    $api_token = "";
+    $login_id_naver = $xmlJSON['response']['email'];
+    $user_select = DB::table('new_tb_member')->select('id', 'social_type', 'api_token')->where('user_id', '=', $login_id_naver)->first();
+    if($user_select) {
+    	if ($api_token = $user_select->api_token) {
+
+	  	} else { // 토큰이 없을 시 새로 생성
+		  	$api_token = substr( Hash::make(rand()), 0, 60);
+		  	DB::table('new_tb_member')->where('user_id', '=', $login_id_naver)->update(['api_token' => $api_token]);
+		  }
+		  
+		  return response()->json(['success' => 'login_success', 'token' => $api_token]);
+		} else { // If not exist, add the user in DB
+			if (!$phone) {
+				return response()->json(['error' => 'need_phone_number'], 403);
+			}
+			
+			$api_token = substr( Hash::make(rand()), 0, 60);
+			$id = DB::table('new_tb_member')->insertGetId(
+				['user_state' => 2,
+				'user_id' => $login_id_naver,
+				'user_name' => $xmlJSON['response']['name'],
+				'user_cell' => $phone,
+				'social_type' => 'n',
+				'api_token' => $api_token,
+				'profile_image' => $xmlJSON['response']['profile_image']]
+				);
+			
+			return response()->json(['success' => 'login_success', 'token' => $api_token]);
+		}
 	}
 	
 	/**
@@ -89,7 +157,24 @@ class ApiController extends Controller
 				['user_state' => 2, 'user_id' => $user_email, 'password' => $password_bcrypt, 'user_name' => $user_name, 'user_cell' => $phone, 'social_type' => 'n']
 				);
 		
-		return response()->json(['success' => 'join_success', 'id' => $id], 401);
+		return response()->json(['success' => 'join_success', 'id' => $id]);
+	}
+	
+	/**
+	 * 아이디 중복 검사
+	 * @param 	id		회원  아이디 (이메일)
+	 * @return 	JSON 	중복 시 true, 아닐 시 false
+	 */
+	public function checkDuplicateID()
+	{
+		$user_email = Input::get('id');
+		
+		$user = DB::table('new_tb_member')->where('user_id', '=', $user_email)->first();
+		if ($user) {
+			return response()->json(['is_duplicate' => true]);
+		} else {
+			return response()->json(['is_duplicate' => false]);
+		}
 	}
 	
 	/**
@@ -105,7 +190,7 @@ class ApiController extends Controller
 		
 		$user = DB::table('new_tb_member')->where('user_name', '=', $user_name)->where('user_cell', '=', $phone)->first();
 		if ($user) {
-			return response()->json(['id' => $user->user_id], 401);
+			return response()->json(['id' => $user->user_id]);
 		}
 	}
 	
@@ -140,7 +225,7 @@ class ApiController extends Controller
 	public function getUser()
 	{
 		$user = DB::table('new_tb_member')->where('user_id', '=', Auth::user()->user_id)->first();
-		return json_encode($user);
+		return json_encode($user, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -159,7 +244,7 @@ class ApiController extends Controller
 				'total_support' => $member_sup
 			);
 		
-		return json_encode($user_detail);
+		return json_encode($user_detail, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -181,10 +266,10 @@ class ApiController extends Controller
 			$user = DB::table('new_tb_member')->where('user_id', '=', Auth::user()->user_id)->update(['file_edit1' => "imgs/up_file/member/" . $fileName]);
 
 			
-			return response()->json(['success' => 'upload_success'], 401);
+			return response()->json(['success' => 'upload_success']);
 		}
 		
-		return response()->json(['error' => 'failed_to_upload'], 401);
+		return response()->json(['error' => 'failed_to_upload'], 500);
 	}
 	
 	/**
@@ -197,11 +282,12 @@ class ApiController extends Controller
 	public function getSupList()
 	{
 		$member_sup = DB::table('new_tb_clover_mlist')->where('id', '=', Auth::user()->user_id)->where('order_adm_ck', '=', 'y')->get(); // 정기후원은 테스트 확인
-		return json_encode($member_sup);
+		return json_encode($member_sup, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
 	 * 후원 기관 목록 불러옴
+	 * 
 	 * @return seq 							후원 기관 ID
 	 * @return code 						후원 기관 변경 때 쓰이는 code
 	 * @return subject 					후원 기관 명
@@ -212,18 +298,36 @@ class ApiController extends Controller
 	public function getListOfCompany()
 	{
 		$companyList = DB::table('new_tb_clover')->select('seq', 'code', 'subject', 'mobile_intro', 'mobile_thumbnail', 'mobile_image')->get();
-		return json_encode($companyList);
+		return json_encode($companyList, JSON_UNESCAPED_UNICODE);
+	}
+	
+	/**
+	 * 내 후원 기관 목록 불러옴
+	 * 
+	 * @return JSON 후원 기관 목록 API와 같은 형식
+	 */
+	public function getListOfCompanyUser()
+	{
+		$clover_codes = $this->getUserCloverCodes();
+		
+		$companyList = DB::table('new_tb_clover')->where(function($query) use ($clover_codes) {
+																			foreach ($clover_codes as $cc) {
+																				$query->orWhere('code', '=', $cc);
+																			}
+																		})->select('seq', 'code', 'subject', 'mobile_intro', 'mobile_thumbnail', 'mobile_image')->get();
+		return json_encode($companyList, JSON_UNESCAPED_UNICODE);
 	}	
 	
 	/**
 	 * 후원 기관 세부 내역
+	 * 
 	 * @param  [Integer] $company_id 후원 기관 id
 	 * @return [JSON] 	             getListOfCompany()의 return 형식과 같음
 	 */
 	public function getCompanyDetail($company_id)
 	{
 		$company = DB::table('new_tb_clover')->where('seq', '=', $company_id)->select('seq', 'code', 'subject', 'mobile_intro', 'mobile_thumbnail', 'mobile_image')->first();
-		return json_encode($company);
+		return json_encode($company, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -233,7 +337,7 @@ class ApiController extends Controller
 	public function getNotices()
 	{
 		$notices = DB::table('new_tb_notice')->select('subject', 'content', 'reg_date')->get();
-		return json_encode($notices);
+		return json_encode($notices, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -243,7 +347,7 @@ class ApiController extends Controller
 	public function getFaqs()
 	{
 		$faqs = DB::table('new_tb_faq')->select('subject', 'content', 'reg_date')->get();
-		return json_encode($faqs);
+		return json_encode($faqs, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -261,132 +365,72 @@ class ApiController extends Controller
 		$result = $this->sendSms($msg, $this->formatPhoneNumberForSms($phone));
 		$data = array('auth_code' => $auth_num);
 		
-		return json_encode($data);
+		return json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
 	 * 사용자의 타임라인을 받아온다.
-	 * 후원기관 목록을 얻어오는 것은 나중에 private 메소드로 분리할 것.
-	 * protected-urgency, public-urgency 순. 일반과 보고서는 날짜순으로만 정렬.
-	 * @param int only_report 리포트만 받아온다. (0: false, 1: true)
+	 *
+	 * @param int (Optional) only_report 리포트만 받아온다. (0: false, 1: true)
 	 * @return JSON 게시물 리스트 + 댓글 수
 	 */
-	public function getTimelineList()
+	public function getUserTimeline()
 	{	
-		$clover_seq_adm_type = explode("[@@]", Auth::user()->clover_seq_adm_type);
-		$clover_list = null;
-		$clover_codes = array();
+		$clover_codes = $this->getUserCloverCodes();
+		$only_report = Input::get('only_report') ? Input::get('only_report') == 1 : false;
 		
-		if(count($clover_seq_adm_type) > 1){ // 후원변경 신청. 관리자의 승인이 된 경우
-			if($clover_seq_adm_type[1] == 'ok')
-				$clover_list = explode("[@@@]", Auth::user()->clover_seq);
-		} else { // 후원변경 신청. 관리자의 승인이 안된 경우
-			$ex_clover_seq_adm = explode("[@@@@]", Auth::user()->clover_seq_adm);
-			$clover_list = explode("[@@@]", $ex_clover_seq_adm[0]);
-		}
-		
-		// 코드 배열 생성
-		foreach ($clover_list as $cl) {
-			array_push($clover_codes, explode("[@@]", $cl)[0]);
-		}
-		
-		// 후원변경 신청을 하지 않은 경우
-		if (Auth::user()->clover_seq == '' || empty($clover_list[0])) {
-			$clover_list = DB::table('new_tb_clover_mlist')->where('id', '=', Auth::user()->user_id)->where('order_adm_ck', '=', 'y')->select('clover_seq')->get();
-		
-			// 코드 배열 생성
-			$clover_codes = array(); // 예외 대비 초기화
-			foreach ($clover_list as $cl) {
-				array_push($clover_codes, $cl->clover_seq);
-			}
-		}
-		
-		// Protected, 후원 기관인 article 받아오기
-		$articles_protected_urgency = DB::table('cg_board')
-																	->where('limitation', '=', 'protected')
-																	->where(function($query) use ($clover_codes) {
-																		foreach ($clover_codes as $cc) {
-																			$query->orWhere('clover_code', '=', $cc);
-																		}
-																	})
-																	->where('type', '=', 'urgency')
-																	->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id')
-																	->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'))
-																	->groupBy('cg_board.id')
-																	->get();
-																	
-		$articles_protected_normal = DB::table('cg_board')
-																	->where('limitation', '=', 'protected')
-																	->where(function($query) use ($clover_codes) {
-																		foreach ($clover_codes as $cc) {
-																			$query->orWhere('clover_code', '=', $cc);
-																		}
-																	})
-																	->where('type', '=', 'normal')
-																	->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id')
-																	->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'))
-																	->groupBy('cg_board.id')
-																	->get();															
-		
+		// 타임라인 받아오기
+		return $this->getTimelineFromDB($clover_codes, $only_report);
+	}
+	
+	/**
+	 * 전체 타임라인을 받아온다. (public만)
+	 * 
+	 * @return JSON 게시물 리스트 + 댓글 수
+	 */
+	public function getTimelineAll()
+	{
+		return $this->getTimelineFromDB();
+	}
+	
+	/**
+	 * 특정 후원기관의 public 게시물만 받아옴 (당연히 보고서는 받아오지 않음. urgency, normal 순)
+	 * 
+	 * @param  string $clover_code 	후원기관 코드 (예: a01)
+	 * @return JSON             		게시물 리스트 + 댓글 수
+	 */
+	public function getTimelineClover($clover_code)
+	{
 		// Public인 article 받아오기
 		$articles_public_urgency = DB::table('cg_board')
 																->where('limitation', '=', 'public')
 																->where('type', '=', 'urgency')
+																->where('clover_code', '=', $clover_code)
+																->leftJoin('new_tb_clover', 'cg_board.clover_code', '=', 'new_tb_clover.code')
 																->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id')
-																->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'))
+																->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'), 'new_tb_clover.subject as clover_name')
 																->groupBy('cg_board.id')
 																->get();
 																
 		$articles_public_normal = DB::table('cg_board')
 																->where('limitation', '=', 'public')
 																->where('type', '=', 'normal')
+																->where('clover_code', '=', $clover_code)
+																->leftJoin('new_tb_clover', 'cg_board.clover_code', '=', 'new_tb_clover.code')
 																->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id')
-																->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'))
+																->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'), 'new_tb_clover.subject as clover_name')
 																->groupBy('cg_board.id')
 																->get();
-		
-		// 보고서 받아오기
-		$articles_report = DB::table('new_tb_clovernews')
-												->where(function($query) use ($clover_codes) {
-													foreach ($clover_codes as $cc) {
-														$query->orWhere('clover_seq', '=', $cc);
-													}
-												})
-												->get();
-												
-		// 일반 게시물, 보고서 소팅
-		$articles_before = array();
-		foreach ($articles_protected_normal as $apu) {
-			array_push($articles_before, $apu);
+																
+		$articles = array();
+		foreach ($articles_public_urgency as $apu) {
+			array_push($articles, $apu);
 		}
 		foreach ($articles_public_normal as $apu) {
-			array_push($articles_before, $apu);
-		}
-		foreach ($articles_report as $ar) {
-			array_push($articles_before, $ar);
+			array_push($articles, $apu);
 		}
 		
-		usort($articles_before, array("clovergarden\Http\Controllers\ApiController", "sortTimeline"));
-		
-		// 순서를 설정하여 리턴
-		$articles = array();
-		if (Input::get('only_report') ? Input::get('only_report') == 0 : true) {
-			foreach ($articles_protected_urgency as $apu) {
-				array_push($articles, $apu);
-			}
-			foreach ($articles_public_urgency as $apu) {
-				array_push($articles, $apu);
-			}
-			foreach ($articles_before as $ab) {
-				array_push($articles, $ab);
-			}
-		} else { // 보고서만 받아온다.
-			foreach ($articles_report as $ar) {
-				array_push($articles, $ar);
-			}
-		}
-							
-		return json_encode($articles);
+		return json_encode($articles, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -400,7 +444,7 @@ class ApiController extends Controller
 		$article = DB::table('cg_board')->where('id', '=', $board_id)->get();	
 		DB::table('cg_board')->where('id', '=', $board_id)->increment('hit');
 		
-		return json_encode($article);
+		return json_encode($article, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -443,7 +487,7 @@ class ApiController extends Controller
 		 ]	
 		);
 		
-		return response()->json(['success' => 'write_success'], 401);
+		return response()->json(['success' => 'write_success']);
 	}
 	
 	/**
@@ -487,10 +531,10 @@ class ApiController extends Controller
 		);
 		
 		if (!$article) {
-			return response()->json(['error' => 'update_failed'], 401);
+			return response()->json(['error' => 'update_failed'], 500);
 		}
 		
-		return response()->json(['success' => 'update_success'], 401);
+		return response()->json(['success' => 'update_success']);
 	}
 	
 	/**
@@ -505,10 +549,10 @@ class ApiController extends Controller
 		$article = DB::table('cg_board')->where('id', '=', $board_id)->where('clover_code', '=', $clover_code)->delete();
 		
 		if (!$article) {
-			return response()->json(['error' => 'delete_failed'], 401);
+			return response()->json(['error' => 'delete_failed'], 500);
 		}
 		
-		return response()->json(['success' => 'delete_success'], 401);
+		return response()->json(['success' => 'delete_success']);
 	}
 	
 	/**
@@ -520,7 +564,7 @@ class ApiController extends Controller
 	{	
 		$article = DB::table('cg_board')->where('id', '=', $board_id)->increment('like');
 		
-		return response()->json(['success' => 'like_success'], 401);
+		return response()->json(['success' => 'like_success']);
 	}
 	
 	/**
@@ -532,7 +576,7 @@ class ApiController extends Controller
 	{		
 		$comments = DB::table('cg_board_comment')->where('board_id', '=', $board_id)->get();
 		
-		return json_encode($comments);
+		return json_encode($comments, JSON_UNESCAPED_UNICODE);
 	}
 	
 	/**
@@ -558,7 +602,7 @@ class ApiController extends Controller
 		 ]	
 		);
 		
-		return response()->json(['success' => 'write_comment_success'], 401);
+		return response()->json(['success' => 'write_comment_success']);
 	}
 	
 	/**
@@ -580,10 +624,10 @@ class ApiController extends Controller
 		);
 		
 		if (!$comment) {
-			return response()->json(['error' => 'modify_comment_failed'], 401);
+			return response()->json(['error' => 'modify_comment_failed'], 500);
 		}
 		
-		return response()->json(['success' => 'modify_comment_success'], 401);
+		return response()->json(['success' => 'modify_comment_success']);
 	}
 	
 	/**
@@ -598,10 +642,10 @@ class ApiController extends Controller
 		$comment = DB::table('cg_board_comment')->where('id', '=', $comment_id)->where('member_id', '=', Auth::user()->id)->delete();
 
 		if (!$comment) {
-			return response()->json(['error' => 'delete_comment_failed'], 401);
+			return response()->json(['error' => 'delete_comment_failed'], 500);
 		}
 		
-		return response()->json(['success' => 'delete_comment_success'], 401);
+		return response()->json(['success' => 'delete_comment_success']);
 	}
 	
 	/**
@@ -664,12 +708,12 @@ class ApiController extends Controller
 		
 		// Original 가격과 새로운 가격 비교
 		if ($org_clover_prices != $sum_of_prices) {
-			return response()->json(['error' => 'price_not_matching'], 401);
+			return response()->json(['error' => 'price_not_matching'], 403);
 		}
 
 		// 중복된 값 확인
 		if ( count($clover_codes) != count(array_unique($clover_codes)) ) {
-			return response()->json(['error' => 'duplicated_clover_code'], 401);
+			return response()->json(['error' => 'duplicated_clover_code'], 403);
 		}
 		
 		// 에러 없을 시 Manipulate Database
@@ -689,7 +733,7 @@ class ApiController extends Controller
 			 'update_ck' => 'Y']
 		);
 		
-		return response()->json(['success' => 'success_change_clover'], 401);
+		return response()->json(['success' => 'success_change_clover']);
 	}
 	
 	/**
@@ -763,15 +807,15 @@ class ApiController extends Controller
 
 			//발송결과 알림
 			if($result_send == "success") {
-				$result = response()->json(['success' => 'send_success', 'rest' => $count], 401);
+				$result = response()->json(['success' => 'send_success', 'rest' => $count]);
 			}	else if($result_send == "reserved") {
-				$result = response()->json(['success' => 'reserved_success', 'rest' => $count], 401);
+				$result = response()->json(['success' => 'reserved_success', 'rest' => $count]);
 			}	else if($result_send == "3205") {
-				$result = response()->json(['error' => 'wrong_type_of_phone_number'], 401);
+				$result = response()->json(['error' => 'wrong_type_of_phone_number'], 403);
 			}	else if($result_send == "0044") {
-				$result = response()->json(['error' => 'spam_message'], 401);
+				$result = response()->json(['error' => 'spam_message'], 403);
 			}	else {
-				$result = response()->json(['error' => $result_send], 401);
+				$result = response()->json(['error' => $result_send], 403);
 			}
 		}
 		
@@ -808,6 +852,157 @@ class ApiController extends Controller
 		}
 		
 		return ($a_sortingkey > $b_sortingkey) ? -1 : 1;
+	}
+	
+	/**
+	 * 타임라인
+	 * protected-urgency, public-urgency 순. 일반(protected-normal, public-normal)과 보고서는 날짜순으로만 정렬
+	 * 
+	 * @param  array $clover_codes  클로버 seq 배열
+	 * @return array                타임라인 리스트
+	 */
+	private function getTimelineFromDB($clover_codes = null, $only_report = false)
+	{
+		if ($clover_codes) { // clover_codes가 null이면 protected 게시물은 받아오지 않는다. (전체 타임라인 받아올 때 사용)
+			// Protected, 후원 기관인 article 받아오기
+			$articles_protected_urgency = DB::table('cg_board')
+																		->where('limitation', '=', 'protected')
+																		->where(function($query) use ($clover_codes) {
+																			foreach ($clover_codes as $cc) {
+																				$query->orWhere('clover_code', '=', $cc);
+																			}
+																		})
+																		->where('type', '=', 'urgency')
+																		->leftJoin('new_tb_clover', 'cg_board.clover_code', '=', 'new_tb_clover.code')
+																		->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id')
+																		->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'), 'new_tb_clover.subject as clover_name')
+																		->groupBy('cg_board.id')
+																		->get();
+																		
+			$articles_protected_normal = DB::table('cg_board')
+																		->where('limitation', '=', 'protected')
+																		->where(function($query) use ($clover_codes) {
+																			foreach ($clover_codes as $cc) {
+																				$query->orWhere('clover_code', '=', $cc);
+																			}
+																		})
+																		->where('type', '=', 'normal')
+																		->leftJoin('new_tb_clover', 'cg_board.clover_code', '=', 'new_tb_clover.code')
+																		->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id', 'new_tb_clover.subject as clover_name')
+																		->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'))
+																		->groupBy('cg_board.id')
+																		->get();
+		}															
+		
+		// Public인 article 받아오기
+		$articles_public_urgency = DB::table('cg_board')
+																->where('limitation', '=', 'public')
+																->where('type', '=', 'urgency')
+																->leftJoin('new_tb_clover', 'cg_board.clover_code', '=', 'new_tb_clover.code')
+																->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id')
+																->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'), 'new_tb_clover.subject as clover_name')
+																->groupBy('cg_board.id')
+																->get();
+																
+		$articles_public_normal = DB::table('cg_board')
+																->where('limitation', '=', 'public')
+																->where('type', '=', 'normal')
+																->leftJoin('new_tb_clover', 'cg_board.clover_code', '=', 'new_tb_clover.code')
+																->leftJoin('cg_board_comment', 'cg_board.id', '=', 'cg_board_comment.board_id')
+																->select('cg_board.*', DB::raw('count(cg_board_comment.id) as comment_count'), 'new_tb_clover.subject as clover_name')
+																->groupBy('cg_board.id')
+																->get();
+		
+		// 보고서 받아오기
+		if ($clover_codes) { // clover_codes가 null이면 보고서를 받아오지 않는다. (보고서는 무조건 protected or private)
+			$articles_report = DB::table('new_tb_clovernews')
+													->where(function($query) use ($clover_codes) {
+														foreach ($clover_codes as $cc) {
+															$query->orWhere('clover_seq', '=', $cc);
+														}
+													})
+													->get();
+		}
+												
+		// 일반 게시물, 보고서 소팅
+		$articles_before = array();
+		if (isset($articles_protected_normal)) {
+			foreach ($articles_protected_normal as $apu) {
+				array_push($articles_before, $apu);
+			}
+		}
+		foreach ($articles_public_normal as $apu) {
+			array_push($articles_before, $apu);
+		}
+		if (isset($articles_report)) {
+			foreach ($articles_report as $ar) {
+				array_push($articles_before, $ar);
+			}
+		}
+		
+		usort($articles_before, array("clovergarden\Http\Controllers\Api\ApiController", "sortTimeline"));
+		
+		// 순서를 설정하여 리턴
+		$articles = array();
+		if (!$only_report) {
+			if (isset($articles_protected_urgency)) {
+				foreach ($articles_protected_urgency as $apu) {
+					array_push($articles, $apu);
+				}
+			}
+			foreach ($articles_public_urgency as $apu) {
+				array_push($articles, $apu);
+			}
+			foreach ($articles_before as $ab) {
+				array_push($articles, $ab);
+			}
+		} else { // 보고서만 받아온다.
+			if (isset($articles_report)) {
+				foreach ($articles_report as $ar) {
+					array_push($articles, $ar);
+				}
+			}
+		}
+							
+		return json_encode($articles, JSON_UNESCAPED_UNICODE);
+	}
+	
+	/**
+	 * 사용자가 후원하는 기관의 코드 배열 반환
+	 * 
+	 * @return array 기관 코드 배열
+	 */
+	private function getUserCloverCodes()
+	{
+		$clover_seq_adm_type = explode("[@@]", Auth::user()->clover_seq_adm_type);
+		$clover_list = null;
+		$clover_codes = array();
+		
+		if(count($clover_seq_adm_type) > 1){ // 후원변경 신청. 관리자의 승인이 된 경우
+			if($clover_seq_adm_type[1] == 'ok')
+				$clover_list = explode("[@@@]", Auth::user()->clover_seq);
+		} else { // 후원변경 신청. 관리자의 승인이 안된 경우
+			$ex_clover_seq_adm = explode("[@@@@]", Auth::user()->clover_seq_adm);
+			$clover_list = explode("[@@@]", $ex_clover_seq_adm[0]);
+		}
+		
+		// 코드 배열 생성
+		foreach ($clover_list as $cl) {
+			array_push($clover_codes, explode("[@@]", $cl)[0]);
+		}
+		
+		// 후원변경 신청을 하지 않은 경우
+		if (Auth::user()->clover_seq == '' || empty($clover_list[0])) {
+			$clover_list = DB::table('new_tb_clover_mlist')->where('id', '=', Auth::user()->user_id)->where('order_adm_ck', '=', 'y')->select('clover_seq')->get();
+		
+			// 코드 배열 생성
+			$clover_codes = array(); // 예외 대비 초기화
+			foreach ($clover_list as $cl) {
+				array_push($clover_codes, $cl->clover_seq);
+			}
+		}
+		
+		return $clover_codes;
 	}
 	
 }

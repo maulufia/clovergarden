@@ -34,63 +34,76 @@ $api = app('Dingo\Api\Routing\Router');
 // auth.api middleware should receive 'api_token' parameter
 // This route need login
 $api->version('v1', ['middleware' => 'auth.api'], function($api) {
-	$api->post('/user', 'clovergarden\Http\Controllers\ApiController@getUser');
-	$api->post('/user/me', 'clovergarden\Http\Controllers\ApiController@getMyDetail');
-	$api->post('/user/me/support', 'clovergarden\Http\Controllers\ApiController@getSupList');
-	$api->post('/user/me/support/change', 'clovergarden\Http\Controllers\ApiController@changeClover');
-	$api->post('/user/profile/upload', 'clovergarden\Http\Controllers\ApiController@uploadProfilePic');
+	$api->post('/user', 'clovergarden\Http\Controllers\Api\ApiController@getUser');
+	$api->post('/user/me', 'clovergarden\Http\Controllers\Api\ApiController@getMyDetail');
+	$api->post('/user/me/support', 'clovergarden\Http\Controllers\Api\ApiController@getSupList');
+	$api->post('/user/me/support/change', 'clovergarden\Http\Controllers\Api\ApiController@changeClover');
+	$api->post('/user/profile/upload', 'clovergarden\Http\Controllers\Api\ApiController@uploadProfilePic');
+	$api->post('/user/me/companies', 'clovergarden\Http\Controllers\Api\ApiController@getListOfCompanyUser');
 	
-	$api->post('/timeline/comment/write', 'clovergarden\Http\Controllers\ApiController@writeTimelineComment');
-	$api->post('/timeline/comment/modify/{comment_id}', 'clovergarden\Http\Controllers\ApiController@modifyTimelineComment');
-	$api->post('/timeline/comment/delete/{comment_id}', 'clovergarden\Http\Controllers\ApiController@deleteTimelineComment');
+	$api->post('/timeline/comment/write', 'clovergarden\Http\Controllers\Api\ApiController@writeTimelineComment');
+	$api->post('/timeline/comment/modify/{comment_id}', 'clovergarden\Http\Controllers\Api\ApiController@modifyTimelineComment');
+	$api->post('/timeline/comment/delete/{comment_id}', 'clovergarden\Http\Controllers\Api\ApiController@deleteTimelineComment');
 	
-	$api->post('/timeline/like/{board_id}', 'clovergarden\Http\Controllers\ApiController@likeTimeline');
+	$api->post('/timeline/like/{board_id}', 'clovergarden\Http\Controllers\Api\ApiController@likeTimeline');
 	
 	// Get Timeline List
-	$api->get('/timeline/list', 'clovergarden\Http\Controllers\ApiController@getTimelineList');
+	$api->get('/user/me/timeline', 'clovergarden\Http\Controllers\Api\ApiController@getUserTimeline');
 });
 
 // auth.api.charge middleware should receive 'api_token' parameter
 // This route need Charge(clover) login
 $api->version('v1', ['middleware' => 'auth.api.charge'], function($api) {
-	$api->post('/timeline/write', 'clovergarden\Http\Controllers\ApiController@writeTimeline');
-	$api->post('/timeline/modify/{board_id}', 'clovergarden\Http\Controllers\ApiController@modifyTimeline');
-	$api->post('/timeline/delete/{board_id}', 'clovergarden\Http\Controllers\ApiController@deleteTimeline');
+	$api->post('/timeline/write', 'clovergarden\Http\Controllers\Api\ApiController@writeTimeline');
+	$api->post('/timeline/modify/{board_id}', 'clovergarden\Http\Controllers\Api\ApiController@modifyTimeline');
+	$api->post('/timeline/delete/{board_id}', 'clovergarden\Http\Controllers\Api\ApiController@deleteTimeline');
 });
 
 $api->version('v1', function($api) {
 	// Login
-	$api->post('/user/login', 'clovergarden\Http\Controllers\ApiController@login');
+	$api->post('/user/login', 'clovergarden\Http\Controllers\Api\ApiController@login');
+	
+	// Login with Naver
+	$api->post('/user/login/naver', 'clovergarden\Http\Controllers\Api\ApiController@loginNaver');
 	
 	// Sign Up
-	$api->post('/user/signup', 'clovergarden\Http\Controllers\ApiController@signup');
+	$api->post('/user/signup', 'clovergarden\Http\Controllers\Api\ApiController@signup');
+	
+	// Check Duplicate ID
+	$api->post('/user/check/id', 'clovergarden\Http\Controllers\Api\ApiController@checkDuplicateID');
 	
 	// Find ID
-	$api->post('/user/findId', 'clovergarden\Http\Controllers\ApiController@findId');
+	$api->post('/user/findId', 'clovergarden\Http\Controllers\Api\ApiController@findId');
 	
 	// Find PW
-	$api->post('/user/findPw', 'clovergarden\Http\Controllers\ApiController@findPw');
+	$api->post('/user/findPw', 'clovergarden\Http\Controllers\Api\ApiController@findPw');
 	
 	// Get List of Companies
-	$api->get('/company/list', 'clovergarden\Http\Controllers\ApiController@getListOfCompany');
+	$api->get('/company/list', 'clovergarden\Http\Controllers\Api\ApiController@getListOfCompany');
 	
 	// Get Company's Detail
-	$api->get('/company/{id}', 'clovergarden\Http\Controllers\ApiController@getCompanyDetail');
+	$api->get('/company/{id}', 'clovergarden\Http\Controllers\Api\ApiController@getCompanyDetail');
 	
 	// Get Notices
-	$api->get('/board/notice', 'clovergarden\Http\Controllers\ApiController@getNotices');
+	$api->get('/board/notice', 'clovergarden\Http\Controllers\Api\ApiController@getNotices');
 	
 	// Get FAQs
-	$api->get('/board/faq', 'clovergarden\Http\Controllers\ApiController@getFaqs');
+	$api->get('/board/faq', 'clovergarden\Http\Controllers\Api\ApiController@getFaqs');
 	
 	// Gend Auth SMS
-	$api->get('/sms/auth', 'clovergarden\Http\Controllers\ApiController@sendAuthSms');
+	$api->get('/sms/auth', 'clovergarden\Http\Controllers\Api\ApiController@sendAuthSms');
+	
+	// Get All Timeline
+	$api->get('/timeline/all', 'clovergarden\Http\Controllers\Api\ApiController@getTimelineAll');
+	
+	// Get Specific Clover Timeline
+	$api->get('/timeline/clover/{clover_code}', 'clovergarden\Http\Controllers\Api\ApiController@getTimelineClover');
 	
 	// Get Timeline Details
-	$api->get('/timeline/{board_id}', 'clovergarden\Http\Controllers\ApiController@getTimelineDetail');
+	$api->get('/timeline/{board_id}', 'clovergarden\Http\Controllers\Api\ApiController@getTimelineDetail');
 	
 	// Get Timeline Comments
-	$api->get('/timeline/comment/{board_id}', 'clovergarden\Http\Controllers\ApiController@getTimelineComment');
+	$api->get('/timeline/comment/{board_id}', 'clovergarden\Http\Controllers\Api\ApiController@getTimelineComment');
 });
 
 /*

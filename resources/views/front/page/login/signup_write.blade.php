@@ -198,10 +198,7 @@ function openDaumPostcode() {
 	</header>
 	<article class="join">
 		<h2 class="ti">회원정보</h2>
-		<form method="post" id="joinForm" name="joinForm" action="{{ route('signup') }}" style="display:inline;"  enctype="multipart/form-data">
-		<input type="hidden" name="cate" value="5" />	
-		<input type="hidden" name="dep01" value="3" />
-		<input type="hidden" name="type" value="write" />
+		<form method="post" id="joinForm" name="joinForm" action="{{ route('signup', array('cate' => 5, 'dep01' => 3, 'type' => 'write')) }}" style="display:inline;"  enctype="multipart/form-data">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 		
 		<div class="join_wrap">
@@ -357,7 +354,7 @@ function openDaumPostcode() {
 						<input type="hidden" name="ck_email_search"> 
 			</table>
 		 </div>
-		 {{ UserHelper::SubmitHidden() }}
+		 {{-- UserHelper::SubmitHidden() --}}
 		<div class="box2"><a href="#" id="save" class="orange_big_btn">가입하기</a></div>
 		</form>
 	</article>

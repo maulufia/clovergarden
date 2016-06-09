@@ -41,6 +41,7 @@ $Conn->DisConnect();
 	    			<strong>본인은 아래의 내용을 확인하고, 클로버가든이 다음과 같이 본인의 개인(신용)정보를 처리(수집,이용,제공 등)하는 것에 동의합니다</strong>
 	    			<form method="GET" id="radioForm" action="{{ route('login') }}">
 	    				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+	    				<input type="hidden" name="cate" value="5" />
 	    				<input type="hidden" name="dep01" value="3" />
 	    				<input type="hidden" name="type" value="write" />
 					    <input type="radio" name="agree" id="agree1" value="Y">
