@@ -14,7 +14,7 @@
   $page_no = isset($_REQUEST['page_no']) ? $_REQUEST['page_no'] : 1;
   $search_key = isset($_REQUEST['search_key']) ? $_REQUEST['search_key'] : '';
   $search_val = isset($_REQUEST['search_val']) ? $_REQUEST['search_val'] : '';
-  
+
   $seq        = isset($_REQUEST['seq']) ? $_REQUEST['seq'] : 0;
   $row_no     = isset($_GET['row_no']) ? $_GET['row_no'] : 0;
 
@@ -25,7 +25,7 @@
 	$nClovermlist_login_ing = new ClovermlistClass(); //후원목록
 	$nClovermlist = new ClovermlistClass(); //후원목록
 	$nClover_m = new CloverClass(); //클로버목록
-	
+
 //======================== DB Module Start ============================
 $Conn = new DBClass();
 
@@ -51,7 +51,7 @@ $Conn = new DBClass();
 	);
 
 	$nClover_m->page_result = $Conn->AllList
-	(	
+	(
 		$nClover_m->table_name, $nClover_m, "*", "order by reg_date desc", null, null
 	);
 
@@ -62,7 +62,7 @@ $Conn = new DBClass();
 	);
 
 	$nMember_groupname->page_result = $Conn->AllList
-	(	
+	(
 		$nMember_groupname->table_name, $nMember_groupname, "*", "where group_name != '' group by group_name order by id desc", null, null
 	);
 
@@ -72,7 +72,7 @@ $Conn = new DBClass();
 			$nMember_groupname->VarList($nMember_groupname->page_result, $i, null);
 			$group_name_v[$i] = $nMember_groupname->group_name;
 		}
-	}	
+	}
 
 	if(count($nClover_m->read_result) != 0){
 		for($i=0, $cnt_list=count($nClover_m->page_result); $i < $cnt_list; $i++) {
@@ -81,7 +81,7 @@ $Conn = new DBClass();
 			$clober_name[$i] = $nClover_m->subject;
 			$clober_name_scode[$nClover_m->code] = $nClover_m->subject;
 		}
-	}	
+	}
 
 	$sql = "update new_tb_member set update_ck='' where seq='".$seq."'";
 	mysql_query($sql);
@@ -149,7 +149,7 @@ if($mclover_type == "order_adm_ck_y"){
 if($dmode == "delgroup"){
 	$sql = "update ".$nMember->table_name." set group_name='' where seq='".$_GET['seq']."'";
 	mysql_query($sql);
-	
+
 	echo "
 	<script>
 	alert('퇴사처리 되었습니다.');
@@ -227,7 +227,7 @@ $omode = isset($_POST['omode']) ? $_POST['omode'] : null;
 if($omode == "order"){
 	$nClovermlist->otype    = NullVal($_POST['otype'], 1, $list_link); // 이체/신용
 	$nClovermlist->clover_seq    = $_POST['clover_company_v']; // 기관코드
-	
+
 	$nClovermlist->name    = $_POST['oname']; // 이름
 	$nClovermlist->birth    = $_POST['birth']; // 생년월일
 	$nClovermlist->id    = $_POST['oid']; // 아이디
@@ -258,14 +258,14 @@ if($omode == "order"){
 
 	if($_POST['otype']=="자동이체"){
 		$nClovermlist->bank    = $_POST['bank'];
-		$nClovermlist->banknum    = $_POST['banknum']; 
-		$nClovermlist->bankdate    = ""; 
+		$nClovermlist->banknum    = $_POST['banknum'];
+		$nClovermlist->bankdate    = "";
 	}else if($_POST['otype']=="신용카드"){
 		$nClovermlist->bank    = $_POST['bank'];
 		$nClovermlist->banknum    = $_POST['banknum'];
-		$nClovermlist->bankdate    = $_POST['bankdate']; 
+		$nClovermlist->bankdate    = $_POST['bankdate'];
 	}
-	
+
 	$arr_field = array
     (
         'otype', 'clover_seq', 'name', 'group_name', 'birth', 'id', 'price', 'day', 'start', 'zip', 'address', 'cell', 'email', 'bank', 'banknum', 'bankdate'
@@ -302,20 +302,20 @@ if($omode == "order"){
 
 
 	$nClovermlist_login->page_result = $Conn->AllList
-	(	
+	(
 		$nClovermlist_login->table_name, $nClovermlist_login, "*", "where id='".$nMember->user_id."' and start='' order by reg_date desc", null, null
 	);
 
 
 	$nClovermlist_login_ing->page_result = $Conn->AllList
-	(	
+	(
 		$nClovermlist_login_ing->table_name, $nClovermlist_login_ing, "*", "where id='".$nMember->user_id."' and start != '' and type='0' order by clover_seq, start desc", null, null
 	);
 
 
 
 	$nClovermlist_login_b->page_result = $Conn->AllList
-	(	
+	(
 		$nClovermlist_login_b->table_name, $nClovermlist_login_b, "*", "where id='".$nMember->user_id."' and bank != '' and type='0' group by bank,banknum order by reg_date desc", null, null
 	);
 
@@ -362,10 +362,10 @@ $Conn->DisConnect();
 		<form method="post" action="{{ $edit_link }}" name='order_form'>
 			<input type="hidden" name="omode" value="order">
 			<input type="hidden" name="seq" value="{{ $_REQUEST['seq'] }}">
-			
+
 			<input type="hidden" name="item" value="list_normal" />
 			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-			
+
 			<input type="hidden" name="oid" value="{{ $nMember->user_id }}">
 			<input type="hidden" name="gname" value="{{ $nMember->group_name }}">
 			<input type="hidden" name="oname" value="{{ $nMember->user_name }}">
@@ -450,6 +450,24 @@ $Conn->DisConnect();
 					</td>
 				</tr>
 
+        <tr>
+          <th>
+            주소
+          </th>
+          <td>
+            <input type="text" name="addr1" value="{{ $nMember->addr1 }}" style="width: 200px;" />
+          </td>
+        </tr>
+
+        <tr>
+          <th>
+            세부주소
+          </th>
+          <td>
+            <input type="text" name="addr2" value="{{ $nMember->addr2 }}" style="width: 200px;" />
+          </td>
+        </tr>
+
 
 
 				<tr>
@@ -462,14 +480,14 @@ $Conn->DisConnect();
 								$nClovermlist_login_b->VarList($nClovermlist_login_b->page_result, $i, null);
 
 						?>
-						<p style="font-size:15px; font-weight:bold;<?php if($i == 0){ ?>color:blue;<?php } ?>">				
+						<p style="font-size:15px; font-weight:bold;<?php if($i == 0){ ?>color:blue;<?php } ?>">
 							* 후원계좌 : {{ $nClovermlist_login_b->bank }} - {{ $nClovermlist_login_b->banknum }}
 						</p>
 						<?php
 							}
 						} else { ?>
 						회원님의 계좌정보가 존재하지 않습니다.
-						<?php } ?>						
+						<?php } ?>
 					</td>
 				</tr>
 
@@ -498,7 +516,7 @@ function del_group_func(group_name_ck, getseq, del_com_idv){
 	if(confirm('소속정보를 수정하시겠습니까?')){
 		window.location = "{{ route('admin/member') }}?item=list_normal&type=edit&seq="+getseq+"&gmode=chgroup&del_com_id="+del_com_idv+"&group_name_v="+group_name_ck;
 	}
-}	
+}
 //-->
 </script>
 					</td>
@@ -526,7 +544,7 @@ function del_group_func(group_name_ck, getseq, del_com_idv){
 
 							for($i=0, $cnt_list=count($nClovermlist_login_ing->page_result); $i < $cnt_list; $i++) {
 								$nClovermlist_login_ing->VarList($nClovermlist_login_ing->page_result, $i, null);
-								
+
 
 								$substr_date[0] = substr($nClovermlist_login_ing->start,0,4);
 								$substr_date[1] = substr($nClovermlist_login_ing->start,4,2);
@@ -544,8 +562,9 @@ function del_group_func(group_name_ck, getseq, del_com_idv){
 						?>
 						<p style="font-size:15px; font-weight:bold;<?php if($nMember->order_cencle == 'n'){ ?>color:red;<?php } else if($i == 0){ ?>color:blue;<?php } else if ($nClovermlist_login_ing->order_ck == 'h') { ?>color:green;<?php } else if($nClovermlist_login_ing->ing_cencle == 'n'){ ?>color:red;<?php } ?>">
 
-							결제정보 : {{ $nClovermlist_login_ing->otype }} | 
+							결제정보 : {{ $nClovermlist_login_ing->otype }} |
 							{{ $substr_date[0] }}년 {{ $substr_date[1] }}월 {{ $substr_date[2] }}일 {{ $clober_name_scode[$nClovermlist_login_ing->clover_seq] }}  {{ number_format($nClovermlist_login_ing->price) }}원
+              {{ $nClovermlist_login_ing->address }}
 							<?php if($nClovermlist_login_ing->order_adm_ck == 'n' || $nClovermlist_login_ing->order_adm_ck == ''){ ?>
 							<input type="button" value="승인" style="padding:5px;" onclick="window.location = '{{ route('admin/member') }}?item=list_normal&type=edit&seq={{ $_REQUEST['seq'] }}&dseq={{ $nClovermlist_login_ing->seq }}&mclover_type=order_adm_ck_y';">
 							<?php } ?>
@@ -557,13 +576,13 @@ function del_group_func(group_name_ck, getseq, del_com_idv){
 						<p style="font-size:15px; font-weight:bold;">
 						회원님의 계좌정보가 존재하지 않습니다.
 						</p>
-						<?php } ?>	
+						<?php } ?>
 <script type="text/javascript">
 <!--
 
 function c_m_func(seq, nli_seq){
 	if(confirm('후원기관수정을 수정하시겠습니까?')){
-		window.location = "{{ route('admin/member') }}?item=list_normal&type=edit&seq="+seq+"&c_m_seq="+nli_seq+"&clover_m_type=modify&value_ck="+$('#c_com_n_v').val(); 
+		window.location = "{{ route('admin/member') }}?item=list_normal&type=edit&seq="+seq+"&c_m_seq="+nli_seq+"&clover_m_type=modify&value_ck="+$('#c_com_n_v').val();
 	}
 }
 //-->
@@ -579,10 +598,10 @@ function c_m_func(seq, nli_seq){
 
 <?php
 $my_group_code = @array_unique($ck_group_name);
-$my_group_code = @array_values($my_group_code); 
+$my_group_code = @array_values($my_group_code);
 
 $my_group_name_ing = @array_unique($ck_group_name_ing);
-$my_group_name_ing = @array_values($my_group_name_ing); 
+$my_group_name_ing = @array_values($my_group_name_ing);
 
 for($mg = 0; $mg<count($my_group_code); $mg++){
 
@@ -603,12 +622,12 @@ for($mg = 0; $mg<count($my_group_code); $mg++){
 								<option value="자동이체">자동이체
 								<option value="신용카드">신용카드
 								<option value="point">포인트
-							</select>		
+							</select>
 							<select name="clover_company_value_2">
 								<?php for($j=0; $j<count($clober_code); $j++){ ?>
 								<option value="{{ $clober_code[$j] }}">{{ $clober_name[$j] }}
 								<?php } ?>
-							</select>		
+							</select>
 							<input type="text" name="price_v_value" value=""> 원
 							<select id="start_y" name="start_y">
 								<?php for($y = 2010; $y < 2101; $y++){ ?>
@@ -699,13 +718,13 @@ function order_func(){
 									(
 										$nClover_m->table_name, $nClover_m, "*", $nClover_m->where, null, null
 									);
-								
+
 									if(count($nClover_m->read_result) != 0){
 										$nClover_m->VarList($nClover_m->read_result, 0, null);
 
 										$clover_name = $nClover_m->subject;
 										$clover_code = $nClover_m->code;
-									}	
+									}
 								$Conn->DisConnect();
 
 								$view_date = explode("-",$nClovermlist_login->reg_date);
@@ -717,9 +736,9 @@ function order_func(){
 
 								$all_price += $nClovermlist_login->price;
 						?>
-						<p style="font-size:15px; font-weight:bold;<?php if($i == 0){ ?>color:blue;<?php } ?>">				
-							{{ $view_date[0] }}년 {{ $view_date[1] }}월 
-							
+						<p style="font-size:15px; font-weight:bold;<?php if($i == 0){ ?>color:blue;<?php } ?>">
+							{{ $view_date[0] }}년 {{ $view_date[1] }}월
+
 							<select name="clover_company" id="clover_company{{ $i }}">
 								<?php for($j=0; $j<count($clober_code); $j++){ ?>
 								<option value="{{ $clober_code[$j] }}" <?php if($clover_code == $clober_code[$j]){ ?>selected<?php } ?>>{{ $clober_name[$j] }}
@@ -727,8 +746,8 @@ function order_func(){
 							</select>
 							<select name="member_t" id="member_t{{ $i }}">
 								<option value="0" <?php if($type_v == "일시후원"){ ?>selected<?php } ?>>일시후원
-							</select>					
-										
+							</select>
+
 							{{ number_format($nClovermlist_login->price) }}<?php if($nClovermlist_login->otype == 'point'){ ?>포인트<?php } else { ?>원<?php } ?>
 							<input type="text" name="price_m" id="price_m{{ $i }}" value="{{ $nClovermlist_login->price }}" size="10">
 							<input type="hidden" name="mclover_seq" id="mclover_seq{{ $i }}" value="{{ $nClovermlist_login->seq }}" size="10">
@@ -786,7 +805,7 @@ function del_price_func(clover_id, getseq){
 	<input type="hidden" name="m_group" value="{{ $nMember->group_name }}">
 	<input type="hidden" name="m_id" value="{{ $nMember->user_id }}">
 	<input type="hidden" name="seq" value="{{ $_REQUEST['seq'] }}">
-	
+
 
 		<table cellpadding=0 cellspacing=0 border=0 width=100% align=center style="border-top:2px solid #9e9e9e;border-bottom:2px solid #9e9e9e;">
 		<tr height=30>
@@ -813,10 +832,10 @@ function del_price_func(clover_id, getseq){
 					<?php for($j=0; $j<count($clober_code); $j++){ ?>
 					<option value="{{ $clober_code[$j] }}">{{ $clober_name[$j] }}
 					<?php } ?>
-				</select>				
+				</select>
 				</td>
 				<td width=25% style="border:1px solid #e8e8e8;" align=center>
-				<input type="text" name="clover_price[]" value="" >				
+				<input type="text" name="clover_price[]" value="" >
 				</td>
 			</tr>
 			<?php } ?>

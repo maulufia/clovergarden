@@ -2,17 +2,18 @@
 
 namespace clovergarden\Http\Controllers;
 
-use Auth, Redirect, Hash;
+use Auth, URL, Redirect, Hash, Input, DateTime;
 use DB;
 use Flash;
 
 class AdminController extends Controller
 {
-	
+	private $BASE_URL = "http://clovergarden.co.kr";
+
 	function __construct() {
 		include(app_path().'/Custom/_common/_global.php');
 	}
-	
+
 	/*
   |--------------------------------------------------------------------------
   | Admin Site Route Methods
@@ -21,18 +22,18 @@ class AdminController extends Controller
   | These methods below are for admin pages.
   |
   */
-	
+
 	public function showLogin() {
 		return view('admin.login');
 	}
-	
+
 	public function showAdmin() {
 		return $this->showMember();
 	}
-	
+
 	public function showMember() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'list_admin';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/member', array('item' => $item));
@@ -57,10 +58,10 @@ class AdminController extends Controller
 															'excel_link2' => $option->excel_link2
 														]);
 	}
-	
+
 	public function showClover() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'list_clover';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/clover', array('item' => $item));
@@ -71,7 +72,7 @@ class AdminController extends Controller
 		$option->excel_link = $option->list_link.'&type=excel'; // 안 좋은 디자인
 		$option->excel_link2 = $option->list_link.'&type=excel2'; // 안 좋은 디자인
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.clover.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -86,10 +87,10 @@ class AdminController extends Controller
 															'excel_link2' => $option->excel_link2
 														]);
 	}
-	
+
 	public function showService() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'home';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/service', array('item' => $item));
@@ -98,7 +99,7 @@ class AdminController extends Controller
 		$option->edit_link = $option->list_link.'&type=edit';
 		$option->delete_link = $option->list_link.'&type=del';
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.service.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -111,10 +112,10 @@ class AdminController extends Controller
 															'delete_link' => $option->delete_link
 														]);
 	}
-	
+
 	public function showCommunity() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'timeline';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/community', array('item' => $item));
@@ -123,7 +124,7 @@ class AdminController extends Controller
 		$option->edit_link = $option->list_link.'&type=edit';
 		$option->delete_link = $option->list_link.'&type=del';
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.community.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -136,10 +137,10 @@ class AdminController extends Controller
 															'delete_link' => $option->delete_link
 														]);
 	}
-	
+
 	public function showSponsor() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'companion';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/sponsor', array('item' => $item));
@@ -148,7 +149,7 @@ class AdminController extends Controller
 		$option->edit_link = $option->list_link.'&type=edit';
 		$option->delete_link = $option->list_link.'&type=del';
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.sponsor.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -161,10 +162,10 @@ class AdminController extends Controller
 															'delete_link' => $option->delete_link
 														]);
 	}
-	
+
 	public function showCustomer() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'news';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/customer', array('item' => $item));
@@ -173,7 +174,7 @@ class AdminController extends Controller
 		$option->edit_link = $option->list_link.'&type=edit';
 		$option->delete_link = $option->list_link.'&type=del';
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.customer.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -186,16 +187,16 @@ class AdminController extends Controller
 															'delete_link' => $option->delete_link
 														]);
 	}
-	
+
 	public function showStat() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'stat_day';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/stat', array('item' => $item));
 		$option->view_link = $option->list_link.'&type=view';
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.stat.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -205,16 +206,16 @@ class AdminController extends Controller
 															'view_link' => $option->view_link
 														]);
 	}
-	
+
 	public function showPage() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'intro';
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/page', array('item' => $item));
 		$option->view_link = $option->list_link.'&type=view';
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.page.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -224,21 +225,21 @@ class AdminController extends Controller
 															'view_link' => $option->view_link
 														]);
 	}
-	
+
 	public function showSetting() {
 		$item = isset($_GET['item']) ? $_GET['item'] : 'popup';
-		
+
 		// 팝업 (현재는 메인에만 적용됨)
 		$configModel = new \ConfigModel;
 		$popup_status = $configModel->getConfig('popup')->content;
 		$popup_link = $configModel->getConfig('popup_link')->content;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->list_link = route('admin/setting', array('item' => $item));
 		$option->view_link = $option->list_link.'&type=view';
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$view_name = 'admin.page.setting.' . $item;
 		if(!is_null($option->type)) {
 			$view_name .=  '_' . $option->type;
@@ -250,7 +251,7 @@ class AdminController extends Controller
 															'popup_link' => $popup_link
 														]);
 	}
-	
+
 	public function writeQna() {
     $nOnetoone = new \OnetooneClass(); //1:1문의
 
@@ -286,7 +287,7 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		// Send Email to Master
 		$subject = "[알림] 1:1문의가 접수되었습니다.";
 		$content = "<html>
@@ -302,7 +303,7 @@ class AdminController extends Controller
 		Flash::success(SUCCESS_WRITE);
 		return redirect()->route('customer');
 	}
-	
+
 	/*
   |--------------------------------------------------------------------------
   | POST Method Controller
@@ -311,51 +312,51 @@ class AdminController extends Controller
   | Because of Spaghetti code, creating post method controller
   |
   */
-  
-  	
+
+
 	public function postMember() {
 		// Other Options for board
 		$option = new \StdClass();
 		$option->item = isset($_REQUEST['item']) ? $_REQUEST['item'] : null;
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		if(is_null($option->type) || $option->type == 'view')
 			return $this->showMember();
 
 		if($option->type == 'write')
 			return $this->addMemberAdmin();
-		
+
 		if($option->type == 'edit') {
 			if($option->item == 'list_admin') {
 				return $this->editMemberAdmin();
 			}
-			
+
 			if($option->item == 'list_normal') {
 				if(isset($_POST['l_id']))
 					return $this->editMemberNormal();
-					
+
 				return $this->showMember();
 			}
 		}
-		
+
 		if($option->type == 'del')
 			return $this->delMemberAdmin();
-		
+
 		if($option->type == 'excel')
 			return $this->excelMemberUpload();
-		
+
 		return 'error';
 	}
-	
+
 	public function postClover() {
 		// Other Options for board
 		$option = new \StdClass();
 		$option->item = isset($_REQUEST['item']) ? $_REQUEST['item'] : null;
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		if(is_null($option->type) || $option->type == 'view' || $option->type == 'detail')
 			return $this->showClover();
-		
+
 		if($option->item == 'list_clover') {
 			if($option->type == 'edit')
 				return $this->editClover();
@@ -364,7 +365,7 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delClover();
 		}
-	
+
 		if($option->item == 'news') {
 			if($option->type == 'edit')
 				return $this->editCloverNews();
@@ -373,7 +374,7 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delCloverNews();
 		}
-		
+
 		if($option->item == 'banner') {
 			if($option->type == 'edit')
 				return $this->editCloverBanner();
@@ -382,19 +383,28 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delCloverBanner();
 		}
-		
+
+		if($option->item == 'list_urgency') {
+			if($option->type == 'edit')
+				return $this->editUrgencyPost();
+			if($option->type == 'write')
+				return $this->writeUrgencyPost();
+			if($option->type == 'del')
+				return $this->delUrgencyPost();
+		}
+
 		return 'error';
 	}
-	
+
 	public function postService() {
 		// Other Options for board
 		$option = new \StdClass();
 		$option->item = isset($_REQUEST['item']) ? $_REQUEST['item'] : null;
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		if(is_null($option->type) || $option->type == 'view')
 			return $this->showService();
-		
+
 		if($option->item == 'home') {
 			if($option->type == 'edit')
 				return $this->editService();
@@ -405,26 +415,26 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delService();
 		}
-		
+
 		return 'error';
 	}
-	
+
 	public function postCommunity() {
 		// Other Options for board
 		$option = new \StdClass();
 		$option->item = isset($_REQUEST['item']) ? $_REQUEST['item'] : null;
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		if(is_null($option->type) || $option->type == 'view')
 			return $this->showCommunity();
-		
+
 		if($option->item == 'timeline') {
 			if($option->type == 'write')
 				return $this->writeTimeline();
 			if($option->type == 'del')
 				return $this->delTimeline();
 		}
-		
+
 		if($option->item == 'board_sponsor') {
 			if($option->type == 'write')
 				return $this->writeSponsorPost();
@@ -433,7 +443,7 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delSponsorPost();
 		}
-		
+
 		if($option->item == 'banner') {
 			if($option->type == 'write')
 				return $this->writeCommunityBanner();
@@ -442,16 +452,16 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delCommunityBanner();
 		}
-		
+
 		return 'error';
 	}
-	
+
 	public function postSponsor() {
 		// Other Options for board
 		$option = new \StdClass();
 		$option->item = isset($_REQUEST['item']) ? $_REQUEST['item'] : null;
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		if(is_null($option->type) || $option->type == 'view')
 			return $this->showSponsor();
 
@@ -463,7 +473,7 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delCompanion();
 		}
-		
+
 		if($option->item == 'deans') {
 			if($option->type == 'write')
 				return $this->writeDeans();
@@ -472,14 +482,14 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delDeans();
 		}
-		
+
 		if($option->item == 'main_companion') {
 			if($option->type == 'write')
 				return $this->writeMainCompanion();
 			if($option->type == 'del')
 				return $this->delMainCompanion();
 		}
-		
+
 		if($option->item == 'main_deans') {
 			if($option->type == 'write')
 				return $this->writeMainDeans();
@@ -491,13 +501,13 @@ class AdminController extends Controller
 
 		return 'error';
 	}
-  
+
   public function postCustomer() {
 		// Other Options for board
 		$option = new \StdClass();
 		$option->item = isset($_REQUEST['item']) ? $_REQUEST['item'] : null;
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		if(is_null($option->type) || $option->type == 'view')
 			return $this->showCustomer();
 
@@ -509,12 +519,12 @@ class AdminController extends Controller
 			if($option->type == 'del')
 				return $this->delNews();
 		}
-		
+
 		if($option->item == 'qna') {
 			if($option->type == 'del')
 				return $this->delQna();
 		}
-		
+
 		if($option->item == 'faq') {
 			if($option->type == 'write')
 				return $this->writeFaq();
@@ -526,7 +536,7 @@ class AdminController extends Controller
 
 		return 'error';
 	}
-	
+
 	/*
   |--------------------------------------------------------------------------
   | Database Controller
@@ -535,10 +545,10 @@ class AdminController extends Controller
   | executing CRUD
   |
   */
-  
+
   public function addMemberAdmin() {
     $nMember = new \MemberClass(); //회원
-	
+
 		$nMember->user_state    = "1";
     $nMember->user_id    = $_POST['user_id'];
     $nMember->password    = Hash::make(strtolower($_POST['user_pw']));
@@ -568,10 +578,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		return redirect()->route('admin/member', array('item' => 'list_admin'));
   }
-  
+
   public function editMemberAdmin() {
     $seq        = $_POST['seq'];
 
@@ -607,15 +617,15 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/member', array('item' => 'list_admin'));
   }
-  
+
   public function delMemberAdmin() { // 문제 있음
-    $nClover   = new \CloverClass(); 
-    
+    $nClover   = new \CloverClass();
+
     DB::table('new_tb_member')->where('id', '=', $_POST['seq'])->delete();
 
 		return redirect()->route('admin/member', array('item' => 'list_admin'));
   }
-  
+
   public function editMemberNormal() {
     $nMember = new \MemberClass(); //회원
 
@@ -640,14 +650,16 @@ class AdminController extends Controller
 		$file_name = explode('@',$nMember->user_id);
 		if($_POST['user_pw'] == ''){
 			$nMember->user_birth = $_POST['user_birth'];
+			$nMember->addr1 = $_POST['addr1'];
+			$nMember->addr2 = $_POST['addr2'];
 			$arr_field = array
 			(
-				'user_name','user_birth'
+				'user_name','user_birth','addr1','addr2'
 			);
 
 			$arr_value = array
 			(
-				$nMember->user_name, $nMember->user_birth
+				$nMember->user_name, $nMember->user_birth, $nMember->addr1, $nMember->addr2
 			);
 		} else {
 			if($_POST['user_pw'] != null){
@@ -656,14 +668,16 @@ class AdminController extends Controller
 				$nMember->user_pw =  $nMember->user_pw;
 			}
 			$nMember->user_birth = $_POST['user_birth'];
+			$nMember->addr1 = $_POST['addr1'];
+			$nMember->addr2 = $_POST['addr2'];
 			$arr_field = array
 			(
-				'user_name', 'password','user_birth'
+				'user_name', 'password','user_birth','addr1','addr2'
 			);
 
 			$arr_value = array
 			(
-				$nMember->user_name, $nMember->user_pw, $nMember->user_birth
+				$nMember->user_name, $nMember->user_pw, $nMember->user_birth, $nMember->addr1, $nMember->addr2
 			);
 		}
 
@@ -692,7 +706,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/member', array('item' => 'list_normal', 'type' => 'edit', 'seq' => $_POST['seq']));
   }
-  
+
   private function excelMemberUpload() {
 		require_once app_path() . "/Libraries/Excel/reader.php";
 
@@ -706,12 +720,12 @@ class AdminController extends Controller
 
 		$tmp = explode(".", $_FILES['excel']['name']);// echo "tmp : "; print_r($tmp);
 		$Extension = $tmp[count($tmp) - 1];
-	  
+
 		srand((double)microtime() * 1000000000);
 		$Rnd = rand(1000000000, 9999999999);
 		$Temp = date("YmdHis");
 		$newName = $Temp . $Rnd . "." . $Extension; // .".".
-	  
+
 		$nClovermlist   = new \ClovermlistClass(); //후원기관
 		$nMember = new \MemberClass(); //회원
 
@@ -727,7 +741,7 @@ class AdminController extends Controller
 		);
 		for($i=2; $i<=$data->sheets[0]['numRows']; $i++) {
 			$tmpNameArr = explode("(", $data->sheets[0]['cells'][$i][1]);
-			
+
 			if($data->sheets[0]['cells'][$i][2] != ""){
 
 
@@ -774,7 +788,7 @@ class AdminController extends Controller
 
 
 		$out_put = $Conn->InsertMultiDB($nClovermlist->table_name, $arr_field, $arr_value);
-		if($out_put){			
+		if($out_put){
 			$Conn->CommitTrans();
 		}else{
 			$Conn->RollbackTrans();
@@ -785,10 +799,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		return redirect()->route('admin/member', array('item' => 'list_normal'));
   }
-  
+
   private function editClover() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -797,7 +811,7 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nClover = new \CloverClass(); //후원기관
-  
+
     $nClover->subject = $_POST['subject'];
 		$nClover->content        = RepEditor($_POST['content']);
 		$nClover->code        = RepEditor($_POST['code']);
@@ -810,12 +824,22 @@ class AdminController extends Controller
 		$nClover->file_real[2] = $_POST['file_real2'];
     $nClover->file_edit[2] = $_POST['file_edit2'];
     $nClover->file_byte[2] = $_POST['file_byte2'];
-	
+
     $nClover->file_pre_name[1] = $nClover->file_edit[1];
 		$nClover->file_pre_name[2] = $nClover->file_edit[2];
 
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
 		$check_del[2] = isset($_POST['check_del2']) ? $_POST['check_del2'] : null;
+		$check_del[3] = isset($_POST['check_del3']) ? $_POST['check_del3'] : null;
+		$check_del[4] = isset($_POST['check_del4']) ? $_POST['check_del4'] : null;
+		$check_del[5] = isset($_POST['check_del5']) ? $_POST['check_del5'] : null;
+		$check_del[6] = isset($_POST['check_del6']) ? $_POST['check_del6'] : null;
+
+		$nClover->mobile_thumbnail = $_POST['mobile_thumbnail_value'];
+		$nClover->mobile_image1 = $_POST['mobile_image1_value'];
+		$nClover->mobile_image2 = $_POST['mobile_image2_value'];
+		$nClover->mobile_image3 = $_POST['mobile_image3_value'];
+		$nClover->mobile_intro = $_POST['mobile_intro']; // [모바일] 소개글
 
     for($cnt_file=1; $cnt_file <= $nClover->file_up_cnt; $cnt_file++) {
         $parsing_file = 'upfile'.$cnt_file;
@@ -842,14 +866,56 @@ class AdminController extends Controller
         }
     }
 
+		// [모바일] 썸네일 이미지
+    if($_FILES['mobile_thumbnail']['name']){
+      $arr_file = FileUpload($_FILES['mobile_thumbnail'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_thumbnail_', 10, 'image');
+      $nClover->mobile_thumbnail = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    } else {
+			if ($check_del[3] == '1') {
+				$nClover->mobile_thumbnail = "";
+			}
+		}
+
+		// [모바일] 상단 이미지
+    if($_FILES['mobile_image1']['name']){
+      $arr_file = FileUpload($_FILES['mobile_image1'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_image1_', 10, 'image');
+      $nClover->mobile_image1 = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    } else {
+			if ($check_del[4] == '1') {
+				$nClover->mobile_image1 = "";
+			}
+		}
+
+		// [모바일] 내용 이미지 1
+    if($_FILES['mobile_image2']['name']){
+      $arr_file = FileUpload($_FILES['mobile_image2'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_image2_', 10, 'image');
+      $nClover->mobile_image2 = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    } else {
+			if ($check_del[5] == '1') {
+				$nClover->mobile_image2 = "";
+			}
+		}
+
+		// [모바일] 내용 이미지 2
+    if($_FILES['mobile_image3']['name']){
+      $arr_file = FileUpload($_FILES['mobile_image3'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_image3_', 10, 'image');
+      $nClover->mobile_image3 = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    } else {
+			if ($check_del[6] == '1') {
+				$nClover->mobile_image3 = "";
+			}
+		}
+
     $arr_field = array
     (
-        'subject', 'content', 'code', 'category', 'file_real1', 'file_edit1', 'file_byte1', 'file_real2', 'file_edit2', 'file_byte2', 'hot'
+        'subject', 'content', 'code', 'category', 'file_real1', 'file_edit1', 'file_byte1', 'file_real2', 'file_edit2', 'file_byte2', 'hot',
+				'mobile_thumbnail', 'mobile_image1', 'mobile_image2', 'mobile_image3', 'mobile_intro'
     );
 
     $arr_value = array
     (
-        $nClover->subject, $nClover->content, $nClover->code, $nClover->category, $nClover->file_real[1], $nClover->file_edit[1], $nClover->file_byte[1], $nClover->file_real[2], $nClover->file_edit[2], $nClover->file_byte[2], $nClover->hot
+        $nClover->subject, $nClover->content, $nClover->code, $nClover->category, $nClover->file_real[1], $nClover->file_edit[1], $nClover->file_byte[1], $nClover->file_real[2], $nClover->file_edit[2], $nClover->file_byte[2], $nClover->hot,
+				$nClover->mobile_thumbnail, $nClover->mobile_image1, $nClover->mobile_image2, $nClover->mobile_image3, $nClover->mobile_intro
     );
 
 		//======================== DB Module Clovert ============================
@@ -871,10 +937,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		return redirect()->route('admin/clover', array('item' => 'list_clover', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
   }
-	
+
 	private function writeClover() {
     $nClover = new \CloverClass(); //후원기관
 		$nMember = new \MemberClass(); //회원
@@ -891,6 +957,7 @@ class AdminController extends Controller
 		$nClover->file_real[2] = isset($_POST['file_real2']) ? $_POST['file_real2'] : null;
     $nClover->file_edit[2] = isset($_POST['file_edit2']) ? $_POST['file_edit2'] : null;
     $nClover->file_byte[2] = isset($_POST['file_byte2']) ? $_POST['file_byte2'] : null;
+		$nClover->mobile_intro = $_POST['mobile_intro']; // [모바일] 소개글
 
     for($cnt_file=1; $cnt_file <= $nClover->file_up_cnt; $cnt_file++) {
         $parsing_file = 'upfile'.$cnt_file;
@@ -908,9 +975,34 @@ class AdminController extends Controller
         }
     }
 
+		// [모바일] 썸네일 이미지
+    if($_FILES['mobile_thumbnail']['name']){
+      $arr_file = FileUpload($_FILES['mobile_thumbnail'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_thumbnail_', 10, 'image');
+      $nClover->mobile_thumbnail = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    }
+
+		// [모바일] 상단 이미지
+    if($_FILES['mobile_image1']['name']){
+      $arr_file = FileUpload($_FILES['mobile_image1'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_image1_', 10, 'image');
+      $nClover->mobile_image1 = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    }
+
+		// [모바일] 내용 이미지 1
+    if($_FILES['mobile_image2']['name']){
+      $arr_file = FileUpload($_FILES['mobile_image2'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_image2_', 10, 'image');
+      $nClover->mobile_image2 = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    }
+
+		// [모바일] 내용 이미지 2
+    if($_FILES['mobile_image3']['name']){
+      $arr_file = FileUpload($_FILES['mobile_image3'], '/home/clovergarden/cg_app/public/imgs/up_file/clover/', $nClover->code.'_image3_', 10, 'image');
+      $nClover->mobile_image3 = URL::to('/') . '/imgs/up_file/clover/' . $arr_file[1];
+    }
+
     $arr_field = array
     (
-        'subject', 'content', 'code', 'category', 'file_real1', 'file_edit1', 'file_byte1', 'file_real2', 'file_edit2', 'file_byte2', 'view_n', 'hot'
+        'subject', 'content', 'code', 'category', 'file_real1', 'file_edit1', 'file_byte1', 'file_real2', 'file_edit2', 'file_byte2', 'view_n', 'hot',
+				'mobile_thumbnail', 'mobile_image1', 'mobile_image2', 'mobile_image3', 'mobile_intro'
     );
 
 		$arr_field1 = array
@@ -920,8 +1012,9 @@ class AdminController extends Controller
 
     $arr_value = array
     (
-        $nClover->subject, $nClover->content, $nClover->code,  $nClover->category,  $nClover->file_real[1], $nClover->file_edit[1], $nClover->file_byte[1], $nClover->file_real[2], $nClover->file_edit[2], $nClover->file_byte[2], $nClover->view_n, $nClover->hot
-    );
+        $nClover->subject, $nClover->content, $nClover->code,  $nClover->category,  $nClover->file_real[1], $nClover->file_edit[1], $nClover->file_byte[1], $nClover->file_real[2], $nClover->file_edit[2], $nClover->file_byte[2], $nClover->view_n, $nClover->hot,
+				$nClover->mobile_thumbnail, $nClover->mobile_image1, $nClover->mobile_image2, $nClover->mobile_image3, $nClover->mobile_intro
+		);
 
 		$arr_value1 = array(
 			$nClover->subject, '', $nClover->code,  "81dc9bdb52d04dc20036dbd8313ed055", "6"
@@ -943,10 +1036,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/clover', array('item' => 'list_clover'));
 	}
-	
+
 	private function delClover() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -954,7 +1047,7 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $seq = $_POST['delete_seq'];
-    $nClover   = new \CloverClass(); 
+    $nClover   = new \CloverClass();
 
 		//======================== DB Module Clovert ============================
 		$Conn = new \DBClass();
@@ -970,10 +1063,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		return redirect()->route('admin/clover', array('item' => 'list_clover'));
 	}
-	
+
 	private function editCloverNews() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -982,7 +1075,7 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nClovernews = new \ClovernewsClass(); //후원기관
-  
+
     $nClovernews->subject = $_POST['subject'];
 		$nClovernews->clover_seq  = $_POST['clover_seq'];
     $nClovernews->file_real[1] = isset($_POST['file_real1']) ? $_POST['file_real1'] : null;
@@ -999,11 +1092,11 @@ class AdminController extends Controller
 		for($i = 0; $i < 10; $i++) {
 			$multifile_real[$i] = isset($_POST['multifile_real[$i]']) ? $_POST['multifile_real[$i]'] : null;
 		}
-		
+
 		for($i = 0; $i < 10; $i++) {
 			$multifile_edit[$i] = isset($_POST['multifile_edit[$i]']) ? $_POST['multifile_edit[$i]'] : null;
 		}
-		
+
 		for($i = 0; $i < 10; $i++) {
 			$multifile_byte[$i] = isset($_POST['multifile_byte[$i]']) ? $_POST['multifile_byte[$i]'] : null;
 		}
@@ -1046,7 +1139,7 @@ class AdminController extends Controller
             }
         }
     }
-    
+
     for($i = 0; $i < 10; $i++) {
 			$check_multi_del[$i] = isset($_POST['check_multi_del$i']) ? $_POST['check_multi_del$i'] : null;
 		}
@@ -1055,8 +1148,8 @@ class AdminController extends Controller
 		for($i=0; $i < $countarray; $i++) {
 
 	        if($_FILES['multifile']['name'][$i]){
-				
-	            $arr_mfile[$i] = FileMultiUpload($_FILES['multifile']['name'][$i],$_FILES['multifile']['size'][$i], $_FILES['multifile']['tmp_name'][$i],  '/home/clovergarden/cg_app/public/imgs/up_file/clovernews/', $i.'_', 10, 'image');            
+
+	            $arr_mfile[$i] = FileMultiUpload($_FILES['multifile']['name'][$i],$_FILES['multifile']['size'][$i], $_FILES['multifile']['tmp_name'][$i],  '/home/clovergarden/cg_app/public/imgs/up_file/clovernews/', $i.'_', 10, 'image');
 				$multifile_real[$i] = $arr_mfile[$i][0];
 	            $multifile_edit[$i] = $arr_mfile[$i][1];
 	            $multifile_byte[$i] = $arr_mfile[$i][2];
@@ -1107,7 +1200,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/clover', array('item' => 'news'));
 	}
-	
+
 	private function writeCloverNews() {
     $nClovernews = new \ClovernewsClass(); //후원기관
 
@@ -1143,8 +1236,8 @@ class AdminController extends Controller
 		for($i=0; $i < $countarray; $i++) {
 
 	        if($_FILES['multifile']['name'][$i]){
-				
-	            $arr_mfile[$i] = FileMultiUpload($_FILES['multifile']['name'][$i],$_FILES['multifile']['size'][$i], $_FILES['multifile']['tmp_name'][$i],  '/home/clovergarden/cg_app/public/imgs/up_file/clovernews/', $i.'_', 10, 'image');            
+
+	            $arr_mfile[$i] = FileMultiUpload($_FILES['multifile']['name'][$i],$_FILES['multifile']['size'][$i], $_FILES['multifile']['tmp_name'][$i],  '/home/clovergarden/cg_app/public/imgs/up_file/clovernews/', $i.'_', 10, 'image');
 				$multifile_real[$i] = $arr_mfile[$i][0];
 	            $multifile_edit[$i] = $arr_mfile[$i][1];
 	            $multifile_byte[$i] = $arr_mfile[$i][2];
@@ -1182,7 +1275,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/clover', array('item' => 'news'));
 	}
-	
+
 	private function delCloverNews() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -1191,7 +1284,7 @@ class AdminController extends Controller
 
     $seq = $_POST['delete_seq'];
 
-    $nClovernews   = new \ClovernewsClass(); 
+    $nClovernews   = new \ClovernewsClass();
 
 		//======================== DB Module Clovernewst ============================
 		$Conn = new \DBClass();
@@ -1208,10 +1301,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/clover', array('item' => 'news'));
 	}
-	
+
 	private function writeCloverBanner() {
     $nClover = new \CloverClass(); //후원기관
 
@@ -1263,10 +1356,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
     return redirect()->route('admin/clover', array('item' => 'banner'));
 	}
-	
+
 	private function editCloverBanner() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -1275,19 +1368,19 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nClover = new \CloverClass(); //후원기관
-  
+
     $nClover->subject = $_POST['subject'];
 		$nClover->group_name        = RepEditor($_POST['group_name']);
 		$nClover->news        = RepEditor($_POST['news']);
-                                                                     
+
     $nClover->file_real[1] = $_POST['file_real1'];
     $nClover->file_edit[1] = $_POST['file_edit1'];
     $nClover->file_byte[1] = $_POST['file_byte1'];
-	
+
     $nClover->file_pre_name[1] = $nClover->file_edit[1];
 
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
-    
+
     for($cnt_file=1; $cnt_file <= $nClover->file_up_cnt; $cnt_file++) {
         $parsing_file = 'upfile'.$cnt_file;
         if(!empty($_FILES[$parsing_file]['name'])){
@@ -1347,7 +1440,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/clover', array('item' => 'banner'));
 	}
-	
+
 	private function delCloverBanner() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -1356,7 +1449,7 @@ class AdminController extends Controller
 
     $seq = $_POST['delete_seq'];
 
-    $nClover   = new \CloverClass(); 
+    $nClover   = new \CloverClass();
 
 		//======================== DB Module Clovert ============================
 		$Conn = new \DBClass();
@@ -1375,10 +1468,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		return redirect()->route('admin/clover', array('item' => 'banner'));
 	}
-	
+
 	private function writeService() {
     $nSchedule = new \ScheduleClass(); //수술갤러리
 
@@ -1419,7 +1512,7 @@ class AdminController extends Controller
     (
         $nSchedule->subject, $nSchedule->people, $nSchedule->content, $nSchedule->file_real[1], $nSchedule->file_edit[1], $nSchedule->file_byte[1], $nSchedule->work_date, $nSchedule->start_date, $nSchedule->start_date2, $nSchedule->clover_seq
     );
-    
+
 		//======================== DB Module Start ============================
 		$Conn = new \DBClass();
 
@@ -1437,7 +1530,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/service', array('item' => 'home'));
 	}
-	
+
 	private function editService() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -1446,7 +1539,7 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nSchedule = new \ScheduleClass(); //
-  
+
     $nSchedule->subject = $_POST['subject'];
 		$nSchedule->people       = $_POST['people'];
 		$nSchedule->start_date       = $_POST['start_date'];
@@ -1458,7 +1551,7 @@ class AdminController extends Controller
     $nSchedule->file_real[1] = $_POST['file_real1'];
     $nSchedule->file_edit[1] = $_POST['file_edit1'];
     $nSchedule->file_byte[1] = $_POST['file_byte1'];
-	
+
     $nSchedule->file_pre_name[1] = $nSchedule->file_edit[1];
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
 
@@ -1519,18 +1612,18 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/service', array('item' => 'home', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function editServiceStatus() {
 		$seq = $_POST['seq'];
     $row_no = $_POST['row_no'];
-    
+
     $is_on = $_POST['is_on'];
-    
+
     DB::table('new_tb_schedule')->where('seq', '=', $seq)->update(['is_on' => $is_on]);
-    
+
 		return redirect()->route('admin/service', array('item' => 'home', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function delService() {
     $seq = $_POST['delete_seq'];
 
@@ -1556,7 +1649,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/service', array('item' => 'home'));
 	}
-	
+
 	private function writeTimeline() {
     $nTimeline = new \TimelineClass(); //타임라인
 
@@ -1590,7 +1683,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/community', array('item' => 'timeline'));
 	}
-	
+
 	private function delTimeline() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -1616,10 +1709,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		return redirect()->route('admin/community', array('item' => 'timeline'));
 	}
-	
+
 	private function editSponsorPost() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -1628,7 +1721,7 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nFree = new \FreeClass(); //수술갤러리
-  
+
     $nFree->subject = $_POST['subject'];
     $nFree->write_name       = $_POST['write_name'];
 		$nFree->content        = RepEditor($_POST['content']);
@@ -1660,7 +1753,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/community', array('item' => 'board_sponsor', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function delSponsorPost() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -1687,10 +1780,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
     return redirect()->route('admin/community', array('item' => 'board_sponsor'));
 	}
-	
+
 	private function writeCommunityBanner() {
     $nBanner = new \BannerClass(); //후원기관
 
@@ -1740,7 +1833,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/community', array('item' => 'banner'));
 	}
-	
+
 	private function editCommunityBanner() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -1749,13 +1842,13 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nBanner = new \BannerClass(); //후원기관
-  
+
     $nBanner->subject = $_POST['subject'];
 		$nBanner->url        = $_POST['url'];
     $nBanner->file_real[1] = $_POST['file_real1'];
     $nBanner->file_edit[1] = $_POST['file_edit1'];
     $nBanner->file_byte[1] = $_POST['file_byte1'];
-	
+
     $nBanner->file_pre_name[1] = $nBanner->file_edit[1];
 
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
@@ -1818,7 +1911,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/community', array('item' => 'banner', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function delCommunityBanner() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -1827,7 +1920,7 @@ class AdminController extends Controller
 
     $seq = $_POST['delete_seq'];
 
-    $nBanner   = new \BannerClass(); 
+    $nBanner   = new \BannerClass();
 
 		//======================== DB Module Bannert ============================
 		$Conn = new \DBClass();
@@ -1847,7 +1940,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/community', array('item' => 'banner'));
 	}
-	
+
 	private function writeCompanion() {
     $nSponsor = new \SponsorClass(); //후원기관
 
@@ -1898,7 +1991,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/sponsor', array('item' => 'companion'));
 	}
-	
+
 	private function editCompanion() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -1907,14 +2000,14 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nSponsor = new \SponsorClass(); //후원기관
-  
+
     $nSponsor->subject = $_POST['subject'];
 		$nSponsor->content        = RepEditor($_POST['content']);
 		$nSponsor->url        = $_POST['url'];
     $nSponsor->file_real[1] = $_POST['file_real1'];
     $nSponsor->file_edit[1] = $_POST['file_edit1'];
     $nSponsor->file_byte[1] = $_POST['file_byte1'];
-	
+
     $nSponsor->file_pre_name[1] = $nSponsor->file_edit[1];
 
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
@@ -1973,10 +2066,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		return redirect()->route('admin/sponsor', array('item' => 'companion', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function delCompanion() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -1985,7 +2078,7 @@ class AdminController extends Controller
 
     $seq = $_POST['delete_seq'];
 
-    $nSponsor   = new \SponsorClass(); 
+    $nSponsor   = new \SponsorClass();
 
 		//======================== DB Module Sponsort ============================
 		$Conn = new \DBClass();
@@ -2002,10 +2095,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/sponsor', array('item' => 'companion'));
 	}
-	
+
 	private function writeDeans() {
     $nSponsorpeople = new \SponsorpeopleClass(); //후원기관
 
@@ -2053,10 +2146,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/sponsor', array('item' => 'deans'));
 	}
-	
+
 	private function editDeans() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -2065,7 +2158,7 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nSponsorpeople = new \SponsorpeopleClass(); //후원기관
-  
+
     $nSponsorpeople->subject = $_POST['subject'];
 		$nSponsorpeople->content        = RepEditor($_POST['content']);
 
@@ -2076,7 +2169,7 @@ class AdminController extends Controller
 		$nSponsorpeople->file_real[2] = $_POST['file_real2'];
     $nSponsorpeople->file_edit[2] = $_POST['file_edit2'];
     $nSponsorpeople->file_byte[2] = $_POST['file_byte2'];
-	
+
     $nSponsorpeople->file_pre_name[1] = $nSponsorpeople->file_edit[1];
 
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
@@ -2143,7 +2236,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/sponsor', array('item' => 'deans', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function delDeans() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -2152,7 +2245,7 @@ class AdminController extends Controller
 
     $seq = $_POST['delete_seq'];
 
-    $nSponsorpeople   = new \SponsorpeopleClass(); 
+    $nSponsorpeople   = new \SponsorpeopleClass();
 
 		//======================== DB Module Sponsorpeoplet ============================
 		$Conn = new \DBClass();
@@ -2169,10 +2262,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
     return redirect()->route('admin/sponsor', array('item' => 'deans'));
 	}
-	
+
 	private function writeMainCompanion() {
     $nSCompany = new \SCompanyClass(); //후원기관
 
@@ -2220,10 +2313,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
     return redirect()->route('admin/sponsor', array('item' => 'main_companion'));
 	}
-	
+
 	private function delMainCompanion() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -2232,7 +2325,7 @@ class AdminController extends Controller
 
     $seq = $_POST['delete_seq'];
 
-    $nSCompany   = new \SCompanyClass(); 
+    $nSCompany   = new \SCompanyClass();
 
 		//======================== DB Module SCompanyt ============================
 		$Conn = new \DBClass();
@@ -2250,10 +2343,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
     return redirect()->route('admin/sponsor', array('item' => 'main_companion'));
 	}
-	
+
 	private function writeMainDeans() {
     $nMClover = new \MCloverClass(); //후원기관
 
@@ -2302,10 +2395,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/sponsor', array('item' => 'main_deans'));
 	}
-	
+
 	private function editMainDeans() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -2314,14 +2407,14 @@ class AdminController extends Controller
     $search_val = $_POST['search_val'];
 
     $nMClover = new \MCloverClass(); //후원기관
-  
+
     $nMClover->subject = $_POST['subject'];
 		$nMClover->content        = RepEditor($_POST['content']);
 		$nMClover->name        = $_POST['name'];
     $nMClover->file_real[1] = $_POST['file_real1'];
     $nMClover->file_edit[1] = $_POST['file_edit1'];
     $nMClover->file_byte[1] = $_POST['file_byte1'];
-	
+
     $nMClover->file_pre_name[1] = $nMClover->file_edit[1];
 
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
@@ -2384,7 +2477,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/sponsor', array('item' => 'main_deans'));
 	}
-	
+
 	private function delMainDeans() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -2393,7 +2486,7 @@ class AdminController extends Controller
 
     $seq = $_POST['delete_seq'];
 
-    $nMClover   = new \MCloverClass(); 
+    $nMClover   = new \MCloverClass();
 
 		//======================== DB Module MClovert ============================
 		$Conn = new \DBClass();
@@ -2414,7 +2507,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/sponsor', array('item' => 'main_deans'));
 	}
-	
+
 	private function writeNews() {
     $nNotice = new \NoticeClass(); //새소식
 
@@ -2447,10 +2540,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-  
+
 		return redirect()->route('admin/customer', array('item' => 'news'));
 	}
-	
+
 	private function editNews() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -2460,7 +2553,7 @@ class AdminController extends Controller
 
 
     $nNotice = new \NoticeClass(); //새소식
-  
+
     $nNotice->subject = $_POST['subject'];
 		$nNotice->writer_name       = $_POST['writer_name'];
 		$nNotice->content        = RepEditor($_POST['content']);
@@ -2493,7 +2586,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/customer', array('item' => 'news', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function delNews() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -2519,10 +2612,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/customer', array('item' => 'news'));
 	}
-	
+
 	private function delQna() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -2548,10 +2641,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/customer', array('item' => 'qna'));
 	}
-	
+
 	private function writeFaq() {
     $nFaq = new \FaqClass(); //자주묻는질문
 
@@ -2583,10 +2676,10 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/customer', array('item' => 'faq'));
 	}
-	
+
 	private function editFaq() {
     $seq        = $_POST['seq'];
     $row_no     = $_POST['row_no'];
@@ -2629,7 +2722,7 @@ class AdminController extends Controller
 
 		return redirect()->route('admin/customer', array('item' => 'faq', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
-	
+
 	private function delFaq() {
     $row_no     = $_POST['row_no'];
     $page_no    = $_POST['page_no'];
@@ -2655,10 +2748,163 @@ class AdminController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-    
+
 		return redirect()->route('admin/customer', array('item' => 'faq'));
 	}
-	
+
+	private function writeUrgencyPost()
+	{
+		$clover_code = Input::get('clover_code');
+		$text = Input::get('text');
+		$image1 = Input::file('image_path1');
+		$image2 = Input::file('image_path2');
+		$image3 = Input::file('image_path3');
+		$limitation = Input::get('limitation');
+		$due_date = Input::get('due_date');
+
+		// Image paths
+		$image_path1 = null;
+		$image_path2 = null;
+		$image_path3 = null;
+
+		if ($image1 && $image1->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+
+			$fileExt = $image1->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_1_' . date("YmdHms") . '.' . $fileExt;
+			$image1->move($destinationPath, $fileName);
+
+			$image_path1 = $this->BASE_URL . "/imgs/up_file/board/" . $fileName;
+		}
+
+		if ($image2 && $image2->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+
+			$fileExt = $image2->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_2_' . date("YmdHms") . '.' . $fileExt;
+			$image2->move($destinationPath, $fileName);
+
+			$image_path2 = $this->BASE_URL . "/imgs/up_file/board/" . $fileName;
+		}
+
+		if ($image3 && $image3->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+
+			$fileExt = $image3->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_3_' . date("YmdHms") . '.' . $fileExt;
+			$image3->move($destinationPath, $fileName);
+
+			$image_path3 = $this->BASE_URL . "/imgs/up_file/board/" . $fileName;
+		}
+
+		// Manipulate Database
+		$dt = new DateTime;
+		$article = DB::table('cg_board')->insert(
+			['clover_code' => $clover_code,
+			 'type' => 'urgency',
+			 'text' => $text,
+			 'image_path1' => $image_path1,
+			 'image_path2' => $image_path2,
+			 'image_path3' => $image_path3,
+			 'limitation' => $limitation,
+			 'due' => $due_date,
+			 'created_at' => $dt->format('y-m-d [H:i:s]'),
+			 'updated_at' => $dt->format('y-m-d [H:i:s]')
+		 ]
+		);
+
+		return redirect()->route('admin/clover', array('item' => 'list_urgency'));
+	}
+
+	private function editUrgencyPost()
+	{
+		$id = Input::get('seq');
+		$clover_code = Input::get('clover_code');
+		$text = Input::get('text');
+		$image1 = Input::file('image_path1');
+		$image2 = Input::file('image_path2');
+		$image3 = Input::file('image_path3');
+		$limitation = Input::get('limitation');
+		$due_date = Input::get('due_date');
+
+		// Get original(before edited) data
+		$orgData = DB::table('cg_board')->where('id', '=', $id)->first();
+
+		// Image paths
+		$image_path1 = $orgData->image_path1;
+		$image_path2 = $orgData->image_path2;
+		$image_path3 = $orgData->image_path3;
+
+		// Check deleting Image
+		if (Input::get('check_del1')) {
+			$image_path1 = null;
+		}
+		if (Input::get('check_del2')) {
+			$image_path2 = null;
+		}
+		if (Input::get('check_del3')) {
+			$image_path3 = null;
+		}
+
+		if ($image1 && $image1->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+
+			$fileExt = $image1->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_1_' . date("YmdHms") . '.' . $fileExt;
+			$image1->move($destinationPath, $fileName);
+
+			$image_path1 = $this->BASE_URL . "/imgs/up_file/board/" . $fileName;
+		}
+
+		if ($image2 && $image2->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+
+			$fileExt = $image2->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_2_' . date("YmdHms") . '.' . $fileExt;
+			$image2->move($destinationPath, $fileName);
+
+			$image_path2 = $this->BASE_URL . "/imgs/up_file/board/" . $fileName;
+		}
+
+		if ($image3 && $image3->isValid()) {
+			$destinationPath = '/home/clovergarden/cg_app/public/imgs/up_file/board';
+
+			$fileExt = $image3->getClientOriginalExtension();
+			$fileName = Auth::user()->user_id . '_3_' . date("YmdHms") . '.' . $fileExt;
+			$image3->move($destinationPath, $fileName);
+
+			$image_path3 = $this->BASE_URL . "/imgs/up_file/board/" . $fileName;
+		}
+
+		// Manipulate Database
+		$dt = new DateTime;
+		$article = DB::table('cg_board')->where('id', '=', $id)->update(
+			['clover_code' => $clover_code,
+			 'type' => 'urgency',
+			 'text' => $text,
+			 'image_path1' => $image_path1,
+			 'image_path2' => $image_path2,
+			 'image_path3' => $image_path3,
+			 'limitation' => $limitation,
+			 'due' => $due_date,
+			 'updated_at' => $dt->format('y-m-d [H:i:s]')
+		 ]
+		);
+
+		return redirect()->route('admin/clover', array('item' => 'list_urgency'));
+	}
+
+	private function delUrgencyPost()
+	{
+		$list_delete = Input::get('delete_seq');
+
+		foreach ($list_delete as $id) {
+			DB::table('cg_board')->where('id', '=', $id)->delete();
+		}
+
+		return redirect()->route('admin/clover', array('item' => 'list_urgency'));
+	}
+
 }
 
 ?>

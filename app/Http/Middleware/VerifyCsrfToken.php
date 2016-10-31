@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        //
+        '/agspay/AGSMobile_approve',
+        '/agspay/AGSMobile_cancel'
     ];
 }

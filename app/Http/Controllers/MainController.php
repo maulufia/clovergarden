@@ -7,11 +7,11 @@ use Flash;
 
 class MainController extends Controller
 {
-	
+
 	public function __construct() {
 		include(app_path().'/Custom/_common/_global.php');
 	}
-	
+
 	/*
 	  |--------------------------------------------------------------------------
 	  | Main Site Route Methods
@@ -20,27 +20,27 @@ class MainController extends Controller
 	  | These methods below are for main pages.
 	  |
 	  */
-	
+
 	// 메인
 	public function showHome() {
 		$sub_cate = null; // initiate
-		
+
 		// 팝업 (현재는 메인에만 적용됨)
 		$configModel = new \ConfigModel;
 		$popup = $configModel->getConfig('popup')->content;
-		
+
 		return view('front.home', ['sub_cate' => $sub_cate,
 															 'popup' => $popup
 															]);
 	}
-	
+
 	// 후원자마당
 	public function showSponsorZone() {
 		$sub_cate = 0; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
@@ -49,7 +49,7 @@ class MainController extends Controller
 		$option->write_link = $option->list_link.'&type=write';
 		$option->view_link = $option->list_link.'&type=view';
 		$option->edit_link = $option->list_link.'&type=edit';
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
     $cate_01 = \CateHelper::checkPage($sub_cate,'cate');
@@ -58,9 +58,9 @@ class MainController extends Controller
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
 		$cate_01_type = "";
 		$cate_02_result = \CateHelper::checkPage($sub_cate,'sub_cate_02');
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
+
 		// 원래 삭제는 POST로 해야하나, 기존에 GET으로 되어 있어서 바꾸기 힘들어 이렇게 해놓음
 		if($view_name == 'front.page.sponsorzone.activity_del')
 			return $this->cancelService();
@@ -69,7 +69,7 @@ class MainController extends Controller
 			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
 		}
-		
+
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -90,14 +90,14 @@ class MainController extends Controller
 														 'edit_link' => $option->edit_link
 														 ]);
 	}
-	
+
 	// 클로버가든
 	public function showCloverGarden() {
 		$sub_cate = 1; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
@@ -107,7 +107,7 @@ class MainController extends Controller
 		$option->writeresv_link = $option->list_link.'&type=writeresv';
 		$option->view_link = $option->list_link.'&type=view';
 		$option->edit_link = $option->list_link.'&type=edit';
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
     $cate_01 = \CateHelper::checkPage($sub_cate,'cate');
@@ -115,14 +115,14 @@ class MainController extends Controller
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
 		$cate_01_type = "";
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
+
 		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
 			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
 		}
-		
+
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -143,14 +143,14 @@ class MainController extends Controller
 														 'edit_link' => $option->edit_link
 														 ]);
 	}
-	
+
 	// 함께하는 사람들
 	public function showCompanion() {
 		$sub_cate = 2; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
@@ -159,7 +159,7 @@ class MainController extends Controller
 		$option->write_link = $option->list_link.'&type=write';
 		$option->view_link = $option->list_link.'&type=view';
 		$option->edit_link = $option->list_link.'&type=edit';
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
     $cate_01 = \CateHelper::checkPage($sub_cate,'cate');
@@ -167,65 +167,14 @@ class MainController extends Controller
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
 		$cate_01_type = "";
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
+
 		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
 			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
 		}
-		
-		return view($view_name, ['cate' => 0,
-														 'sub_cate' => $sub_cate,
-														 'cate_file' => $cate_file,
-														 'cate_name' => $cate_name,
-														 'sub_cate' => $sub_cate,
-														 'dep01' => $dep01,
-														 'dep02' => $dep02,
-														 'dep02_active' => $dep02_active,
-														 'cate_01' => $cate_01,
-														 'cate_01_result' => $cate_01_result,
-														 'cate_01_count' => $cate_01_count,
-														 'cate_01_type' => $cate_01_type,
-														 'seq' => $option->seq,
-														 'list_link' => $option->list_link,
-														 'view_link' => $option->view_link,
-														 'write_link' => $option->write_link,
-														 'edit_link' => $option->edit_link
-														 ]);
-	}
-	
-	// 이용안내
-	public function showInformation() {
-		$sub_cate = 3; // initiate
-		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
-		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
-		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
-		// Other Options for board
-		$option = new \StdClass();
-		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		$option->seq = isset($_GET['seq']) ? $_GET['seq'] : null;
-		$option->list_link = route('information') . "?cate=" . $sub_cate . "&dep01=" . $dep01 . "&dep02=" . $dep02;
-		$option->write_link = $option->list_link.'&type=write';
-		$option->view_link = $option->list_link.'&type=view';
-		$option->edit_link = $option->list_link.'&type=edit';
-		
-		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
-    $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
-    $cate_01 = \CateHelper::checkPage($sub_cate,'cate');
-		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
-		$cate_01_count = count($cate_01_result);
-		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-		$cate_01_type = "";
-		
-		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
-		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
-			Flash::warning('로그인 후 이용해주세요.');
-			return redirect()->route('login');
-		}
-		
+
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -246,22 +195,22 @@ class MainController extends Controller
 														 ]);
 	}
 
-  // 고객 센터	
-	public function showCustomer() {
-		$sub_cate = 4; // initiate
+	// 이용안내
+	public function showInformation() {
+		$sub_cate = 3; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
 		$option->seq = isset($_GET['seq']) ? $_GET['seq'] : null;
-		$option->list_link = route('customer') . "?cate=" . $sub_cate . "&dep01=" . $dep01 . "&dep02=" . $dep02;
+		$option->list_link = route('information') . "?cate=" . $sub_cate . "&dep01=" . $dep01 . "&dep02=" . $dep02;
 		$option->write_link = $option->list_link.'&type=write';
 		$option->view_link = $option->list_link.'&type=view';
 		$option->edit_link = $option->list_link.'&type=edit';
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
     $cate_01 = \CateHelper::checkPage($sub_cate,'cate');
@@ -269,14 +218,14 @@ class MainController extends Controller
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
 		$cate_01_type = "";
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
+
 		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
 			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
 		}
-		
+
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -296,28 +245,79 @@ class MainController extends Controller
 														 'edit_link' => $option->edit_link
 														 ]);
 	}
-	
+
+  // 고객 센터
+	public function showCustomer() {
+		$sub_cate = 4; // initiate
+		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
+		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
+		$dep02_active = isset($dep02) ? $dep02 : 0;
+
+		// Other Options for board
+		$option = new \StdClass();
+		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
+		$option->seq = isset($_GET['seq']) ? $_GET['seq'] : null;
+		$option->list_link = route('customer') . "?cate=" . $sub_cate . "&dep01=" . $dep01 . "&dep02=" . $dep02;
+		$option->write_link = $option->list_link.'&type=write';
+		$option->view_link = $option->list_link.'&type=view';
+		$option->edit_link = $option->list_link.'&type=edit';
+
+		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
+    $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
+    $cate_01 = \CateHelper::checkPage($sub_cate,'cate');
+		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
+		$cate_01_count = count($cate_01_result);
+		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
+		$cate_01_type = "";
+
+		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
+
+		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
+			Flash::warning('로그인 후 이용해주세요.');
+			return redirect()->route('login');
+		}
+
+		return view($view_name, ['cate' => 0,
+														 'sub_cate' => $sub_cate,
+														 'cate_file' => $cate_file,
+														 'cate_name' => $cate_name,
+														 'sub_cate' => $sub_cate,
+														 'dep01' => $dep01,
+														 'dep02' => $dep02,
+														 'dep02_active' => $dep02_active,
+														 'cate_01' => $cate_01,
+														 'cate_01_result' => $cate_01_result,
+														 'cate_01_count' => $cate_01_count,
+														 'cate_01_type' => $cate_01_type,
+														 'seq' => $option->seq,
+														 'list_link' => $option->list_link,
+														 'view_link' => $option->view_link,
+														 'write_link' => $option->write_link,
+														 'edit_link' => $option->edit_link
+														 ]);
+	}
+
 	// 로그인
 	public function showLogin() {
 		$sub_cate = 5; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
 		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-		$cate_01_type = ""; 
+		$cate_01_type = "";
 		$cate_02_result = 0;
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
+
 		return view($view_name, ['cate' => $sub_cate,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -332,14 +332,14 @@ class MainController extends Controller
 														 'cate_02_result' => $cate_02_result
 														 ]);
 	}
-	
+
 	// 마이페이지
 	public function showMypage() {
 		$sub_cate = 6; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
@@ -348,7 +348,7 @@ class MainController extends Controller
 		$option->write_link = $option->list_link.'&type=write';
 		$option->view_link = $option->list_link.'&type=view';
 		$option->edit_link = $option->list_link.'&type=edit';
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
     $cate_01 = \CateHelper::checkPage($sub_cate,'cate');
@@ -357,14 +357,14 @@ class MainController extends Controller
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
 		$cate_01_type = "";
 		$cate_02_result = \CateHelper::checkPage($sub_cate,'sub_cate_02');
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
-		
+
 		if($view_name == null) { // view_name이 null이면(인증필요) 리다이렉트
 			Flash::warning('로그인 후 이용해주세요.');
 			return redirect()->route('login');
 		}
-		
+
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -385,24 +385,24 @@ class MainController extends Controller
 														 'edit_link' => $option->edit_link
 														 ]);
 	}
-	
+
 	// 사이트맵
 	public function showSitemap() {
 		$sub_cate = 7; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
 		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-		$cate_01_type = ""; 
+		$cate_01_type = "";
 		$cate_02_result = 0;
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02);
-		
+
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -417,23 +417,23 @@ class MainController extends Controller
 														 'cate_02_result' => $cate_02_result
 														 ]);
 	}
-	
+
 	public function showUserinfo() {
 		$sub_cate = 8; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
 		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-		$cate_01_type = ""; 
+		$cate_01_type = "";
 		$cate_02_result = 0;
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02);
-		
+
 		return view($view_name, ['cate' => 0,
 														 'sub_cate' => $sub_cate,
 														 'cate_file' => $cate_file,
@@ -448,7 +448,7 @@ class MainController extends Controller
 														 'cate_02_result' => $cate_02_result
 														 ]);
 	}
-	
+
 	/*
   |--------------------------------------------------------------------------
   | Sub Route (AJAX)
@@ -457,31 +457,31 @@ class MainController extends Controller
   | These contains pages which will be used for AJAX call.
   |
   */
-  
+
   public function showPopup() {
 		return view('front.popup.popup');
   }
-  
+
   public function showCalendar() {
   	return view('front.page.sponsorzone.calendar');
   }
-  
+
   public function showCalendarDetail() {
   	return view('front.page.sponsorzone.calendar_detail');
   }
-  
+
   public function showTempSupportResult() {
   	$sub_cate = 1; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
 		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-		$cate_01_type = ""; 
+		$cate_01_type = "";
 		$cate_02_result = 0;
 
   	return view('front.page.clovergarden.home_write_result', ['cate' => 1,
@@ -498,19 +498,19 @@ class MainController extends Controller
 																														 'cate_02_result' => $cate_02_result
 																														 ]);
   }
-  
+
   public function showTempSupportResultPoint() {
   	$sub_cate = 1; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
 		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-		$cate_01_type = ""; 
+		$cate_01_type = "";
 		$cate_02_result = 0;
 
   	return view('front.page.clovergarden.home_write_resultpoint', ['cate' => 1,
@@ -527,19 +527,19 @@ class MainController extends Controller
 																																	 'cate_02_result' => $cate_02_result
 																																	 ]);
   }
-  
+
   public function showReserveSupportResult($data) {
   	$sub_cate = 1; // initiate
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
 		$dep02_active = isset($dep02) ? $dep02 : 0;
-		
+
 		$cate_file = \CateHelper::checkPage($sub_cate,'cate'); //대분류 이름
     $cate_name = \CateHelper::checkPage($sub_cate,'name'); //대분류 이름
 		$cate_01_result = \CateHelper::checkPage($sub_cate,'sub_cate_01');
 		$cate_01_count = count($cate_01_result);
 		// $cate_01_type = $this->checkPage($sub_cate,'sub_cate_01_type'); // TEMP 이상한 코드
-		$cate_01_type = ""; 
+		$cate_01_type = "";
 		$cate_02_result = 0;
 
   	return view('front.page.clovergarden.home_writeresv_result', ['cate' => 1,
@@ -556,15 +556,15 @@ class MainController extends Controller
 														 'cate_02_result' => $cate_02_result
 														 ]);
 	}
-	
+
 	public function showCheckMember() {
 		return view('front.page.mypage.checkmember');
 	}
-	
+
 	public function showCheckGroupName() {
   	return view('front.page.login.check_group_name');
   }
-	  
+
   /*
   |--------------------------------------------------------------------------
   | POST Method Controller
@@ -573,17 +573,17 @@ class MainController extends Controller
   | Because of Spaghetti code, creating post method controller
   |
   */
-  
+
   public function postMethodControl() {
 	  $sub_cate = isset($_GET['cate']) ? $_GET['cate'] : 0;
 		$dep01 = isset($_GET['dep01']) ? $_GET['dep01'] : 0;
 		$dep02 = isset($_GET['dep02']) ? $_GET['dep02'] : 0;
-		
+
 		// Other Options for board
 		$option = new \StdClass();
 		$option->type = isset($_GET['type']) ? $_GET['type'] : null;
 		$option->seq = isset($_GET['seq']) ? $_GET['seq'] : null;
-		
+
 		$view_name = \CateHelper::viewnameHelper($sub_cate, $dep01, $dep02, $option);
 
 		$search_sponsor_exec = array(
@@ -656,93 +656,93 @@ class MainController extends Controller
 		$signup = array(
 							'front.page.login.signup_write'
 							);
-		
+
 		foreach ($search_sponsor_exec as $fe) {
 			if($fe == $view_name) {
 				return $this->showSponsorZone();
 			}
 		}
-		
+
 		foreach ($search_clover_exec as $fe) {
 			if($fe == $view_name) {
 				return $this->showCloverGarden();
 			}
 		}
-		
+
 		foreach ($search_companion_exec as $fe) {
 			if($fe == $view_name) {
 				return $this->showCompanion();
 			}
 		}
-		
+
 		foreach ($search_customer_exec as $fe) {
 			if($fe == $view_name) {
 				return $this->showCustomer();
 			}
 		}
-		
+
 		foreach ($search_mypage_exec as $fe) {
 			if($fe == $view_name) {
 				return $this->showMypage();
 			}
 		}
-		
+
 		foreach ($board_sponsor_write as $fe) {
 			if($fe == $view_name) {
 				return $this->writePost();
 			}
 		}
-				
+
 		foreach ($board_sponsor_edit as $fe) {
 			if($fe == $view_name) {
 				return $this->editPost();
 			}
 		}
-		
+
 		foreach ($board_company_write as $fe) {
 			if($fe == $view_name) {
 				return $this->writeCompanyPost();
 			}
 		}
-		
+
 		foreach ($board_company_edit as $fe) {
 			if($fe == $view_name) {
 				return $this->editCompanyPost();
 			}
 		}
-		
+
 		foreach ($board_reply as $fe) {
 			if($fe == $view_name) {
 				return $this->replyPost();
 			}
 		}
-		
+
 		foreach ($board_sponsor_del as $fe) {
 			if($fe == $view_name) {
 				return $this->delSponsorPost();
 			}
 		}
-		
+
 		foreach ($board_company_del as $fe) {
 			if($fe == $view_name) {
 				return $this->delCompanyPost();
 			}
 		}
-		
+
 		// 봉사 신청
 		foreach ($service_apply as $fe) {
 			if($fe == $view_name) {
 				return $this->applyService();
 			}
 		}
-		
+
 		// 응원 댓글
 		foreach ($cheer_write as $fe) {
 			if($fe == $view_name) {
 				return $this->writeCheer();
 			}
 		}
-		
+
 		// 일시 후원
 		foreach ($support_temp as $fe) {
 			if($fe == $view_name) {
@@ -750,7 +750,7 @@ class MainController extends Controller
 				return $this->showTempSupportResult();
 			}
 		}
-		
+
 		// 일시 후원 (포인트)
 		foreach ($support_temp_point as $fe) {
 			if($fe == $view_name) {
@@ -758,38 +758,38 @@ class MainController extends Controller
 				return $this->showTempSupportResultPoint();
 			}
 		}
-		
+
 		// 정기 후원
 		foreach ($support_reserve as $fe) {
 			if($fe == $view_name) {
 				return $this->execReserveSupport();
 			}
 		}
-		
+
 		// 후원 기관 변경
 		foreach ($change_clover as $fe) {
 			if($fe == $view_name) {
 				return $this->changeClover();
 			}
 		}
-		
+
 		// 개인 정보 수정
 		foreach ($modify_personal as $fe) {
 			if($fe == $view_name) {
 				return $this->modifyPersonal();
 			}
 		}
-		
+
 		// 회원가입
 		foreach ($signup as $fe) {
 			if($fe == $view_name) {
 				return $this->userSignUp();
 			}
 		}
-		
+
 		return 'error';
 	}
-	
+
 	/*
   |--------------------------------------------------------------------------
   | Payment Controller
@@ -798,18 +798,18 @@ class MainController extends Controller
   | executing Payment
   |
   */
-  
+
  	private function execTempSupportPoint() {
  		// NON
  	}
-	
+
 	private function execReserveSupport() {
     $nClovermlist = new \ClovermlistClass(); //쪽지
 		$nPoint = new \PointClass(); //포인트
 
 		$nClovermlist->otype    = $_POST['otype']; // 이체/신용
 		$nClovermlist->clover_seq    = $_POST['clover_seq']; // 기관코드
-		
+
 		$nClovermlist->name    = $_POST['name']; // 이름
 		$nClovermlist->birth    = $_POST['birth']; // 생년월일
 		$nClovermlist->id    = Auth::user()->user_id; // 아이디
@@ -852,15 +852,15 @@ class MainController extends Controller
 
 		if($_POST['otype']=="자동이체"){
 			$nClovermlist->bank    = $_POST['bank'];
-			$nClovermlist->banknum    = $_POST['banknum']; 
-			$nClovermlist->bankdate    = ""; 
+			$nClovermlist->banknum    = $_POST['banknum'];
+			$nClovermlist->bankdate    = "";
 		}else if($_POST['otype']=="신용카드"){
 			$nClovermlist->bank    = $_POST['card'];
 			$nClovermlist->banknum    = $_POST['cardnum'];
-			$nClovermlist->bankdate    = $_POST['carddate2'].'년'.$_POST['carddate1'].'월'; 
+			$nClovermlist->bankdate    = $_POST['carddate2'].'년'.$_POST['carddate1'].'월';
 		}
 
-	    
+
 		$arr_field = array
 	    (
 	        'otype', 'clover_seq', 'name', 'group_name', 'birth', 'id', 'price', 'day', 'start', 'zip', 'address', 'cell', 'email', 'bank', 'banknum', 'bankdate', 'order_ck' ,'order_adm_ck'
@@ -882,11 +882,11 @@ class MainController extends Controller
 		if(count($nPoint->read_result) != 0){
 			$nPoint->VarList($nPoint->read_result);
 		}
-		
+
 		// 원래 포인트 지급 자체가 제대로 되지 않음
 		$nPoint->inpoint = isset($nPoint->inpoint) ? $nPoint->inpoint : 0;
 		$nPoint->outpoint = isset($nPoint->outpoint) ? $nPoint->outpoint : 0;
-	
+
 		$use_point = $nPoint->inpoint - $nPoint->outpoint;
 		if($nClovermlist->price > $use_point && $nClovermlist->otype == "point"){
 			JsAlert("보유하신 포인트보다 후원할 포인트가 더 많습니다.", 0);
@@ -923,7 +923,7 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		$data = new \StdClass();
 		$data->otype = $nClovermlist->otype;
 		$data->clover_seq = $nClovermlist->clover_seq;
@@ -933,15 +933,42 @@ class MainController extends Controller
 		$data->price = $nClovermlist->price;
 		$data->day = $nClovermlist->day;
 		$data->start = $nClovermlist->start;
-		
+
 		$data->bank = $nClovermlist->bank;
 		$data->banknum = $nClovermlist->banknum;
 		$data->bankdate = $nClovermlist->bankdate;
-		
+
 		Flash::success('정기후원이 신청되었습니다.');
 	  return $this->showReserveSupportResult($data);
 	}
-	
+
+	/*
+  |--------------------------------------------------------------------------
+  | Mobile Controller
+  |--------------------------------------------------------------------------
+  |
+  | executing Mobile view (currently only for android)
+  |
+  */
+
+	public function showMobileNews($id)
+	{
+		$title = "새소식";
+		$notice = DB::table('new_tb_notice')->where('seq', '=', $id)->first();
+
+		return view('mobile.board.view', ['title' => $title,
+																			'post' => $notice]);
+	}
+
+	public function showMobileFAQ($id)
+	{
+		$title = "자주하는 질문";
+		$faq = DB::table('new_tb_faq')->where('seq', '=', $id)->first();
+
+		return view('mobile.board.view', ['title' => $title,
+																			'post' => $faq]);
+	}
+
 	/*
   |--------------------------------------------------------------------------
   | Database Controller
@@ -950,7 +977,7 @@ class MainController extends Controller
   | executing CRUD <- Need to be moved to MODEL
   |
   */
-  
+
   public function checkId() {
 		$nMember = new \MemberClass(); //회원
 
@@ -981,7 +1008,7 @@ class MainController extends Controller
 		$json_return = json_encode($arr_json);
 		echo urldecode($json_return);
   }
-  
+
   public function checkSns() {
 		if($_POST['action']=='go'){
 
@@ -1100,7 +1127,7 @@ class MainController extends Controller
 			//echo "<script>location.href='".$returnurl."';</script>";
 		}
   }
-  
+
   public function checkGroup() {
 		$nMember = new \MemberClass(); //회원
 
@@ -1132,7 +1159,7 @@ class MainController extends Controller
 		$json_return = json_encode($arr_json);
 		echo urldecode($json_return);
   }
-  
+
   public function execEmail() {
     $nEmail= new \EmailClass(); //온라인상담
 
@@ -1173,11 +1200,11 @@ class MainController extends Controller
 
     $json_return = json_encode($arr_json);
     // echo '@@||@@'.urldecode($json_return); 무얼 위한 기능인지 모르겠다. AJAX였어서 그런 듯.
-    
+
     Flash::success('메일이 발송되었습니다.');
     return redirect()->route('home');
   }
-  
+
   private function writePost() {
   	$nFree = new \FreeClass(); //자유게시판
 
@@ -1192,9 +1219,9 @@ class MainController extends Controller
     );
 
 		$arr_value = array($nFree->writer, $nFree->subject, $nFree->content, Auth::user()->group_name);
-		
-		
-	
+
+
+
   	//======================== DB Module Start ============================
 		$Conn = new \DBClass();
 
@@ -1211,11 +1238,11 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		Flash::success(SUCCESS_WRITE);
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 1));
   }
-  
+
   private function editPost() {
 		$nFree = new \FreeClass();
 
@@ -1232,7 +1259,7 @@ class MainController extends Controller
     (
         $nFree->subject, $nFree->content
     );
-    
+
     $seq = $_POST['seq'];
 
 		//======================== DB Module Start ============================
@@ -1249,7 +1276,7 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		Flash::success(SUCCESS_EDIT);
 		return redirect()->route('sponsorzone', array('cate' => 0,
 																									'dep01' => 1,
@@ -1258,14 +1285,14 @@ class MainController extends Controller
 																									'seq' => $seq
 																									));
   }
-  
+
   private function editCompanyPost() {
 		$nSchedule = new \ScheduleClass(); //
 
 		$nSchedule->writer    = $_POST['writer']."," . Auth::user()->user_id; // 작성자ID
 		$nSchedule->subject    = $_POST['subject'];
 		$nSchedule->content    = RepEditor($_POST['content']); // 내용
-		
+
 		$seq = isset($_POST['seq']) ? $_POST['seq'] : 0;
 
     $arr_field = array
@@ -1292,7 +1319,7 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		Flash::success(SUCCESS_EDIT);
 		return redirect()->route('sponsorzone', array('cate' => 0,
 																									'dep01' => 1,
@@ -1301,16 +1328,16 @@ class MainController extends Controller
 																									'seq' => $seq
 																									));
   }
-  
+
   private function replyPost() {
 		$Conn = new \DBClass();
 		$rmode = isset($_POST['rmode']) ? $_POST['rmode'] : '';
-		
+
 		$cate = $_POST['cate'];
 		$dep01 = $_POST['dep01'];
 		$dep02 = $_POST['dep02'];
 		$seq = $_POST['seq'];
-		
+
 		if($rmode == "replyi"){
 			$sql = "
 			insert into new_tb_reply set
@@ -1325,9 +1352,9 @@ class MainController extends Controller
 				dep02='".$dep02."',
 				seq='".$seq."'
 			";
-			
+
 			mysql_query($sql);
-			
+
 			Flash::success('댓글이 등록되었습니다.');
 			if($cate != 6) {
 				return redirect()->route('sponsorzone', array('cate' => '0', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
@@ -1337,7 +1364,7 @@ class MainController extends Controller
 		} else if ($rmode == "replym") {
 			$sql = "update new_tb_reply set comment='".$_POST['comment']."' where idx='".$_POST['ridx']."'";
 			mysql_query($sql);
-			
+
 			Flash::success('댓글이 수정되었습니다.');
 			if($cate != 6) {
 				return redirect()->route('sponsorzone', array('cate' => '0', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
@@ -1347,7 +1374,7 @@ class MainController extends Controller
 		} else if ($rmode == "replyd") {
 			$sql = "delete from new_tb_reply where idx='".$_POST['ridx']."'";
 			mysql_query($sql);
-			
+
 			Flash::success('댓글이 삭제되었습니다.');
 			if($cate != 6) {
 				return redirect()->route('sponsorzone', array('cate' => '0', 'dep01' => $dep01, 'dep02' => $dep02, 'type' => 'view', 'seq' => $seq));
@@ -1358,39 +1385,39 @@ class MainController extends Controller
 
 		$Conn->DisConnect();
   }
-  
+
   private function delSponsorPost() {
   	$seq = isset($_GET['seq']) ? $_GET['seq'] : 0;
-  	
+
   	// 삭제자가 관리자 혹은 작성자임을 확인
   	$post = DB::table('new_tb_free')->where('seq', '=', $seq);
   	$writer = $post->select('writer')->get();
   	$writer = explode(',', $writer[0]->writer);
-  	
+
   	if($writer[1] != Auth::user()->user_id) {
   		Flash::error(NO_PATH);
   		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 1));
   	}
-  	
+
   	// 삭제
   	$post->delete();
-  
+
   	Flash::success(SUCCESS_DELETE);
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 1));
   }
-  
+
   private function delCompanyPost() {
   	$seq = isset($_GET['seq']) ? $_GET['seq'] : 0;
-  	
+
   	$post = DB::table('new_tb_schedule')->where('seq', '=', $seq);
-  	
+
   	// 삭제
   	$post->delete();
-  
+
   	Flash::success(SUCCESS_DELETE);
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 1, 'dep02' => 2));
   }
-  
+
   private function applyService() {
     $nSchedulepeo = new \SchedulepeoClass(); //자유게시판
 
@@ -1424,11 +1451,11 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		Flash::success('신청 완료되었습니다.');
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 2));
   }
-  
+
   private function cancelService() {
     $nSchedulepeo   = new \SchedulepeoClass();
 
@@ -1451,14 +1478,14 @@ class MainController extends Controller
 		Flash::success('신청 취소되었습니다.');
 		return redirect()->route('sponsorzone', array('cate' => 0, 'dep01' => 2));
   }
-  
+
   private function writeCheer() {
     $nClovercomment = new \ClovercommentClass(); //클로버코멘트
 
 		$nClovercomment->writer    = Auth::user()->user_name . ',' . Auth::user()->user_id; // 작성자ID
 		$nClovercomment->subject    = $_POST['subject']; // 제목
 		$nClovercomment->clover_seq    = $_POST['clover_seq']; // 클로버아이디
-	    
+
 		$arr_field = array
 	    (
 	        'group_name', 'writer', 'subject', 'clover_seq'
@@ -1483,22 +1510,22 @@ class MainController extends Controller
 
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
-		
+
 		//http://52.79.83.28/clovergarden?cate=1&dep01=0&dep02=0&type=view&seq=16#tabs-4
 		$seq = isset($_POST['seq']) ? $_POST['seq'] : 0;
-		
+
 		Flash::success(SUCCESS_WRITE);
 		return redirect()->to(route('clovergarden').'?cate=1&dep01=0&dep02=0&type=view&seq='.$seq.'#tabs-4');
 		//return redirect()->route('clovergarden', array('cate' => 1, 'dep01' => 0, 'dep02' => 0, 'type' => 'view', 'seq' => $seq, '\#tab-4' => ''));
   }
-  
+
   private function changeClover() {
   	$cseq = isset($_POST['cseq']) ? $_POST['cseq'] : '';
-  	
-  	$nMember = new \MemberClass(); 
-  	
+
+  	$nMember = new \MemberClass();
+
   	$Conn = new \DBClass();
-  	
+
   	$nMember->read_result = $Conn->AllList($nMember->table_name, $nMember, '*', "where user_id ='" . Auth::user()->user_id . "'", null, null);
     if(count($nMember->read_result) != 0){
         $nMember->VarList($nMember->read_result);
@@ -1506,17 +1533,17 @@ class MainController extends Controller
         $Conn->DisConnect();
         JsAlert(ERR_LOGIN, 1, $list_link);
     }
-  	
+
 		if($cseq != ""){
 			$sql = "update new_tb_member set clover_seq='" . $cseq . "', update_ck='Y' where user_id='" . Auth::user()->user_id . "'";
 			mysql_query($sql);
-			
+
 			Flash::success('변경 요청이 접수되었습니다.');
 			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0));
 		}
 
 		$cseq2 = isset($_POST['cseq2']) ? $_POST['cseq2'] : '';
-		
+
 		$ck_price = null;
 		if($cseq2 != ""){
 			for($i=1; $i<count($cseq2); $i++){
@@ -1528,12 +1555,12 @@ class MainController extends Controller
 				}
 				$arr_count_v[$i] = $cseq2[$i];
 			}
-			
+
 			if($_POST['sum_price_ck'] != $ck_price){
 				Flash::error('변경금액을 확인해주세요!');
 				return redirect()->route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0));
 			}
-			
+
 			$arr_count = count($arr_count_v);
 
 			$uniq_count = count(array_unique($arr_count_v));
@@ -1550,7 +1577,7 @@ class MainController extends Controller
 			return redirect()->route('mypage', array('cate' => 6, 'dep01' => 4, 'dep02' => 0));
 		}
   }
-  
+
   private function modifyPersonal() {
     $nMember = new \MemberClass(); //회원
 
@@ -1581,7 +1608,7 @@ class MainController extends Controller
 		}
 
 		$nMember->user_birth     = $_POST['user_birth'];
-		$nMember->user_gender     = $_POST['user_gender'];    
+		$nMember->user_gender     = $_POST['user_gender'];
     $nMember->user_cell = $_POST['user_cell'];
     $nMember->post1 = $_POST['post1'];
     $nMember->post2 = $_POST['post2'];
@@ -1600,7 +1627,7 @@ class MainController extends Controller
     $nMember->file_real[1] = $_POST['file_real1'];
     $nMember->file_edit[1] = $_POST['file_edit1'];
     $nMember->file_byte[1] = $_POST['file_byte1'];
-	
+
     $nMember->file_pre_name[1] = $nMember->file_edit[1];
 
     $check_del[1] = isset($_POST['check_del1']) ? $_POST['check_del1'] : null;
@@ -1629,7 +1656,7 @@ class MainController extends Controller
                 $nMember->file_pre_name[$cnt_file] = '';
             }
         }
-    }	
+    }
 
     $arr_field = array
     (
@@ -1659,11 +1686,11 @@ class MainController extends Controller
     }
 
 		$Conn->disConnect();
-		
+
 		Flash::success(SUCCESS_EDIT);
 		return redirect()->route('mypage', array('cate' => 6, 'dep01' => 3, 'dep02' => 0));
   }
-  
+
   private function userSignUp() {
     $nMember = new \MemberClass(); //회원
 
@@ -1671,7 +1698,7 @@ class MainController extends Controller
 		if($nMember->user_state==1){
 			//
 		}
-		
+
 		$nMember->user_name        = $_POST['user_name'];
 
 		if($nMember->user_state==2){
@@ -1681,11 +1708,11 @@ class MainController extends Controller
 		}else if($nMember->user_state==4){
 			$nMember->group_name        = $_POST['group_name3'];
 		}
-	
+
     $nMember->user_id    = RequestAll(strtolower($_POST['user_id']));
     $nMember->user_pw    = Hash::make(strtolower($_POST['user_pw']));
 		$nMember->user_birth     = $_POST['user_birth'];
-		$nMember->user_gender     = $_POST['user_gender'];    
+		$nMember->user_gender     = $_POST['user_gender'];
     $nMember->user_cell = $_POST['user_cell'];
     $nMember->group_state = $_POST['group_state'];
     $nMember->member_t = $_POST['member_t'];
@@ -1725,7 +1752,7 @@ class MainController extends Controller
 			// 자동 로그인
 			$id = DB::table('new_tb_member')->where('user_id', $nMember->user_id)->value('id');
 			Auth::loginUsingId($id);
-			
+
 			Flash::success(SUCCESS_MEMBER_JOIN);
 			return redirect()->route('home');
 		}

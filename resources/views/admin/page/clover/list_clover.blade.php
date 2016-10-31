@@ -122,8 +122,8 @@
 					        <th>썸네일</th>
                   <th>기관명(코드값)</th>
                   <th>조회수</th>
-                  <th>작성일</th>                    
-                  <th>온도계</th>                    
+                  <th>작성일</th>
+                  <th>온도계</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -148,8 +148,8 @@
                         <a href="{{ route('admin/clover', array('item' => 'list_clover', 'seq' => $nClover->seq, 'row_no' => $row_no, 'type' => 'view')) }}">{{ $nClover->subject }} (<font color='red'>{{ $nClover->code }}</font>)</a>
                     </td>
 					<td>{{ $nClover->hit }}</td>
-                    <td>{{ str_replace('-','.',substr($nClover->reg_date,0,10)) }}</td>                    
-                    <td>{{ $nClover->hot }}도</td>                    
+                    <td>{{ str_replace('-','.',substr($nClover->reg_date,0,10)) }}</td>
+                    <td>{{ $nClover->hot }}도</td>
                 </tr>
 <?php
             $row_no = $row_no - 1;
@@ -165,7 +165,7 @@
                 </tbody>
             </table>
             {{ UserHelper::SubmitHidden() }}
-            
+
             </form>
             <div class="paging-area">
             <?php

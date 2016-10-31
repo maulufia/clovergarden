@@ -43,7 +43,7 @@ $Conn = new DBClass();
       $Conn->RollbackTrans();
       $Conn->disConnect();
   }
-  
+
   $clover_name_v = (new \CloverModel())->getCloverList();
 	$sql = "
 	insert into new_tb_point set
@@ -103,7 +103,7 @@ $Conn->disConnect();
 				<td colspan="3" class="first0">
 					<div class="xm_left radioForm h200">
 						<div class="mr20">포인트</div>
-					</div>	
+					</div>
 				</td>
 			</tr>
 			<tr >
@@ -129,12 +129,12 @@ $Conn->disConnect();
 							비회원
 						@endif
 						</div>
-					</div>	
+					</div>
 				</td>
 			</tr>
-			
+
 		</table>
-		
+
 		</form>
 	</article>
 </section>

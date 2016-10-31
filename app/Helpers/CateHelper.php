@@ -1,7 +1,7 @@
 <?php
 
 class CateHelper {
-	
+
 	private $cate_factory;
 
 	/*
@@ -12,7 +12,7 @@ class CateHelper {
   | Temporary
   |
   */
-  
+
   private static function getCateFactory() {
   	$cate_factory = array(
 									'sponsorzone',
@@ -25,25 +25,25 @@ class CateHelper {
 									'sitemap',
 									'userinfo'
 								);
-  	
+
   	return $cate_factory;
   }
-	  
+
 	public static function getCateName($cate) {
 		// 대분류 뷰 네임
 		$cate_factory = CateHelper::getCateFactory();
-		
+
 		return $cate_factory[$cate];
 	}
-	
+
 	// 카테고리 헬퍼
 	public static function viewnameHelper($sub_cate, $dep01, $dep02, $option = null) {
 		$view_name = "";
-		
+
 		// 대분류 뷰 네임
 		$cate_factory = CateHelper::getCateFactory();
 		$cate_name = $cate_factory[$sub_cate];
-		
+
 		// 소분류 뷰 네임
 		$dep01_factory = new \StdClass();
 		$dep01_factory->sponsorzone = array(
@@ -94,10 +94,10 @@ class CateHelper {
 		$dep01_factory->userinfo = array(
 															'home'
 														);
-		
+
 		$dep01_name = $dep01_factory->$cate_name;
 		$dep01_name = $dep01_name[$dep01];
-		
+
 		// 소소분류 뷰 네임
 		$dep02_factory = new \StdClass(); // dep01과 dep02의 name은 절대 겹치면 안됨 -> 디자인 에러
 		$dep02_factory->community = array(
@@ -120,13 +120,13 @@ class CateHelper {
 		} else {
 			$dep02_name = '';
 		}
-		
+
 		// 보드 타입 검사
 		$type = null;
 		if(isset($option) && !is_null($option->type)) {
 			$type = "_".$option->type;
 		}
-		
+
 		$view_name = "front.page." . $cate_name . "." . $dep01_name . $dep02_name . $type;
 
 		// 인증이 필요한 페이지 체크
@@ -146,8 +146,8 @@ class CateHelper {
 
 		return $view_name;
 	}
-	
-	// 페이지 체크 헬퍼 <- 헬퍼 쪽으로 이동 필요 
+
+	// 페이지 체크 헬퍼 <- 헬퍼 쪽으로 이동 필요
 	public static function checkPage($category,$select){
     switch($category){
 
@@ -231,7 +231,7 @@ class CateHelper {
 
     }
   }
-  
+
   public static function adminCateHelper($page_key) {
     /*--------------------*
     * page
@@ -295,13 +295,13 @@ class CateHelper {
         break;
 	    case 'A5' :
         $content_txt = '홍보소식지발송이력';
-        break;			
+        break;
 	    case 'A6' :
         $content_txt = '약관 관리';
-        break;			
+        break;
 	    case 'A7' :
         $content_txt = '정기소식지발송이력';
-        break;			
+        break;
 	    case 'A8' :
         $content_txt = '탈퇴회원';
         break;
@@ -343,6 +343,9 @@ class CateHelper {
 			case 'C7' :
         $content_txt = '후원대상 변경신청';
         break;
+			case 'C8' :
+        $content_txt = '긴급후원관리';
+        break;
         //---------------------------------------
       case 'D1' :
         $content_txt = '함께하는사람들';
@@ -364,7 +367,7 @@ class CateHelper {
         $content_txt = '1:1문의';
 				break;
 			case 'E3' :
-      	$content_txt = '자주묻는질문';  
+      	$content_txt = '자주묻는질문';
 				break;
 			//---------------------------------------
       case 'F1' :
@@ -397,15 +400,15 @@ class CateHelper {
     //---------------------------------------
     case 'J1' :
         $content_txt = '설정 - 팝업 관리';
-        break; 
+        break;
 		}
-		    
+
     $result = new StdClass();
     $result->key_large = $key_large;
     $result->key_small = $key_small;
     $result->title_txt = $title_txt;
     $result->content_txt = $content_txt;
-    
+
     return $result;
 	}
 

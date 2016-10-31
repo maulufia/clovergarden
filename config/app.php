@@ -156,13 +156,14 @@ return [
         clovergarden\Providers\AuthServiceProvider::class,
         clovergarden\Providers\EventServiceProvider::class,
         clovergarden\Providers\RouteServiceProvider::class,
-        
+
         /*
          * Custom Providers
          */
         Laravel\Socialite\SocialiteServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
-        
+        LaravelFCM\FCMServiceProvider::class,
+
         /*
          * Flash
          */
@@ -214,7 +215,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
         'Flash'     => 'Laracasts\Flash\Flash',
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'FCM'       => LaravelFCM\Facades\FCM::class
     ],
 
 ];

@@ -5,7 +5,7 @@
 	$page_no = isset($_REQUEST['page_no']) ? $_REQUEST['page_no'] : 1;
 	$search_key = isset($_REQUEST['search_key']) ? $_REQUEST['search_key'] : '';
 	$search_val = isset($_REQUEST['search_val']) ? $_REQUEST['search_val'] : '';
-		
+
 	$nClovernews = new ClovernewsClass(); //
 //======================== DB Module Clovernewst ============================
 	$Conn = new DBClass();
@@ -16,7 +16,7 @@
 	);
 
 	$nClovernews->page_result = $Conn->PageList
-	(	
+	(
 		$nClovernews->table_name, $nClovernews, $nClovernews->where, $search_key, $search_val, 'order by reg_date desc', $nClovernews->sub_sql, $page_no, $nClovernews->page_view, null
 	);
 
@@ -35,7 +35,7 @@ $Conn->DisConnect();
 	</header>
 	<article class="brd_tab_list tab195">
 		<h2>후원기관</h2>
-		
+
 		<!-- showcase -->
 		<div id="showcase" class="showcase">
 			<div class="showcase-slide">
@@ -43,13 +43,13 @@ $Conn->DisConnect();
 					<a href="#"><img src="/imgs/S09Titleimage.png" alt=""></a>
 				</div>
 			</div>
-			
+
 			<div class="showcase-slide">
 				<div class="showcase-content">
 					<a href="#"><img src="/imgs/S10Titleimage.png" alt=""></a>
 				</div>
 			</div>
-			
+
 			<div class="showcase-slide">
 				<div class="showcase-content">
 					<a href="#"><img src="/imgs/S11Titleimage.png" alt=""></a>
@@ -61,7 +61,7 @@ $Conn->DisConnect();
 
 
 
-			
+
 		<?php
 			if(count($nClovernews->page_result) > 0){
 				$row_no = $nClovernews->total_record - ($nClovernews->page_view * ($page_no - 1));
@@ -72,14 +72,14 @@ $Conn->DisConnect();
 		<div class="box5-wrapper">
 			<div class="box5">
 				<div class="img">
-					<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank">
+					<a href="{{ route('clovergarden', array('cate' => 1, 'dep01' => 1, 'type' => 'view', 'filename' => $nClovernews->file_edit[2])) }}">
 						<img src='/imgs/up_file/clover/{{ $nClovernews->file_edit[1] }}' border='0' width='100%'>
-				</a>
+					</a>
 				</div>
 				<div class="title">
-					<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank"><img src="/imgs/pdf.jpg"></a>
+					<a href="{{ route('clovergarden', array('cate' => 1, 'dep01' => 1, 'type' => 'view', 'filename' => $nClovernews->file_edit[2])) }}"><img src="/imgs/pdf.jpg"></a>
 				<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php }else{ ?><img src="/imgs/dot2.jpg"><?php } ?>
-				<a href="/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" target="_blank" style="display: block;">{{ $nClovernews->subject }}</a>
+				<a href="{{ route('clovergarden', array('cate' => 1, 'dep01' => 1, 'type' => 'view', 'filename' => $nClovernews->file_edit[2])) }}" style="display: block;">{{ $nClovernews->subject }}</a>
 				</div>
 			</div>
 		</div>
@@ -109,7 +109,7 @@ $Conn->DisConnect();
 			{{ UserHelper::SubmitHidden() }}
 		</form>
 
-		
+
 	</article>
 </section>
 <div class="div_popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000;">
@@ -131,7 +131,7 @@ $(document).ready(function()
 		buttons:				false,
 		stoponclick:			false,
 		transition_delay:		0,
-		transition_speed:		1000,		
+		transition_speed:		1000,
 	});
 });
 

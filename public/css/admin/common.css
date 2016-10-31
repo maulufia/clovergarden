@@ -368,3 +368,13 @@ span.calendar {position:relative;}
 span.calendar .calendar-btn {cursor:pointer;}
 span.calendar .calendar-layer {display:none; position:absolute; z-index:9999999999999; left:20px; top:-150px;}
 span.calendar .calendar-frame {width:169px; height:180px; border:1px solid #999;}
+
+/* pagination */
+.pagination li {
+  display: inline-block;
+  width: 15px;
+}
+li.active {
+  color: #50c34a;
+  font-weight: bold;
+}
