@@ -106,15 +106,16 @@ function sendSubmit(pType)
         <table class="bbs-list">
           <caption>{{ $content_txt }}</caption>
           <colgroup>
-          <col style="width:50px;" />
-          <col style="width:50px;" />
-          <col style="width:150px;" />
-          <col />
-
-        </colgroup>
+            <col style="width:50px;" />
+            <col style="width:50px;" />
+            <col style="width:50px;" />
+            <col style="width:150px;" />
+            <col />
+          </colgroup>
         <thead>
           <tr>
            <th>선택</th>
+           <th>정렬</th>
            <th>번호</th>
            <th>썸네일</th>
            <th>제목</th>
@@ -129,6 +130,10 @@ function sendSubmit(pType)
             ?>
             <tr>
              <td><input type="checkbox" name="delete_seq[]" value="{{ $nClover->seq }}" /></td>
+             <td>
+               <input type="hidden" name="order_seq[]" value="{{ $nClover->seq }}" />
+               <input type="text" size="4" name="order_num[]" value="{{ $nClover->view_n }}" />
+             </td>
              <td>{{ $row_no }}</td>
              <td>
               <img src='/imgs/up_file/clover/{{ $nClover->file_edit[1] }}' border='0' width='130px'>
@@ -151,7 +156,7 @@ function sendSubmit(pType)
     </tbody>
   </table>
   {{ UserHelper::SubmitHidden() }}
-  
+
 </form>
 <div class="paging-area">
   <?php
@@ -173,7 +178,7 @@ function sendSubmit(pType)
 <!-- //right_area -->
 <form name="form_submit" method="post" action="{{ $list_link }}" style="display:inline">
   {{ UserHelper::SubmitHidden() }}
-  
+
 </form>
 </div>
 <!-- container -->

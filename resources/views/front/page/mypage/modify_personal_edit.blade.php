@@ -26,10 +26,10 @@ $Conn->DisConnect();
 <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
 <script type="text/javascript" charset="UTF-8" src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1429776925384/150423a.js"></script>
 
-<script>    
-function openDaumPostcode() {        
-	new daum.Postcode({            
-		oncomplete: function(data) {     
+<script>
+function openDaumPostcode() {
+	new daum.Postcode({
+		oncomplete: function(data) {
 			//document.getElementById('member_addres').value = data.address;
 
 			//전체 주소에서 연결 번지 및 ()로 묶여 있는 부가정보를 제거하고자 할 경우,
@@ -40,8 +40,8 @@ function openDaumPostcode() {
 			document.getElementById('addr1').value = addr;
 			document.getElementById('addr2').focus();
 
-		}       
-	}).open();    
+		}
+	}).open();
 }
 </script>
 <section class="wrap">
@@ -87,7 +87,7 @@ function openDaumPostcode() {
 							?>
 						</div>
 						<div class="xm_left ml10 upload">
-							<input type="file" name="upfile1" onchange="change_file(this);"/>						
+							<input type="file" name="upfile1" onchange="change_file(this);"/>
 						</div>
 						<div class="checkbox" style="line-height: 33px; margin-left: 15px; float: left;">
 							@if(!empty($nMember->file_edit[1]))
@@ -96,6 +96,17 @@ function openDaumPostcode() {
 						</div>
 					</td>
 				</tr>
+        <tr>
+          <th scope="row">소속 기업</th>
+          <td class="c_dark_gray t_bold fs14">
+            @if (!empty($nMember->group_name))
+              {{ $nMember->group_name }}<input id="group_name" type="hidden" name="group_name" value="{{ $nMember->group_name }}" />
+              <a href="#" class="ml10 green_btn" onclick="resignGroup()">탈퇴</a>
+            @else
+              소속 없음
+            @endif
+          </td>
+        </tr>
 				<tr >
 					<th scope="row">이메일(ID)</th>
 					<td class="c_dark_gray t_bold fs14">{{ $nMember->user_id }}</td>
@@ -124,24 +135,24 @@ function openDaumPostcode() {
 				<tr >
 					<th scope="row">생년월일</th>
 					<td>
-						<input type="text" name="user_birth" placeholder="ex) 19850319" class="w420 onlyNumber" value="{{ $nMember->user_birth }}"> 
+						<input type="text" name="user_birth" placeholder="ex) 19850319" class="w420 onlyNumber" value="{{ $nMember->user_birth }}">
 					</td>
 				</tr>
 				<tr >
 					<th scope="row">주소</th>
 					<td style="line-height:300%;">
-						<input type="text" name="post1" id="post1" value="{{ $nMember->post1 }}" style="width:50px;"> - 
-						<input type="text" name="post2" id="post2" value="{{ $nMember->post2 }}" style="width:50px;" > 
-						<a onclick="javascript:openDaumPostcode()" class="green_btn resize">주소검색</a>
+						<input type="text" name="post1" id="post1" value="{{ $nMember->post1 }}" style="width:50px;"> -
+						<input type="text" name="post2" id="post2" value="{{ $nMember->post2 }}" style="width:50px;" >
+						<a href="#" onclick="javascript:openDaumPostcode()" class="green_btn resize">주소검색</a>
 						<BR>
-						<input type="text" name="addr1" id="addr1" value="{{ $nMember->addr1 }}" style="width:200px;"> 
-						<input type="text" name="addr2" id="addr2" value="{{ $nMember->addr2 }}" style="width:200px;"> 
+						<input type="text" name="addr1" id="addr1" value="{{ $nMember->addr1 }}" style="width:200px;">
+						<input type="text" name="addr2" id="addr2" value="{{ $nMember->addr2 }}" style="width:200px;">
 					</td>
 				</tr>
 				<tr >
 					<th scope="row">휴대전화번호</th>
 					<td>
-						<input type="text" name="user_cell" placeholder="ex) 01012341234" class="w420 onlyNumber" value="{{ $nMember->user_cell }}"> 
+						<input type="text" name="user_cell" placeholder="ex) 01012341234" class="w420 onlyNumber" value="{{ $nMember->user_cell }}">
 					</td>
 				</tr>
 			</table>
@@ -151,7 +162,7 @@ function openDaumPostcode() {
 		<input type="hidden" name="file_edit1" value="{{ $nMember->file_edit[1] }}"/>
 		<input type="hidden" name="file_byte1" value="{{ $nMember->file_byte[1] }}"/>
 		<div class="box2">
-		<a href="#" id="save" class="orange_big_btn">수정</a> 
+		<a href="#" id="save" class="orange_big_btn">수정</a>
 		<a href="javascript:if(confirm('회원 탈퇴입니다. 정기 후원 해지는 클로버가든 대표전화로 해지하셔야 합니다.')){ window.location='{{ route('userdrop', array('cate' => 6, 'dep01' => 3, 'dep02' => 0, 'type' => 'edit', 'mseq' => $nMember->seq)) }}'; }" class="gray_big_btn2">회원탈퇴</a>
 		</div>
 		</form>
@@ -165,12 +176,12 @@ function openDaumPostcode() {
 		<div class="find_cont">
 			<form method="post" onsubmit = "check_group_search(); return false;">
 				<fieldset>
-					<legend>찾기</legend>					
-					<input id="group_find_str" type="text" value=""><a href="javascript:check_group_search2();" class="green_btn ml10">찾기</a>					
+					<legend>찾기</legend>
+					<input id="group_find_str" type="text" value=""><a href="javascript:check_group_search2();" class="green_btn ml10">찾기</a>
 					<h3 class="mb0">검색결과</h3>
 					<ul class="mem_result" style = "height:260px;" id = "group_result">
 						<p align ="center">검색결과가 없습니다.</p>
-					</ul>					
+					</ul>
 				</fieldset>
 			</form>
 		</div>
@@ -230,7 +241,7 @@ function check_group_popup(type)
 		}
 		$('#group_find_str').val($('#group_name1').val());
 		check_group_search();
-		
+
 		$("#search_result").show();
 	}
 }
@@ -250,7 +261,7 @@ function set_group(group_name)
 <script type="text/javascript">
 (function($) {
     $(function() {
-		
+
 		// 숫자만 입력
 	    $(".join_wrap").on("keyup", ".onlyNumber", function() {
 			$(this).val( $(this).val().replace(/[^0-9]/gi,"") );
@@ -288,8 +299,8 @@ function set_group(group_name)
 				return;
 			}
 
-            if ( $("input:radio[name='user_gender']").is(":checked") == false ) { 
-				alert("성별을 체크해 주세요"); 
+            if ( $("input:radio[name='user_gender']").is(":checked") == false ) {
+				alert("성별을 체크해 주세요");
 				$("input:radio[name='user_gender']").focus();
 				return false;
 			}
@@ -311,5 +322,9 @@ function set_group(group_name)
         });
     });
 })(jQuery);
+
+  function resignGroup() {
+    $('#group_name').parent().text('소속 없음');
+  }
 </script>
 @stop

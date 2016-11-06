@@ -144,6 +144,7 @@ Route::group(['middleware' => ['web']], function () {
 	# CLOVERGARDEN
 	Route::get('/clovergarden', 'MainController@showCloverGarden')->name('clovergarden');
 	Route::post('/clovergarden', 'MainController@postMethodControl');
+	Route::get('/clovergarden/getLatestSupportInfo/{email}', 'MainController@getLatestSupportInfo');
 
 	# COMPANION
 	Route::get('/companion', 'MainController@showCompanion')->name('companion');

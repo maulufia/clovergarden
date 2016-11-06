@@ -22,13 +22,13 @@
 
 
 	$nPoint->page_result = $Conn->AllList
-	(	
+	(
 		$nPoint->table_name, $nPoint, "sum(inpoint) inpoint, sum(outpoint) outpoint", "where userid='" . Auth::user()->user_id . "' group by userid", null, null
 	);
 
 
 $nAdm_4->page_result = $Conn->AllList
-(	
+(
 	$nAdm_4->table_name, $nAdm_4, "*", "where t_name='use_v_2' order by idx desc limit 1", null, null
 );
 
@@ -54,7 +54,7 @@ if(Auth::user()->user_state == 4){
 $StoreId 	= "clovergd";
 $OrdNo 		= date("Ymd_his")."_".$nClover->code;
 
-$AGS_HASHDATA = md5($StoreId . $OrdNo ); 
+$AGS_HASHDATA = md5($StoreId . $OrdNo );
 
 
 ?>
@@ -65,24 +65,24 @@ $AGS_HASHDATA = md5($StoreId . $OrdNo );
 // 올더게이트 플러그인 설치를 확인합니다.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-StartSmartUpdate();  
+StartSmartUpdate();
 
 function Pay(form){
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// MakePayMessage() 가 호출되면 올더게이트 플러그인이 화면에 나타나며 Hidden 필드
 	// 에 리턴값들이 채워지게 됩니다.
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	if(form.Flag.value == "enable"){
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 입력된 데이타의 유효성을 검사합니다.
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+
 		if(Check_Common(form) == true){
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 올더게이트 플러그인 설치가 올바르게 되었는지 확인합니다.
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
+
 			if(document.AGSPay == null || document.AGSPay.object == null){
 				alert("플러그인 설치 후 다시 시도 하십시오.");
 			}else{
@@ -95,7 +95,7 @@ function Pay(form){
 				// [3] 무이자결제시 할부개월수 설정
 				// [4] 인증여부
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				
+
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				// [1] 일반/무이자 결제여부를 설정합니다.
 				//
@@ -116,15 +116,15 @@ function Pay(form){
 				// 	else
 				//		form.DeviId.value = "9000400002";
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				
+
 				form.DeviId.value = "9000400001";
-				
+
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				// [2] 일반 할부기간을 설정합니다.
-				// 
+				//
 				// 일반 할부기간은 2 ~ 12개월까지 가능합니다.
 				// 0:일시불, 2:2개월, 3:3개월, ... , 12:12개월
-				// 
+				//
 				// 예제)
 				// 	(1) 할부기간을 일시불만 가능하도록 사용할 경우
 				// 	form.QuotaInf.value = "0";
@@ -138,30 +138,30 @@ function Pay(form){
 				// 	else
 				// 		form.QuotaInf.value = "0";
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				
+
 				//결제금액이 5만원 미만건을 할부결제로 요청할경우 결제실패
 				if(parseInt(form.Amt.value) < 50000)
 					form.QuotaInf.value = "0";
 				else
 					form.QuotaInf.value = "0:2:3:4:5:6:7:8:9:10:11:12";
-				
+
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				// [3] 무이자 할부기간을 설정합니다.
 				// (일반결제인 경우에는 본 설정은 적용되지 않습니다.)
-				// 
-				// 무이자 할부기간은 2 ~ 12개월까지 가능하며, 
+				//
+				// 무이자 할부기간은 2 ~ 12개월까지 가능하며,
 				// 올더게이트에서 제한한 할부 개월수까지만 설정해야 합니다.
-				// 
+				//
 				// 100:BC
 				// 200:국민
-				// 201:NH 
+				// 201:NH
 				// 300:외환
 				// 310:하나SK
 				// 400:삼성
 				// 500:신한
 				// 800:현대
 				// 900:롯데
-				// 
+				//
 				// 예제)
 				// 	(1) 모든 할부거래를 무이자로 하고 싶을때에는 ALL로 설정
 				// 	form.NointInf.value = "ALL";
@@ -174,7 +174,7 @@ function Pay(form){
 				//
 				// 	(4) 국민,외환카드 특정개월수만 무이자를 하고 싶을경우 샘플(2:3:4:5:6개월)
 				// 	form.NointInf.value = "200-2:3:4:5:6,300-2:3:4:5:6";
-				//	
+				//
 				//	(5) 무이자 할부기간 설정을 하지 않을 경우에는 NONE로 설정
 				//	form.NointInf.value = "NONE";
 				//
@@ -182,15 +182,15 @@ function Pay(form){
 				//	form.NointInf.value = "100-2:3:6,200-2:3:6,201-2:3:6,300-2:3:6,310-2:3:6,400-2:3:6,500-2:3:6,800-2:3:6,900-2:3:6";
 				//
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				
+
 				if(form.DeviId.value == "9000400002")
 					form.NointInf.value = "ALL";
-				   
-				if(MakePayMessage(form) == true){										
+
+				if(MakePayMessage(form) == true){
 					Disable_Flag(form);
-					
+
 					var openwin = window.open("{!! route('agspay/AGS_progress') !!}","popup","width=300,height=160"); //"지불처리중"이라는 팝업창연결 부분
-					
+
 					form.submit();
 				}else{
 					alert("지불에 실패하였습니다.");// 취소시 이동페이지 설정부분
@@ -361,7 +361,7 @@ function point_form(form){
 							<input type="radio" name="Job" id="point" value="point" onclick="mon(3)">
 							<label for="point" class="mr20">포인트</label>
 						</div>
-						
+
 					</td>
 				</tr>
 
@@ -405,7 +405,7 @@ function point_form(form){
 						<label for="10m" class="mr20">10만원</label>
 						<input type="radio" name="price_v_ck" value="100000" id='etc' onclick="$('#view_price').val('');$('#view_price2').val('');$('#opoint').val('');">
 						<label for="etc" class="mr20">기타</label>
-						
+
 						<input type="text" name="price" id='view_price' style="width:80px" onkeyup="$('#opoint').val(this.value);$('#view_price2').val(this.value);" value="10000">원
 						<input type="hidden" name="Amt" id='view_price2' style="width:90px" onkeyup="$('#opoint').val(this.value);" value="10000">
 						</div>
@@ -429,26 +429,26 @@ function point_form(form){
 
 								$use_point = $nPoint->inpoint - $nPoint->outpoint;
 						?>
-							보유 포인트 : {{ number_format($use_point) }}			
+							보유 포인트 : {{ number_format($use_point) }}
 						<?php
 							}}
-						?>							
+						?>
 						<input type="hidden" name="usepoint" value="{{ $use_point }}" style="width:100px">
 						</td>
 					</tr>
 					</table>
-						
+
 
 
 
 					</div>
 
 
-					
+
 				</td>
 			</tr>
 			<input type=hidden name=StoreId value="{{ $StoreId }}">
-			<input type=hidden name=UserId value="{{ Auth::user()->user_id }}">			
+			<input type=hidden name=UserId value="{{ Auth::user()->user_id }}">
 			<input type=hidden name=OrdNo value="{{ $OrdNo }}"></td>
 			<input type=hidden name=MallUrl value="http://www.clovergarden.com">
 			<input type=hidden name=StoreNm value="클로버가든">
@@ -461,7 +461,7 @@ function point_form(form){
 			<input type=hidden name=MallPage value="/agspay/AGS_VirAcctResult">
 			<!--<tr >
 				<th scope="row" class="first xm_tleft pl30">포인트 사용</th>
-				<td><input type="text" name="supporting_agency" style="width:100px"> /11,000pt 
+				<td><input type="text" name="supporting_agency" style="width:100px"> /11,000pt
 				<div class="xm_right mr30 mt5 checkbox">
 						 <input type="checkbox" id="m_info2" name="m_info2" checked="checked"><label for="m_info2" class="fs14 t_bold">모두사용</label>
 					</div>
@@ -489,10 +489,13 @@ function point_form(form){
 				<td>
 					<div class="xm_left radioForm h200">
 					<?php if(Auth::check()) { ?>
-					    <div class="mr20">{{ Auth::user()->user_name }}</div>
+					    <div class="mr20">
+								{{ Auth::user()->user_name }}
+								<a href="#" id="btn_loadExInfo" class="ml10 green_btn" style="width:160px" onclick="loadExInfo()" >기존 후원 정보 불러오기</a>
+							</div>
 					<?php } ?>
-					</div>							    
-				   
+					</div>
+
 					<!--<div class="xm_right mr30 mt5 checkbox">
 						 <input type="checkbox" id="m_info" name="m_info" checked="checked"><label for="m_info" class="fs14 t_bold">회원기본정보와 동일</label>
 					</div>-->
@@ -513,8 +516,8 @@ function point_form(form){
 							$login_cell2 = substr($login_cell, 3, -4);
 							$login_cell3 = substr($login_cell, -4);
 						?>
-						<input type="text" name="OrdPhone" class="w97 mr10 onlyNumber" value="{{ $login_cell }}"> 
-						<!-- <input type="text" name="OrdPhone2" class="w97 mr10 onlyNumber" value="{{ $login_cell2 }}"> 
+						<input type="text" name="OrdPhone" class="w97 mr10 onlyNumber" value="{{ $login_cell }}">
+						<!-- <input type="text" name="OrdPhone2" class="w97 mr10 onlyNumber" value="{{ $login_cell2 }}">
 						<input type="text" name="OrdPhone3" class="w97 onlyNumber" value="{{ $login_cell3 }}">  -->
 					</div>
 					<div class="xm_left ml10 mt5 checkbox">
@@ -525,8 +528,8 @@ function point_form(form){
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">우편번호</th>
 				<td>
-					<input type="text" name="OrdAddr" id="postcode1" class="w97 onlyNumber" value="{{ Auth::user()->post1 }}"> <strong class="fs14 c_light_gray_3">-</strong> 
-					<input type="text" name="OrdAddr2" id="postcode2" class="w97 onlyNumber" value="{{ Auth::user()->post2 }}"> 
+					<input type="text" name="OrdAddr" id="postcode1" class="w97 onlyNumber" value="{{ Auth::user()->post1 }}"> <strong class="fs14 c_light_gray_3">-</strong>
+					<input type="text" name="OrdAddr2" id="postcode2" class="w97 onlyNumber" value="{{ Auth::user()->post2 }}">
 					<a href="#" class="ml10 green_btn" style="width:100px" onclick="sample6_execDaumPostcode()" >우편번호 찾기</a>
 				</td>
 			</tr>
@@ -557,14 +560,14 @@ function point_form(form){
 						<input type="checkbox" id="email" name="email" checked="checked"><label for="email" class="fs14 t_bold">e-mail 수신</label>
 					</div>
 				</td>
-			</tr>		
+			</tr>
 			<tr height=10 id='v7'>
 				<td colspan=2 style="border:none;">
 		<h2 class="xm_left">(선택) 법인 기본정보</h2>
-		<div class="xm_left mt20 ml20"><i class="fa fa-caret-right mr5"></i><span class="c_light_gray_3">법인으로 후원을 신청하는 경우이며, 기부금 영수증은 법인으로 발송됩니다.</span></div>				
+		<div class="xm_left mt20 ml20"><i class="fa fa-caret-right mr5"></i><span class="c_light_gray_3">법인으로 후원을 신청하는 경우이며, 기부금 영수증은 법인으로 발송됩니다.</span></div>
 				</td>
 			</tr>
-			
+
 			<tr id='v8'>
 				<th scope="row" class="first xm_tleft pl30">사업자번호</th>
 				<td><input type=text class=formbox_input style=width:100px value=""></td>
@@ -588,7 +591,7 @@ function point_form(form){
 			<tr id='v12'>
 				<th scope="row" class="first xm_tleft pl30">종목</th>
 				<td><input type=text class=formbox_input style=width:100px value=""></td>
-			</tr>			
+			</tr>
 		</table>
 
 		<!--<div class="supporting_agency2 mt20">
@@ -606,8 +609,8 @@ function point_form(form){
 				<tr >
 					<th scope="row" class="first xm_tleft pl30">주민등록번호</th>
 					<td>
-						<input type="text" name="jumin1" class="w97 onlyNumber"> <strong class="fs14 c_light_gray_3 ml5">-</strong> 
-						<input type="text" name="jumin2" class="w97 onlyNumber"> 
+						<input type="text" name="jumin1" class="w97 onlyNumber"> <strong class="fs14 c_light_gray_3 ml5">-</strong>
+						<input type="text" name="jumin2" class="w97 onlyNumber">
 					</td>
 				</tr>
 			</table>
@@ -620,7 +623,7 @@ function point_form(form){
 		<!--<div class="supporting_agency2 mt20" style="border-bottom:0; padding-bottom:0; margin-bottom:0">
 			<div class="title"><i class="fa fa-circle-o c_light_gray_3 mr5"></i>홈페이지 회원가입 신청</div>
 			<div class="c_light_gray_3 h180 mt5 mb10">
-				홈페이지에 가입하시면 후원신청내역 및 후원과 관련된 다양한 서비스를 이용하실 수 있습니다. 
+				홈페이지에 가입하시면 후원신청내역 및 후원과 관련된 다양한 서비스를 이용하실 수 있습니다.
 			</div>
 
 			<table>
@@ -650,12 +653,12 @@ function point_form(form){
 				</tr>
 			</table>
 		</div>-->
-		
+
 		<div class="clover_terms" style="width:100%">
 
 			<div class="ml10 clover_terms_wrap" style="width:100%">
 				<div class="title"><i class="fa fa-circle-o c_light_gray_3 mr5"></i>일시 후원 이용 약관</div>
-				
+
 				<?php
 					for($i=0, $cnt_list=count($nAdm_4->page_result); $i < $cnt_list; $i++) {
 						$nAdm_4->VarList($nAdm_4->page_result, $i, null);
@@ -664,7 +667,7 @@ function point_form(form){
 				<?php
 					}
 				?>
-				
+
 			</div>
 		</div>
 		<div class="xm_clr"></div>
@@ -736,7 +739,7 @@ function point_form(form){
 <input type=hidden name=VIRTUAL_CENTERCD value="">	<!-- 가상계좌은행코드 -->
 <input type=hidden name=VIRTUAL_NO value="">		<!-- 가상계좌번호 -->
 
-<input type=hidden name=mTId value="">	
+<input type=hidden name=mTId value="">
 
 <!-- 에스크로 결제 사용 변수 -->
 <input type=hidden name=ES_SENDNO value="">			<!-- 에스크로전문번호 -->
@@ -813,5 +816,29 @@ function point_form(form){
             }
         }).open();
     }
+
+		function loadExInfo() {
+			$.getJSON('/clovergarden/getLatestSupportInfo/' + '{{ Auth::user()->user_id }}', function(data) {
+				if (data == -1) {
+					alert('기존 후원 정보가 존재하지 않습니다');
+					return;
+				}
+
+				// Set data
+				var fm = document.frmAGS_pay;
+				fm.OrdNm.value = data.name;
+				fm.OrdPhone.value = data.cell;
+
+				// Parse zip number
+				var zip = data.zip.split('-');
+				fm.OrdAddr.value = zip[0];
+				fm.OrdAddr2.value = zip[1];
+
+				fm.addr1.value = data.address;
+				fm.addr2.value = ""; // 초기화
+
+				fm.UserEmail.value = data.email;
+			});
+		}
 </script>
 @stop

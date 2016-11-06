@@ -7,11 +7,11 @@ use Flash;
 
 class MsgController extends Controller
 {
-	
+
 	public function __construct() {
 		include(app_path().'/Custom/_common/_global.php');
 	}
-	
+
 	/*
   |--------------------------------------------------------------------------
   | Message Control Methods
@@ -20,7 +20,7 @@ class MsgController extends Controller
   | These methods below are for message control.
   |
   */
-  
+
   public function send() {
 	  $nMessage = new \MessageClass(); //쪽지
 
@@ -75,15 +75,15 @@ class MsgController extends Controller
 		}
 
 		$Conn->disConnect();
-		
+
 		Flash::success(SUCCESS_WRITE);
 		return redirect()->route('mypage');
   }
-  
+
   public function sendGroupCreate() {
   	$Conn = new \DBClass();
   	$nMessage = new \MessageClass(); //쪽지
-  	
+
 		$group_mode = isset($_POST['group_mode']) ? $_POST['group_mode'] : null;
 		if($group_mode == "send_group_make"){
 			$nMessage->send_id    = Auth::user()->user_id;
@@ -120,7 +120,7 @@ class MsgController extends Controller
 				$Conn->disConnect();
 			}
 			//======================== DB Module End ===============================
-			
+
 			// Send Email to Master
 			$subject = "[알림] 단체/그룹신청이 접수되었습니다.";
 			$content = "<html>
@@ -132,13 +132,13 @@ class MsgController extends Controller
 										</html>";
 			$mail = \MailHelper::sendMail(EMAIL_MASTER, $subject, $content);
 		}
-		
+
 		$Conn->DisConnect();
-		  
+
 		Flash::success(SUCCESS_WRITE);
   	return redirect()->route('information');
   }
-	
+
 }
 
 ?>

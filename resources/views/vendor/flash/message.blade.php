@@ -16,12 +16,6 @@
 
             {!! Session::get('flash_notification.message') !!}
         </div>
-        
-        <script type="text/javascript">
-        	function closeAlert(object) {
-        		$(object).parent().hide();
-        	}
-        </script>
     @endif
 @endif
 

@@ -1205,6 +1205,22 @@ class MainController extends Controller
     return redirect()->route('home');
   }
 
+	/**
+	 * 가장 최근 후원한 내용을 반환한다.
+	 * @param String $email 유저 ID (이메일)
+	 * @return JSON String
+	 */
+	public function getLatestSupportInfo($email)
+	{
+		$info = DB::table('new_tb_clover_mlist')->where('id', '=', $email)->orderBy('reg_date', 'desc')->first();
+
+		if (!$info) {
+			return -1;
+		}
+
+		return json_encode($info, JSON_UNESCAPED_UNICODE);
+	}
+
   private function writePost() {
   	$nFree = new \FreeClass(); //자유게시판
 
@@ -1597,7 +1613,7 @@ class MainController extends Controller
 		//======================== DB Module End ===============================
 
 		$nMember->user_name        = $_POST['user_name'];
-		$nMember->group_name        = isset($_POST['group_name1']) ? $_POST['group_name1'] : '';
+		$nMember->group_name        = isset($_POST['group_name']) ? $_POST['group_name'] : '';
 
 		$file_name = explode('@',$nMember->user_id);
 
@@ -1660,12 +1676,12 @@ class MainController extends Controller
 
     $arr_field = array
     (
-        'user_name', 'password','user_birth', 'user_gender', 'user_cell', 'file_real1', 'file_edit1', 'file_byte1', 'post1', 'post2', 'addr1', 'addr2'
+        'user_name', 'group_name','password','user_birth', 'user_gender', 'user_cell', 'file_real1', 'file_edit1', 'file_byte1', 'post1', 'post2', 'addr1', 'addr2'
     );
 
     $arr_value = array
     (
-        $nMember->user_name, $nMember->user_pw, $nMember->user_birth, $nMember->user_gender, $nMember->user_cell, $nMember->file_real[1], $nMember->file_edit[1], $nMember->file_byte[1], $nMember->post1, $nMember->post2, $nMember->addr1, $nMember->addr2
+        $nMember->user_name, $nMember->group_name, $nMember->user_pw, $nMember->user_birth, $nMember->user_gender, $nMember->user_cell, $nMember->file_real[1], $nMember->file_edit[1], $nMember->file_byte[1], $nMember->post1, $nMember->post2, $nMember->addr1, $nMember->addr2
     );
 
 		//======================== DB Module Start ============================

@@ -479,7 +479,7 @@ section.cont .article_last_box {margin-right: 0}
 .box5 {text-align:center; font-weight:bold; border:1px solid #ccc; overflow:hidden; position:relative;}
 .box5_last {margin-right: 0}
 .box5 .img {line-height:140px}
-.box5 .title {line-height:26px; background:#eee}
+.box5 .title {line-height:26px; background:#eee;}
 
 .box6 {float:left; margin-right:23px; }
 .box6 .img {width:175px; height:176px; line-height: 176px; margin-bottom: 15px; text-align:center; font-weight:bold; border:1px solid #ccc; overflow:hidden}
@@ -987,4 +987,9 @@ div.alert-danger {
 #pdfContainer {
 	width: 100%;
 	height: 700px;
+}
+
+div.text-right {
+	text-align: right;
+	margin-right: 10px;
 }

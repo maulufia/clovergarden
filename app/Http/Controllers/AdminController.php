@@ -1610,6 +1610,27 @@ class AdminController extends Controller
 		$Conn->disConnect();
 		//======================== DB Module End ===============================
 
+		// Edit volunteer information
+		$volunteer_ids = Input::get('v_ids');
+		$volunteer_names = Input::get('v_names');
+		$volunteer_phones = Input::get('v_phones');
+		$volunteer_deletes = Input::get('v_deletes');
+
+		var_dump($volunteer_ids);
+
+		foreach ($volunteer_ids as $k => $v) {
+			if ($v) { // 수정
+				if ($volunteer_deletes[$k] == "1") { // 제거
+					DB::table('new_tb_schedulepeo')->where('seq', '=', $v)->delete();
+					continue;
+				}
+
+				$peo = DB::table('new_tb_schedulepeo')->where('seq', '=', $v)->update(['name' => $volunteer_names[$k], 'phone' => $volunteer_phones[$k]]);
+			} else if ($volunteer_names[$k]) { // 추가
+				DB::table('new_tb_schedulepeo')->insert(['writer' => 'admin', 'schedule_seq' => $seq, 'name' => $volunteer_names[$k], 'phone' => $volunteer_phones[$k]]);
+			}
+		}
+
 		return redirect()->route('admin/service', array('item' => 'home', 'seq' => $seq, 'row_no' => $row_no, 'type' => 'view'));
 	}
 
@@ -1651,35 +1672,10 @@ class AdminController extends Controller
 	}
 
 	private function writeTimeline() {
-    $nTimeline = new \TimelineClass(); //타임라인
+		$subject = Input::get('subject');
+		$writer = Input::get('writer_name');
 
-    $nTimeline->subject = $_POST['subject'];
-		$nTimeline->writer_name = $_POST['writer_name'];
-
-    $arr_field = array
-    (
-        'subject', 'writer_name'
-    );
-
-    $arr_value = array
-    (
-        $nTimeline->subject, $nTimeline->writer_name
-    );
-
-		//======================== DB Module Start ============================
-		$Conn = new \DBClass();
-
-    $Conn->StartTrans();
-    $out_put = $Conn->insertDB($nTimeline->table_name, $arr_field, $arr_value);
-    if($out_put){
-        $Conn->CommitTrans();
-    } else {
-        $Conn->RollbackTrans();
-        $Conn->disConnect();
-    }
-
-		$Conn->disConnect();
-		//======================== DB Module End ===============================
+    DB::table('new_tb_timeline')->insert(['subject' => $subject, 'writer' => $writer]);
 
 		return redirect()->route('admin/community', array('item' => 'timeline'));
 	}

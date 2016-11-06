@@ -77,9 +77,11 @@ $Conn->DisConnect();
 					</a>
 				</div>
 				<div class="title">
-					<a href="{{ route('clovergarden', array('cate' => 1, 'dep01' => 1, 'type' => 'view', 'filename' => $nClovernews->file_edit[2])) }}"><img src="/imgs/pdf.jpg"></a>
-				<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php }else{ ?><img src="/imgs/dot2.jpg"><?php } ?>
-				<a href="{{ route('clovergarden', array('cate' => 1, 'dep01' => 1, 'type' => 'view', 'filename' => $nClovernews->file_edit[2])) }}" style="display: block;">{{ $nClovernews->subject }}</a>
+					<a href="{{ route('clovergarden', array('cate' => 1, 'dep01' => 1, 'type' => 'view', 'filename' => $nClovernews->file_edit[2])) }}" style="display: block; font-size: 11px; font-family: sans-serif; letter-spacing: -0.5px">{{ $nClovernews->subject }}</a>
+					<div class="text-right">
+						<a href="{{ url('/') }}/imgs/up_file/clover/{{ $nClovernews->file_edit[2] }}" download><img src="/imgs/pdf.jpg"></a>
+						<?php if($nClovernews->category==1){ ?><img src="/imgs/dot1.jpg"><?php }else{ ?><img src="/imgs/dot2.jpg"><?php } ?>
+					</div>
 				</div>
 			</div>
 		</div>

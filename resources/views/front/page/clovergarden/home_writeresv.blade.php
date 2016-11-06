@@ -20,14 +20,14 @@
 			$Conn->DisConnect();
 			JsAlert(NO_DATA, 1, $list_link);
 		}
-		
+
 		//======================== DB Module Start ============================
 		$nPoint->page_result = $Conn->AllList
-		(	
+		(
 			$nPoint->table_name, $nPoint, "sum(inpoint) inpoint, sum(outpoint) outpoint", "where userid='" . Auth::user()->user_id . "' group by userid", null, null
 		);
 		$nMember->page_result = $Conn->AllList
-		(	
+		(
 			$nMember->table_name, $nMember, "*", "where user_id='" . Auth::user()->user_id . "'", null, null
 		);
 		$user_name_ck = '';
@@ -41,7 +41,7 @@
 
 		}
 $nAdm_4->page_result = $Conn->AllList
-(	
+(
 	$nAdm_4->table_name, $nAdm_4, "*", "where t_name='use_v_3' order by idx desc limit 1", null, null
 );
 	$Conn->DisConnect();
@@ -76,7 +76,6 @@ function Display(value){
 		$('#v10').show();
 		$('#v11').show();
 		$('#v12').show();
-
 	}else if(value == "자동이체"){
 
 		$('.bank').show();
@@ -146,7 +145,7 @@ function Display(value){
 							<input type="radio" name="otype" value="point" id="point" onchange="Display(this.value)">
 							<label for="point" class="mr20">포인트</label>
 						</div>
-						
+
 					</td>
 				</tr>
 			</table>
@@ -169,7 +168,7 @@ function Display(value){
 				</td>
 			</tr>
 
-			
+
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">정기 후원금액</th>
 				<td>
@@ -188,7 +187,7 @@ function Display(value){
 						</div>
 				</td>
 			</tr>
-					
+
 			<tr id="point_v" style="display:none;">
 				<th scope="row" class="first xm_tleft pl30">보유포인트</th>
 				<td>
@@ -202,10 +201,10 @@ function Display(value){
 
 						$use_point = $nPoint->inpoint - $nPoint->outpoint;
 					?>
-					보유 포인트 : {{ number_format($use_point) }}			
+					보유 포인트 : {{ number_format($use_point) }}
 					<?php
 						}}
-					?>	
+					?>
 					<input type="hidden" name="usepoint" value="{{ $use_point }}" style="width:100px">
 				</td>
 			</tr>
@@ -230,10 +229,11 @@ function Display(value){
 				<th scope="row" class="first xm_tleft pl30">* 후원자</th>
 				<td>
 					<div class="xm_left radioForm h200">
-					
-					    <div class="mr20">{{ Auth::user()->user_name }}<input type="hidden" name="name" value="{{ Auth::user()->user_name }}"></div>
-					
-					</div>							    
+					    <div class="mr20">
+								{{ Auth::user()->user_name }}<input type="hidden" name="name" value="{{ Auth::user()->user_name }}">
+								<a href="#" id="btn_loadExInfo" class="ml10 green_btn" style="width:160px" onclick="loadExInfo()" >기존 후원 정보 불러오기</a>
+							</div>
+					</div>
 				</td>
 			</tr>
 			<?php } else { ?>
@@ -257,9 +257,9 @@ function Display(value){
 							$login_cell2 = substr($login_cell, 3, -4);
 							$login_cell3 = substr($login_cell, -4);
 						?>
-						<input type="text" name="cell1" class="w97 mr10 onlyNumber" value="{{ $login_cell1 }}"> 
-						<input type="text" name="cell2" class="w97 mr10 onlyNumber" value="{{ $login_cell2 }}"> 
-						<input type="text" name="cell3" class="w97 onlyNumber" value="{{ $login_cell3 }}"> 
+						<input type="text" name="cell1" class="w97 mr10 onlyNumber" value="{{ $login_cell1 }}">
+						<input type="text" name="cell2" class="w97 mr10 onlyNumber" value="{{ $login_cell2 }}">
+						<input type="text" name="cell3" class="w97 onlyNumber" value="{{ $login_cell3 }}">
 					</div>
 					<div class="xm_left ml10 mt5 checkbox">
 						<input type="checkbox" id="sms" name="sms" checked="checked"><label for="sms" class="fs14 t_bold">SMS수신</label>
@@ -269,8 +269,8 @@ function Display(value){
 			<tr >
 				<th scope="row" class="first xm_tleft pl30">우편번호</th>
 				<td>
-					<input type="text" name="zip1" id="postcode1" class="w97 onlyNumber" value='{{ $post1 }}'> <strong class="fs14 c_light_gray_3">-</strong> 
-					<input type="text" name="zip2" id="postcode2" class="w97 onlyNumber" value='{{ $post2 }}'> 
+					<input type="text" name="zip1" id="postcode1" class="w97 onlyNumber" value='{{ $post1 }}'> <strong class="fs14 c_light_gray_3">-</strong>
+					<input type="text" name="zip2" id="postcode2" class="w97 onlyNumber" value='{{ $post2 }}'>
 					<a href="#" class="ml10 green_btn" style="width:100px" onclick="sample6_execDaumPostcode()" >우편번호 찾기</a>
 				</td>
 			</tr>
@@ -305,9 +305,9 @@ function Display(value){
 					<option value="대구은행">대구은행</option>
 					<option value="부산은행">부산은행</option>
 
-					
-				</select>						
-				
+
+				</select>
+
 				</td>
 			</tr>
 
@@ -342,11 +342,11 @@ function Display(value){
 					<option value="롯데카드">롯데카드</option>
 					<option value="해외VISA">해외VISA</option>
 
-					
-				</select>				
-				
-				
-				
+
+				</select>
+
+
+
 				</td>
 			</tr>
 
@@ -372,10 +372,10 @@ function Display(value){
 			<tr height=10 id='v7'>
 				<td colspan=2 style="border:none;">
 		<h2 class="xm_left">(선택) 법인 기본정보</h2>
-		<div class="xm_left mt20 ml20"><i class="fa fa-caret-right mr5"></i><span class="c_light_gray_3">법인으로 후원을 신청하는 경우이며, 기부금 영수증은 법인으로 발송됩니다.</span></div>				
+		<div class="xm_left mt20 ml20"><i class="fa fa-caret-right mr5"></i><span class="c_light_gray_3">법인으로 후원을 신청하는 경우이며, 기부금 영수증은 법인으로 발송됩니다.</span></div>
 				</td>
 			</tr>
-			
+
 			<tr id='v8'>
 				<th scope="row" class="first xm_tleft pl30">사업자번호</th>
 				<td><input type=text class=formbox_input style=width:100px value=""></td>
@@ -400,17 +400,17 @@ function Display(value){
 				<th scope="row" class="first xm_tleft pl30">종목</th>
 				<td><input type=text class=formbox_input style=width:100px value=""></td>
 			</tr>
-			
+
 		</table>
 
-	
 
-		
+
+
 		<div class="clover_terms" style="width:100%">
 
 			<div class="ml10 clover_terms_wrap" style="width:100%">
 				<div class="title"><i class="fa fa-circle-o c_light_gray_3 mr5"></i>정기 후원 이용 약관</div>
-				
+
 				<?php
 					for($i=0, $cnt_list=count($nAdm_4->page_result); $i < $cnt_list; $i++) {
 						$nAdm_4->VarList($nAdm_4->page_result, $i, null);
@@ -419,7 +419,7 @@ function Display(value){
 				<?php
 					}
 				?>
-				
+
 			</div>
 		</div>
 		<div class="xm_clr"></div>
@@ -514,50 +514,87 @@ function Display(value){
 			}
 		}
 		if(confirm('기입해주신 정보로 후원이 신청됩니다.')){
-			
+
 		}
 	}
-    function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var fullAddr = ''; // 최종 주소 변수
-                var extraAddr = ''; // 조합형 주소 변수
+	function sample6_execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete: function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    fullAddr = data.roadAddress;
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var fullAddr = ''; // 최종 주소 변수
+				var extraAddr = ''; // 조합형 주소 변수
 
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    fullAddr = data.jibunAddress;
-                }
+				// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					fullAddr = data.roadAddress;
 
-                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-                if(data.userSelectedType === 'R'){
-                    //법정동명이 있을 경우 추가한다.
-                    if(data.bname !== ''){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있을 경우 추가한다.
-                    if(data.buildingName !== ''){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-                }
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					fullAddr = data.jibunAddress;
+				}
 
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("postcode1").value = data.postcode1;
-                document.getElementById("postcode2").value = data.postcode2;
-                document.getElementById("address").value = fullAddr;
+				// 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+				if(data.userSelectedType === 'R'){
+					//법정동명이 있을 경우 추가한다.
+					if(data.bname !== ''){
+						extraAddr += data.bname;
+					}
+					// 건물명이 있을 경우 추가한다.
+					if(data.buildingName !== ''){
+						extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+					// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+					fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+				}
 
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("address2").focus();
-            }
-        }).open();
-    }
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById("postcode1").value = data.postcode1;
+				document.getElementById("postcode2").value = data.postcode2;
+				document.getElementById("address").value = fullAddr;
+
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("address2").focus();
+			}
+		}).open();
+	}
+
+	function loadExInfo() {
+		$.getJSON('/clovergarden/getLatestSupportInfo/' + '{{ Auth::user()->user_id }}', function(data) {
+			if (data == -1) {
+				alert('기존 후원 정보가 존재하지 않습니다');
+				return;
+			}
+
+			// Set data
+			var fm = document.frmags5pay;
+			fm.birth.value = data.birth;
+
+			// Parse cellphone number
+			var cell = data.cell.split('-');
+			fm.cell1.value = cell[0];
+			fm.cell2.value = cell[1];
+			fm.cell3.value = cell[2];
+
+			// Parse zip number
+			var zip = data.zip.split('-');
+			fm.zip1.value = zip[0];
+			fm.zip2.value = zip[1];
+
+			fm.addr1.value = data.address;
+			fm.addr2.value = ""; // 초기화
+
+			// 자동이체 (계좌)
+			fm.bank.value = data.bank;
+			fm.banknum.value = data.banknum;
+
+			// 신용카드
+			fm.card.value = data.
+
+			fm.day.value = data.day;
+		});
+	}
 </script>
 @stop

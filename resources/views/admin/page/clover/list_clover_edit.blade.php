@@ -121,7 +121,7 @@
                       <td colspan="3">
                         <img src='/imgs/up_file/clover/{{ $nClover->file_edit[1] }}' border='0' width='150px'>
                         <div style='padding-top:20px;padding-bottom:0px;'>
-                          <a href="#">
+                          <a href="/imgs/up_file/clover/{{ $nClover->file_edit[1] }}" download>
                             {{ $nClover->file_real[1] }}</a>
                             <font color='gray'> ({{ $nClover->file_byte[1] }})</font></div>
                             <input type="file" name="upfile1" size="50" />
@@ -139,7 +139,7 @@
                           <td colspan="3">
                             <img src='/imgs/up_file/clover/{{ $nClover->file_edit[2] }}' border='0' width='300px'>
                             <div style='padding-top:20px;padding-bottom:0px;'>
-                              <a href="#">
+                              <a href="/imgs/up_file/clover/{{ $nClover->file_edit[2] }}" download>
                                 {{ $nClover->file_real[2] }}</a>
                                 <font color='gray'> ({{ $nClover->file_byte[2] }})</font>
                               </div>

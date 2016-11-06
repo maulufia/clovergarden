@@ -1,7 +1,7 @@
 @extends('front.common.husk')
 
 @section('content')
-<?php	
+<?php
 	$nFree = new FreeClass(); //
 	$nClovercomment = new ClovercommentClass(); //
 	$nMoney = new MoneyClass(); //
@@ -15,12 +15,12 @@
 
 	$nClover_banner = new CloverClass(); //
 	$nSchedule  = new ScheduleClass(); //봉사스케쥴
-		
+
 	//======================== DB Module Freet ============================
 	$Conn = new DBClass();
 
 
-	
+
 		$sql = "
 		insert into new_tb_stats set
 		user_ip='".$_SERVER['REMOTE_ADDR']."|".date("Y-m-d")."',
@@ -28,46 +28,46 @@
 		";
 		mysql_query($sql);
 		$nFree->page_result = $Conn->AllList
-		(	
+		(
 			$nFree->table_name, $nFree, "*", "where 1 order by seq desc limit 5", null, null
 		);
 
 		$nClovercomment->page_result = $Conn->AllList
-		(	
+		(
 			$nClovercomment->table_name, $nClovercomment, "*", "where 1 order by seq desc limit 5", null, null
 		);
 
 
 		$nClovercomment->page_result = $Conn->AllList
-		(	
+		(
 			$nClovercomment->table_name, $nClovercomment, "*", "where 1 order by seq desc limit 5", null, null
 		);
 
 
 		$nClovermlist->page_result = $Conn->AllList
-		(	
+		(
 			$nClovermlist->table_name, $nClovermlist, "*", "where 1 order by price desc limit 4", null, null
 		);
 
 
 		$nMember_win->page_result = $Conn->AllList
-		(	
+		(
 			$nMember_win->table_name, $nMember_win, "*", "where clover_win='S' limit 4", null, null
 		);
 
 
 		$nSCompany->page_result = $Conn->AllList
-		(	
+		(
 			$nSCompany->table_name, $nSCompany, "*", "where 1 order by seq desc limit 3", null, null
 		);
 
 		$nMClover->page_result = $Conn->AllList
-		(	
+		(
 			$nMClover->table_name, $nMClover, "*", "where 1 order by seq desc limit 3", null, null
 		);
 
 
-		
+
 		$nMoney->read_result = $Conn->AllList($nMoney->table_name, $nMoney, "*", "where seq ='1'", $nMoney->sub_sql, null);
 
 		if(count($nMoney->read_result) != 0){
@@ -75,8 +75,8 @@
 		}
 
 		$nClover_banner->page_result = $Conn->AllList
-		(	
-			$nClover_banner->table_name."_banner", $nClover_banner, "*", "where 1 order by seq desc", null, null
+		(
+			$nClover_banner->table_name."_banner", $nClover_banner, "*", "where 1 order by view_n desc", null, null
 		);
 
 		$nSchedule->where = "where (1) order by work_date asc";
@@ -137,7 +137,7 @@ function emailUpdate()
 		var email_address1 = $("#email_address1").val();
 		var email_address2 = $("#email_address2").val();
 		var string_value = "name="+encodeURIComponent(email_name)+"&email1="+encodeURIComponent(email_address1)+"&email2="+encodeURIComponent(email_address2); */
-		
+
 		$('#newsForm').submit();
 		/*
 		$.ajax({
@@ -173,10 +173,10 @@ function emailUpdate()
 		?>
 		<li style="position:relative;">
 			<a href="{{ $nClover_banner->group_name }}">
-			<img src='/imgs/up_file/clover/{{ $nClover_banner->file_edit[1] }}' style="width:789px; height:223px">                  
+			<img src='/imgs/up_file/clover/{{ $nClover_banner->file_edit[1] }}' style="width:789px; height:223px">
 			<img src="/imgs/go_btn.gif" style="width:129px; height:32px; position:absolute; bottom:10px; right:20px;"></a>
-			<p class="main_banner_link"><a href="{{ $nClover_banner->news }}" class="mt5 orange_big_btn resize_91_702">후원하기</a></p>			
-			
+			<p class="main_banner_link"><a href="{{ $nClover_banner->news }}" class="mt5 orange_big_btn resize_91_702">후원하기</a></p>
+
 		</li>
 		<?php }}?>
 	  </ul>
@@ -212,7 +212,7 @@ function emailUpdate()
 		?>
 		@if(!is_null($favoreList->name) && $favoreList->order_adm_ck == 'y')
 			<p style="font-size:15px; font-weight:bold;">
-				<font color="66b050">{{ $favoreList->name }}</font>님의 마지막 후원은 <font color="ed6c0a">{{ $favoreList->clover_name}}</font> 입니다. 				
+				<font color="66b050">{{ $favoreList->name }}</font>님의 마지막 후원은 <font color="ed6c0a">{{ $favoreList->clover_name}}</font> 입니다.
 			</p>
 		@else
 			회원님의 후원 목록이 존재하지 않습니다.
@@ -297,7 +297,7 @@ function cut_str($str, $len, $suffix="…")
 		?>
 				<li style="width:210px; text-align:left;margin-top:15px;margin-left:7px;">
 					<a href="{{ route('companion') }}" class="img">
-					<?php					
+					<?php
 						echo "<img src='/imgs/up_file/scompany/".$nSCompany->file_edit[1]."' border='0' style='width:95px; height:69px;'>";
 					?>
 					</a>
@@ -339,7 +339,7 @@ function cut_str($str, $len, $suffix="…")
 		?>
 				<li style="width:210px; text-align:left;margin-top:15px;margin-left:7px;">
 					<a href="{{ route('companion', array('dep01' => 1)) }}" class="img">
-					<?php					
+					<?php
 						echo "<img src='/imgs/up_file/sponsor/".$nMClover->file_edit[1]."' border='0' style='width:95px; height:69px;'>";
 					?>
 					</a>
@@ -420,7 +420,7 @@ function cut_str($str, $len, $suffix="…")
 			vertical:false,
 			activeclass:'current',
 			position:0
-		});	
+		});
 		//-->
 		</script>
 		</article>
@@ -453,7 +453,7 @@ function cut_str($str, $len, $suffix="…")
 			<?php
 			for($i=0, $cnt_list=count($nClovercomment->page_result); $i < $cnt_list; $i++) {
 				$nClovercomment->VarList($nClovercomment->page_result, $i, null);
-				$nClovercomment->subject = conv_subject($nClovercomment->subject, 28, ''); 
+				$nClovercomment->subject = conv_subject($nClovercomment->subject, 28, '');
 			?>
 			<li><a href="{{ route('sponsorzone') }}/?cate=0&dep01=1&dep02=0">{{ $nClovercomment->subject }}</a></li>
 			<?php
@@ -473,7 +473,7 @@ function cut_str($str, $len, $suffix="…")
 			<?php
 			for($i=0, $cnt_list=count($nFree->page_result); $i < $cnt_list; $i++) {
 				$nFree->VarList($nFree->page_result, $i, null);
-				$nFree->subject = conv_subject($nFree->subject, 25, ''); 
+				$nFree->subject = conv_subject($nFree->subject, 25, '');
 			?>
 			<li><a href="{{ route('sponsorzone') }}/?cate=0&dep01=1&dep02=1&type=view&seq={{ $nFree->seq }}">{{ $nFree->subject }}</a></li>
 			<?php
@@ -509,13 +509,13 @@ function cut_str($str, $len, $suffix="…")
 			if(count($nSchedule->page_result) > 0){
 				for($i=0, $cnt_list=count($nSchedule->page_result); $i < $cnt_list; $i++) {
 					$nSchedule->VarList($nSchedule->page_result, $i, null);
-					$nSchedule->subject = conv_subject($nSchedule->subject, 28, ''); 
+					$nSchedule->subject = conv_subject($nSchedule->subject, 28, '');
 
 					?>
 					<li><a href="{{ route('sponsorzone') }}?cate=0&dep01=2&dep02=0">{{ $nSchedule->subject }}</a></li>
 					<?php
-					
-				
+
+
 				}
 				$nSchedule->ArrClear();
 			}
@@ -568,7 +568,7 @@ function cut_str($str, $len, $suffix="…")
 				<?php
 					}
 				?>
-				
+
 			</ul>
 		</div>
 	</section>
